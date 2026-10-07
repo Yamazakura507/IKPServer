@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="IKP.Api/IKP.Api.csproj" />
+  <Project Path="IKP.Application/IKP.Application.csproj" />
+  <Project Path="IKP.Domain/IKP.Domain.csproj" />
+  <Project Path="IKP.Infrastructure/IKP.Infrastructure.csproj" />
+</Solution>
