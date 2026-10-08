@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
+    <Folder Include="Entities\Lookups\" />
+    <Folder Include="Entities\Files\" />
+    <Folder Include="Entities\Documents\" />
   </ItemGroup>
 
 </Project>

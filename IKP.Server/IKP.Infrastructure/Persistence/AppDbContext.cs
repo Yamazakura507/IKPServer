@@ -1,4 +1,7 @@
-﻿using IKP.Domain.Entities;
+﻿using IKP.Domain.Entities.Employees;
+using IKP.Domain.Entities.Logs;
+using IKP.Infrastructure.Persistence.DatabaseKeys;
+using IKP.Infrastructure.Persistence.Seeds;
 using Microsoft.EntityFrameworkCore;
 
 namespace IKP.Infrastructure.Persistence
@@ -9,18 +12,19 @@ namespace IKP.Infrastructure.Persistence
         {
         }
 
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Employee> Employees => Set<Employee>();
+        public DbSet<AuditActionDefinition> AuditActionDefinitions => Set<AuditActionDefinition>();
+        public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+        public DbSet<AuditLogChange> AuditLogChanges => Set<AuditLogChange>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.HasDefaultSchema("app");
+            modelBuilder.HasDefaultSchema(DatabaseSchemas.App);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-            modelBuilder.Entity<Employee>(entity =>
-            {
-                entity.HasKey(x => x.Id);
-            });
+            AuditActionSeed.Seed(modelBuilder);
         }
     }
 }
