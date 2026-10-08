@@ -1,0 +1,53 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Re]lease/
+[Rr]eleases/
+x64/
+x86/
+[Ww]in32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+bin/
+obj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Rider / JetBrains
+.idea/
+_ReSharper*/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+# ASP.NET Scaffolding and Publish
+*.pubxml
+*.publishproj
+ScaffoldingReadMe.txt
+
+# Environment variables & User secrets
+.env
+.user-secrets
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
