@@ -1,53 +1,57 @@
 # Build results
+[Bb]in/
+[Oo]bj/
 [Dd]ebug/
-[Dd]ebugPublic/
-[Re]lease/
-[Rr]eleases/
+[Rr]elease/
 x64/
 x86/
-[Ww]in32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
+build/
 bld/
-bin/
-obj/
-[Ll]og/
-[Ll]ogs/
+[Pp]ublish/
 
-# Visual Studio
+# Visual Studio / VS Code / JetBrains Rider
 .vs/
+.vscode/
+.idea/
 *.suo
 *.user
-*.userosscache
+*.userprefs
 *.sln.docstates
 
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# ASP.NET Core specific / User secrets
+[Ee]nv/
+*.pem
+*.key
+appsettings.Development.json
+appsettings.Local.json
+Properties/launchSettings.json
 
-# Rider / JetBrains
-.idea/
-_ReSharper*/
+# Entity Framework Core specific (локальные SQLite / LocalDB, если не храните в репозитории)
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
 
-# NuGet packages
-*.nupkg
-*.snupkg
+# NuGet packages & restore artifacts
 **/packages/*
-!**/packages/build/
+*.lock.json
+project.lock.json
+artifacts/
 
-# ASP.NET Scaffolding and Publish
-*.pubxml
-*.publishproj
-ScaffoldingReadMe.txt
+# Logs, dumps, and temp files
+*.log
+*.tmp
+logs/
+Log/
+_ReSharper*
+TestResults/
 
-# Environment variables & User secrets
-.env
-.user-secrets
-
-# Operating System files
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
-
