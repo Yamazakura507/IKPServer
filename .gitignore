@@ -1,4 +1,6 @@
-# Build results
+# ==========================================
+# Build results (Результаты сборки)
+# ==========================================
 [Bb]in/
 [Oo]bj/
 [Dd]ebug/
@@ -9,7 +11,9 @@ build/
 bld/
 [Pp]ublish/
 
-# Visual Studio / VS Code / JetBrains Rider
+# ==========================================
+# IDEs & Editors (Среды разработки)
+# ==========================================
 .vs/
 .vscode/
 .idea/
@@ -17,8 +21,11 @@ bld/
 *.user
 *.userprefs
 *.sln.docstates
+*.VisualState.xml
 
-# ASP.NET Core specific / User secrets
+# ==========================================
+# ASP.NET Core & Secrets (Настройки и секреты)
+# ==========================================
 [Ee]nv/
 *.pem
 *.key
@@ -26,28 +33,42 @@ appsettings.Development.json
 appsettings.Local.json
 Properties/launchSettings.json
 
-# Entity Framework Core specific (локальные SQLite / LocalDB, если не храните в репозитории)
+# ==========================================
+# EF Core & Databases (Базы данных)
+# ==========================================
 *.mdf
 *.ldf
 *.db
 *.sqlite
 *.sqlite3
 
-# NuGet packages & restore artifacts
+# ==========================================
+# NuGet & Artifacts (Пакеты)
+# ==========================================
 **/packages/*
 *.lock.json
 project.lock.json
 artifacts/
 
-# Logs, dumps, and temp files
+# ==========================================
+# Logs & Dumps (Исправленный блок логов!)
+# ==========================================
+# Игнорируем только файлы с расширением .log
 *.log
+
+# Игнорируем папки логов только если они в корне проекта (со слэшем в начале)
+/logs/
+/Log/
+/logs_data/
+
+# Прочие временные файлы
 *.tmp
-logs/
-Log/
 _ReSharper*
 TestResults/
 
-# OS generated files
+# ==========================================
+# Operating Systems (Системные файлы ОС)
+# ==========================================
 .DS_Store
 .DS_Store?
 ._*
