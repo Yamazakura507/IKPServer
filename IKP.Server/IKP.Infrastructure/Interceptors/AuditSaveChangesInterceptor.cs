@@ -13,6 +13,17 @@ namespace IKP.Infrastructure.Interceptors
 {
     public class AuditSaveChangesInterceptor : SaveChangesInterceptor
     {
+        private static readonly HashSet<string> AuditSystemProperties = new(StringComparer.Ordinal)
+        {
+            nameof(IAuditable.CreatedAt),
+            nameof(IAuditable.CreatedBy),
+            nameof(IAuditable.UpdatedAt),
+            nameof(IAuditable.UpdatedBy),
+            nameof(ISoftDelete.IsDeleted),
+            nameof(ISoftDelete.DeletedAt),
+            nameof(ISoftDelete.DeletedBy)
+        };
+
         private readonly IAuditValueSerializer valueSerializer;
         private readonly IAuditActionRegistry actionRegistry;
 
@@ -123,7 +134,7 @@ namespace IKP.Infrastructure.Interceptors
         {
             foreach (PropertyEntry property in entry.Properties)
             {
-                if (!property.IsModified || property.Metadata.IsPrimaryKey()) continue;
+                if (!property.IsModified || property.Metadata.IsPrimaryKey() || AuditSystemProperties.Contains(property.Metadata.Name)) continue;
 
                 object? oldValue = property.OriginalValue;
                 object? newValue = property.CurrentValue;
