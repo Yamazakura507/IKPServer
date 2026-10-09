@@ -158,7 +158,7 @@ namespace IKP.Infrastructure.Interceptors
             return context.ChangeTracker
                 .Entries()
                 .Where(x => x.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
-                .Where(x => x.Entity is not (AuditLog or AuditLogChange))
+                .Where(x => x.Entity is IAuditable or ISoftDelete)
                 .ToArray();
         }
 

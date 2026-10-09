@@ -4,6 +4,7 @@ using System.Text.Json;
 using IKP.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IKP.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261009095317_DiagnosticDefinitions")]
+    partial class DiagnosticDefinitions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,12 +122,14 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<DateTime>("CalculatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
                     b.Property<decimal>("Contribution")
                         .HasPrecision(7, 4)
                         .HasColumnType("numeric(7,4)");
-
-                    b.Property<Guid>("DefinitionId")
-                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ErrorCriticalityId")
                         .HasColumnType("uuid");
@@ -143,9 +148,9 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DefinitionId");
+                    b.HasIndex("Code");
 
-                    b.HasIndex("ErrorCriticalityId", "DefinitionId")
+                    b.HasIndex("ErrorCriticalityId", "Code")
                         .IsUnique();
 
                     b.ToTable("ErrorCriticalityFactors", "diagnostics");
@@ -200,7 +205,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("21000000-0000-0000-0000-000000000001"),
                             Code = "INFORMATION",
-                            DescriptionKey = "Diagnostic.Severity.Information.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000001"),
                             IsActive = true,
                             IsSystem = true,
@@ -211,7 +215,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("21000000-0000-0000-0000-000000000002"),
                             Code = "WARNING",
-                            DescriptionKey = "Diagnostic.Severity.Warning.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000001"),
                             IsActive = true,
                             IsSystem = true,
@@ -222,7 +225,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("21000000-0000-0000-0000-000000000003"),
                             Code = "ERROR",
-                            DescriptionKey = "Diagnostic.Severity.Error.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000001"),
                             IsActive = true,
                             IsSystem = true,
@@ -233,7 +235,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("21000000-0000-0000-0000-000000000004"),
                             Code = "CRITICAL",
-                            DescriptionKey = "Diagnostic.Severity.Critical.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000001"),
                             IsActive = true,
                             IsSystem = true,
@@ -244,7 +245,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000001"),
                             Code = "NEW",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.New.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -255,7 +255,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000002"),
                             Code = "INVESTIGATING",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.Investigating.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -266,7 +265,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000003"),
                             Code = "KNOWN",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.Known.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -277,7 +275,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000004"),
                             Code = "FIX_PLANNED",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.FixPlanned.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -288,7 +285,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000005"),
                             Code = "FIXED",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.Fixed.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -299,7 +295,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000006"),
                             Code = "MONITORING",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.Monitoring.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -310,7 +305,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000007"),
                             Code = "RESOLVED",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.Resolved.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -321,7 +315,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000008"),
                             Code = "IGNORED",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.Ignored.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -332,7 +325,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("22000000-0000-0000-0000-000000000009"),
                             Code = "WONT_FIX",
-                            DescriptionKey = "Diagnostic.ErrorGroupStatus.WontFix.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000002"),
                             IsActive = true,
                             IsSystem = true,
@@ -343,7 +335,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000001"),
                             Code = "OCCURRENCE_RATE",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.OccurrenceRate.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -354,7 +345,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000002"),
                             Code = "AFFECTED_USERS",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.AffectedUsers.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -365,7 +355,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000003"),
                             Code = "AFFECTED_USER_RATIO",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.AffectedUserRatio.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -376,7 +365,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000004"),
                             Code = "FEATURE_IMPORTANCE",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.FeatureImportance.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -387,7 +375,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000005"),
                             Code = "TREND",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.Trend.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -398,7 +385,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000006"),
                             Code = "FAILURE_RATE",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.FailureRate.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -409,7 +395,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000007"),
                             Code = "REGRESSION",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.Regression.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -420,7 +405,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000008"),
                             Code = "BUSINESS_IMPACT",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.BusinessImpact.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -431,7 +415,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000009"),
                             Code = "SUPPORT_IMPACT",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.SupportImpact.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -442,7 +425,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("23000000-0000-0000-0000-000000000010"),
                             Code = "DATA_LOSS_RISK",
-                            DescriptionKey = "Diagnostic.CriticalityFactor.DataLossRisk.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000003"),
                             IsActive = true,
                             IsSystem = true,
@@ -453,7 +435,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("24000000-0000-0000-0000-000000000001"),
                             Code = "MINUTE",
-                            DescriptionKey = "Diagnostic.MetricBucketType.Minute.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000004"),
                             IsActive = true,
                             IsSystem = true,
@@ -464,7 +445,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("24000000-0000-0000-0000-000000000002"),
                             Code = "HOUR",
-                            DescriptionKey = "Diagnostic.MetricBucketType.Hour.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000004"),
                             IsActive = true,
                             IsSystem = true,
@@ -475,7 +455,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             Id = new Guid("24000000-0000-0000-0000-000000000003"),
                             Code = "DAY",
-                            DescriptionKey = "Diagnostic.MetricBucketType.Day.Description",
                             GroupId = new Guid("20000000-0000-0000-0000-000000000004"),
                             IsActive = true,
                             IsSystem = true,
@@ -616,11 +595,15 @@ namespace IKP.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<Guid>("SeverityId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Severity")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
-                    b.Property<Guid>("StatusId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Summary")
                         .HasMaxLength(4000)
@@ -642,12 +625,10 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasIndex("LastOccurredAt");
 
-                    b.HasIndex("SeverityId");
-
-                    b.HasIndex("StatusId");
-
                     b.HasIndex("Fingerprint", "FingerprintVersion")
                         .IsUnique();
+
+                    b.HasIndex("Status", "Severity");
 
                     b.ToTable("ErrorGroups", "diagnostics");
                 });
@@ -689,8 +670,10 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<DateTime>("BucketStart")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("BucketTypeId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("BucketType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<DateTime>("CalculatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -714,11 +697,11 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasIndex("CalculatedAt");
 
-                    b.HasIndex("BucketTypeId", "BucketStart");
+                    b.HasIndex("BucketType", "BucketStart");
 
                     b.HasIndex("ErrorGroupId", "BucketStart");
 
-                    b.HasIndex("ErrorGroupId", "BucketTypeId", "BucketStart", "BucketDurationMinutes")
+                    b.HasIndex("ErrorGroupId", "BucketType", "BucketStart", "BucketDurationMinutes")
                         .IsUnique();
 
                     b.ToTable("ErrorMetricBuckets", "diagnostics");
@@ -995,19 +978,11 @@ namespace IKP.Infrastructure.Migrations
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Criticality.ErrorCriticalityFactor", b =>
                 {
-                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinition", "Definition")
-                        .WithMany()
-                        .HasForeignKey("DefinitionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("IKP.Domain.Entities.Diagnostics.Criticality.ErrorCriticality", "ErrorCriticality")
                         .WithMany("Factors")
                         .HasForeignKey("ErrorCriticalityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Definition");
 
                     b.Navigation("ErrorCriticality");
                 });
@@ -1030,23 +1005,7 @@ namespace IKP.Infrastructure.Migrations
                         .HasForeignKey("DiagnosticAreaId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinition", "SeverityDefinition")
-                        .WithMany()
-                        .HasForeignKey("SeverityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinition", "StatusDefinition")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("DiagnosticArea");
-
-                    b.Navigation("SeverityDefinition");
-
-                    b.Navigation("StatusDefinition");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Errors.ErrorOccurrence", b =>
@@ -1222,19 +1181,11 @@ namespace IKP.Infrastructure.Migrations
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.ErrorMetricBucket", b =>
                 {
-                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinition", "BucketTypeDefinition")
-                        .WithMany()
-                        .HasForeignKey("BucketTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("IKP.Domain.Entities.Diagnostics.Errors.ErrorGroup", "ErrorGroup")
                         .WithMany()
                         .HasForeignKey("ErrorGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("BucketTypeDefinition");
 
                     b.Navigation("ErrorGroup");
                 });

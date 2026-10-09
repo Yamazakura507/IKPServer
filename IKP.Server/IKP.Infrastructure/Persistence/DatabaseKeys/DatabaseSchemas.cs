@@ -4,5 +4,6 @@
     {
         public const string App = "app";
         public const string Logs = "app_logs";
+        public const string Diagnostics = "diagnostics";
     }
 }

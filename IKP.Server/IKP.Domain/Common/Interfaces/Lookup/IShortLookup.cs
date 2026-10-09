@@ -2,7 +2,7 @@
 
 namespace IKP.Domain.Common.Interfaces.Lookup
 {
-    public interface ILocalizedLookup : IShortLocalizedLookup, IHasIcon
+    public interface IShortLookup : IHasName, IHasDescription
     {
     }
 }
