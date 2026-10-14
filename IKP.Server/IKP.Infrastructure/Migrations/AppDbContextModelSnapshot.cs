@@ -1473,12 +1473,22 @@ namespace IKP.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Code = "RESTORE",
-                            DescriptionKey = "Audit.Action.Restore.Description",
+                            Code = "RESTORE_DELETE",
+                            DescriptionKey = "Audit.Action.RestoreDelete.Description",
                             IsActive = true,
                             IsSystem = true,
-                            NameKey = "Audit.Action.Restore",
+                            NameKey = "Audit.Action.RestoreDelete",
                             SortOrder = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Code = "RESTORE_UPDATE",
+                            DescriptionKey = "Audit.Action.RestoreUpdate.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Audit.Action.RestoreUpdate",
+                            SortOrder = 50
                         });
                 });
 
@@ -1507,6 +1517,9 @@ namespace IKP.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<Guid?>("RestorLogId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
 
@@ -1515,6 +1528,8 @@ namespace IKP.Infrastructure.Migrations
                     b.HasIndex("ActionId");
 
                     b.HasIndex("CreatedAt");
+
+                    b.HasIndex("RestorLogId");
 
                     b.HasIndex("EntitySchema", "EntityType", "EntityId");
 

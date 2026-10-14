@@ -23,7 +23,6 @@ using IKP.Infrastructure.Services.Audit.Interfaces;
 using IKP.Infrastructure.Services.Diagnostics;
 using IKP.Infrastructure.Services.Redis;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Npgsql;
 using IKP.Infrastructure.Services.Redis.Interfaces;
 
@@ -41,22 +40,23 @@ builder.Services.AddScoped<IDiagnosticService, DiagnosticService>();
 builder.Services.AddScoped<IDiagnosticAreaResolver, DiagnosticAreaResolver>();
 builder.Services.AddScoped<IDiagnosticStatisticsService, DiagnosticStatisticsService>();
 builder.Services.AddScoped<IDiagnosticCriticalityService, DiagnosticCriticalityService>();
+
 builder.Services.AddSingleton<DiagnosticCriticalityCalculator>();
-builder.Services.Configure<DiagnosticCriticalityWorkerOptions>(builder.Configuration.GetSection("Diagnostics:Criticality:Worker"));
-builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
 builder.Services.AddSingleton<IRedisDistributedLockService, RedisDistributedLockService>();
-builder.Services.Configure<DiagnosticStatisticsWorkerOptions>(builder.Configuration.GetSection("Diagnostics:Statistics:Worker"));
-builder.Services.AddHostedService<DiagnosticStatisticsWorker>();
-builder.Services.AddHostedService<DiagnosticCriticalityWorker>();
-
 builder.Services.AddSingleton(NpgsqlDataSource.Create(connectionString));
-
 builder.Services.AddSingleton<IAuditValueSerializer, AuditValueSerializer>();
 builder.Services.AddSingleton<IAuditActionRegistry, AuditActionRegistry>();
 builder.Services.AddSingleton<IErrorFingerprintService, ErrorFingerprintService>();
 builder.Services.AddSingleton<IExceptionDetailsExtractor, ExceptionDetailsExtractor>();
 builder.Services.AddSingleton<ICorrelationIdAccessor, CorrelationIdAccessor>();
 builder.Services.AddSingleton<AuditSaveChangesInterceptor>();
+
+builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
+builder.Services.Configure<DiagnosticCriticalityWorkerOptions>(builder.Configuration.GetSection("Diagnostics:Criticality:Worker"));
+builder.Services.Configure<DiagnosticStatisticsWorkerOptions>(builder.Configuration.GetSection("Diagnostics:Statistics:Worker"));
+
+builder.Services.AddHostedService<DiagnosticStatisticsWorker>();
+builder.Services.AddHostedService<DiagnosticCriticalityWorker>();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();

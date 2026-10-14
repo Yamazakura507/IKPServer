@@ -18,6 +18,7 @@ namespace IKP.Infrastructure.Configuration.Logs
             builder.Property(x => x.EntityId).IsRequired();
             builder.Property(x => x.ActionId).IsRequired();
             builder.Property(x => x.UserId);
+            builder.Property(x => x.RestorLogId);
             builder.Property(x => x.CreatedAt).IsRequired();
 
             builder.HasOne(x => x.Action).WithMany().HasForeignKey(x => x.ActionId).OnDelete(DeleteBehavior.Restrict);
@@ -31,6 +32,7 @@ namespace IKP.Infrastructure.Configuration.Logs
             });
             builder.HasIndex(x => x.CreatedAt);
             builder.HasIndex(x => x.ActionId);
+            builder.HasIndex(x => x.RestorLogId);
         }
     }
 }

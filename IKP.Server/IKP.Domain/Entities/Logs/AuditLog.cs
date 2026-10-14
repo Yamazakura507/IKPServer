@@ -14,6 +14,8 @@ namespace IKP.Domain.Entities.Logs
 
         public Guid? UserId { get; set; }
 
+        public Guid? RestorLogId { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
 

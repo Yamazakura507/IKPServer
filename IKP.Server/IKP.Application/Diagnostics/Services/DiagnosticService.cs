@@ -99,7 +99,7 @@ namespace IKP.Application.Diagnostics.Services
             {
                 Fingerprint = fingerprint,
                 FingerprintVersion = fingerprintService.Version,
-                ApplicationId = context.ApplicationId,
+                ApplicationId = context.ApplicationId ?? "unknown",
                 DiagnosticAreaResolution = diagnosticAreaResolution,
                 ExceptionType = CreateExceptionType(exceptionDetails),
                 ErrorCode = context.ErrorCode,
@@ -109,8 +109,8 @@ namespace IKP.Application.Diagnostics.Services
                 StatusId = statusId,
                 FirstOccurredAt = occurredAt,
                 LastOccurredAt = occurredAt,
-                FirstSeenVersion = context.ApplicationVersion,
-                LastSeenVersion = context.ApplicationVersion
+                FirstSeenVersion = context.ApplicationVersion ?? "unknown",
+                LastSeenVersion = context.ApplicationVersion ?? "unknown"
             };
 
             return errorGroup;
@@ -129,7 +129,7 @@ namespace IKP.Application.Diagnostics.Services
         private async ValueTask UpdateErrorGroupAsync(ErrorGroup errorGroup, ErrorExceptionDetails exceptionDetails, DiagnosticErrorContext context, DateTime occurredAt, CancellationToken cancellationToken)
         {
             errorGroup.LastOccurredAt = occurredAt;
-            errorGroup.LastSeenVersion = context.ApplicationVersion;
+            errorGroup.LastSeenVersion = context.ApplicationVersion ?? "unknown";
 
             if (!string.IsNullOrWhiteSpace(context.ApplicationId)) errorGroup.ApplicationId = context.ApplicationId;
             if (!string.IsNullOrWhiteSpace(context.ErrorCode)) errorGroup.ErrorCode = context.ErrorCode;
@@ -217,7 +217,7 @@ namespace IKP.Application.Diagnostics.Services
                 },
                 Application = new ErrorApplicationContext
                 {
-                    ApplicationId = context.ApplicationId,
+                    ApplicationId = context.ApplicationId ?? "unknown",
                     ApplicationVersion = context.ApplicationVersion,
                     Platform = context.Platform,
                     MachineId = context.MachineId,

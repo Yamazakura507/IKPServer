@@ -167,6 +167,8 @@ namespace IKP.Infrastructure.Services.Diagnostics
 
             dbTransaction ??= await context.Database.BeginTransactionAsync(cancellationToken);
 
+            IDbContextTransaction transaction = dbTransaction;
+
             try
             {
                 await context.SaveChangesAsync(cancellationToken);
@@ -227,8 +229,8 @@ namespace IKP.Infrastructure.Services.Diagnostics
             }
             catch
             {
-                await dbTransaction.RollbackAsync(CancellationToken.None);
-                await dbTransaction.DisposeAsync();
+                await transaction.RollbackAsync(CancellationToken.None);
+                await transaction.DisposeAsync();
                 dbTransaction = null;
                 throw;
             }
@@ -517,18 +519,20 @@ namespace IKP.Infrastructure.Services.Diagnostics
                 return;
             }
 
+            IDbContextTransaction transaction = dbTransaction;
+
             try
             {
                 await context.SaveChangesAsync(cancellationToken);
-                await dbTransaction.CommitAsync(cancellationToken);
-                await dbTransaction.DisposeAsync();
+                await transaction.CommitAsync(cancellationToken);
+                await transaction.DisposeAsync();
 
                 dbTransaction = null;
             }
             catch
             {
-                await dbTransaction.RollbackAsync(CancellationToken.None);
-                await dbTransaction.DisposeAsync();
+                await transaction.RollbackAsync(CancellationToken.None);
+                await transaction.DisposeAsync();
 
                 dbTransaction = null;
                 throw;

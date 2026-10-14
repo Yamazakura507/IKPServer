@@ -1,13 +1,14 @@
 using System.Text.RegularExpressions;
-using IKP.Api.Diagnostics.Models.Area;
+using System.Linq.Expressions;
 using IKP.Api.Infrastructure.Query;
-using IKP.Api.Models.Query;
+using IKP.Application.Common.Query;
+using IKP.Api.Diagnostics.Models.Area;
 using IKP.Domain.Entities.Diagnostics.Definitions;
 using IKP.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace IKP.Api.Controllers.Diagnostics
+namespace IKP.Api.Controllers.Diagnostics.Lookup
 {
     /// <summary>
     /// Provides management operations for diagnostic area resolution mappings.
@@ -27,63 +28,50 @@ namespace IKP.Api.Controllers.Diagnostics
             this.dbContextFactory = dbContextFactory;
         }
 
+        private static readonly IReadOnlyDictionary<string, Expression<Func<DiagnosticAreaResolutionMapping, object?>>> Fields =
+            new Dictionary<string, Expression<Func<DiagnosticAreaResolutionMapping, object?>>>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["id"] = x => x.Id,
+                ["diagnosticAreaId"] = x => x.DiagnosticAreaId,
+                ["diagnosticAreaCode"] = x => x.DiagnosticArea.Code,
+                ["ruleId"] = x => x.RuleId,
+                ["ruleCode"] = x => x.Rule.Code,
+                ["pattern"] = x => x.Pattern,
+                ["priority"] = x => x.Priority,
+                ["confidence"] = x => x.Confidence,
+                ["isActive"] = x => x.IsActive,
+                ["isSystem"] = x => x.IsSystem
+            };
+
         /// <summary>
-        /// Gets diagnostic area resolution mappings.
+        /// Queries diagnostic area resolution mappings with recursive filters, multi-column sorting, search and pagination.
         /// </summary>
-        /// <param name="diagnosticAreaId">Optional diagnostic area filter.</param>
-        /// <param name="ruleId">Optional rule filter.</param>
-        /// <param name="isActive">Optional active-state filter.</param>
-        /// <param name="isSystem">Optional system-state filter.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>The matching mappings.</returns>
-        [HttpGet]
-        public async Task<ActionResult<PagedResponse<DiagnosticAreaResolutionMappingResponse>>> GetAll(
-            [FromQuery] PagedQueryRequest request,
-            Guid? diagnosticAreaId,
-            Guid? ruleId,
-            bool? isActive,
-            bool? isSystem,
-            CancellationToken cancellationToken)
+        [HttpPost("query")]
+        public async Task<ActionResult<PagedResponse<DiagnosticAreaResolutionMappingResponse>>> Query([FromBody] UniversalQueryRequest request, CancellationToken cancellationToken)
         {
             await using AppDbContext db = await dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-            IQueryable<DiagnosticAreaResolutionMapping> query = db.DiagnosticAreaResolutionMappings.AsNoTracking();
+            PagedResponse<DiagnosticAreaResolutionMappingResponse> response = await db.DiagnosticAreaResolutionMappings
+                .AsNoTracking()
+                .ToPagedResponseAsync(
+                    request,
+                    Fields,
+                    x => new DiagnosticAreaResolutionMappingResponse
+                    {
+                        Id = x.Id,
+                        DiagnosticAreaId = x.DiagnosticAreaId,
+                        DiagnosticAreaCode = x.DiagnosticArea.Code,
+                        RuleId = x.RuleId,
+                        RuleCode = x.Rule.Code,
+                        Pattern = x.Pattern,
+                        Priority = x.Priority,
+                        Confidence = x.Confidence,
+                        IsActive = x.IsActive,
+                        IsSystem = x.IsSystem
+                    },
+                    cancellationToken);
 
-            if (diagnosticAreaId.HasValue) query = query.Where(x => x.DiagnosticAreaId == diagnosticAreaId.Value);
-            if (ruleId.HasValue) query = query.Where(x => x.RuleId == ruleId.Value);
-            if (isActive.HasValue) query = query.Where(x => x.IsActive == isActive.Value);
-            if (isSystem.HasValue) query = query.Where(x => x.IsSystem == isSystem.Value);
-
-            if (!string.IsNullOrWhiteSpace(request.Search))
-            {
-                string search = request.Search.Trim();
-                query = query.Where(x => x.Pattern.Contains(search) || x.DiagnosticArea.Code.Contains(search) || x.Rule.Code.Contains(search));
-            }
-
-            IQueryable<DiagnosticAreaResolutionMappingResponse> projected = query.Select(x => new DiagnosticAreaResolutionMappingResponse
-            {
-                Id = x.Id,
-                DiagnosticAreaId = x.DiagnosticAreaId,
-                DiagnosticAreaCode = x.DiagnosticArea.Code,
-                RuleId = x.RuleId,
-                RuleCode = x.Rule.Code,
-                Pattern = x.Pattern,
-                Priority = x.Priority,
-                Confidence = x.Confidence,
-                IsActive = x.IsActive,
-                IsSystem = x.IsSystem
-            });
-
-            projected = request.SortBy?.ToLowerInvariant() switch
-            {
-                "area" => request.SortDescending ? projected.OrderByDescending(x => x.DiagnosticAreaCode) : projected.OrderBy(x => x.DiagnosticAreaCode),
-                "rule" => request.SortDescending ? projected.OrderByDescending(x => x.RuleCode) : projected.OrderBy(x => x.RuleCode),
-                "priority" => request.SortDescending ? projected.OrderByDescending(x => x.Priority) : projected.OrderBy(x => x.Priority),
-                "confidence" => request.SortDescending ? projected.OrderByDescending(x => x.Confidence) : projected.OrderBy(x => x.Confidence),
-                _ => request.SortDescending ? projected.OrderByDescending(x => x.Id) : projected.OrderBy(x => x.Id)
-            };
-
-            return Ok(await projected.ToPagedResponseAsync(request, cancellationToken));
+            return Ok(response);
         }
 
         /// <summary>

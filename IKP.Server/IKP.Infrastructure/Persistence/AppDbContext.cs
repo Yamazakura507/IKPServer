@@ -66,6 +66,7 @@ namespace IKP.Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.HasDefaultSchema(DatabaseSchemas.App);
+            modelBuilder.HasDbFunction(() => UniversalQueryDbFunctions.Levenshtein("", "")).HasName("levenshtein").IsBuiltIn();
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
             modelBuilder.OnSeeds();
         }

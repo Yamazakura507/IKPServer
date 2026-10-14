@@ -177,7 +177,7 @@ namespace IKP.Infrastructure.Interceptors
                 bool originalIsDeleted = entry.Property(nameof(ISoftDelete.IsDeleted)).OriginalValue is bool value && value;
 
                 if (!originalIsDeleted && softDelete.IsDeleted) return AuditActionCodes.Delete;
-                if (originalIsDeleted && !softDelete.IsDeleted) return AuditActionCodes.Restore;
+                if (originalIsDeleted && !softDelete.IsDeleted) return AuditActionCodes.RestoreDelete;
             }
 
             return AuditActionCodes.Update;

@@ -1,6 +1,7 @@
 ﻿using IKP.Api.Diagnostics.Correlation;
 using IKP.Api.Diagnostics.Correlation.Interfaces;
 using IKP.Api.Diagnostics.Models.Errors;
+using IKP.Api.Infrastructure.Query;
 using IKP.Application.Diagnostics.Interfaces;
 using IKP.Application.Diagnostics.Models;
 using IKP.Application.Diagnostics.Services;
@@ -34,6 +35,19 @@ namespace IKP.Api.Diagnostics
         /// <inheritdoc />
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
+            if (exception is UniversalQueryException)
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                await httpContext.Response.WriteAsJsonAsync(new
+                {
+                    status = StatusCodes.Status400BadRequest,
+                    code = "INVALID_QUERY",
+                    title = exception.Message,
+                    requestId = httpContext.TraceIdentifier
+                }, cancellationToken);
+                return true;
+            }
+
             string requestId = httpContext.TraceIdentifier;
             string correlationId = this.correlationIdAccessor.CorrelationId ?? Guid.NewGuid().ToString("N");
 
