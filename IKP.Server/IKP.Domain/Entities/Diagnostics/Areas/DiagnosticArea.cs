@@ -1,22 +1,26 @@
-﻿using IKP.Domain.Common.Base;
-using IKP.Domain.Common.Interfaces.Information;
-using IKP.Domain.Common.Interfaces.Lookup;
-using IKP.Domain.Entities.Diagnostics.Errors;
+using IKP.Domain.Common.Base;
+using IKP.Domain.Entities.Diagnostics.Definitions;
 
 namespace IKP.Domain.Entities.Diagnostics.Areas
 {
-    public class DiagnosticArea : Entity, IShortLocalizedLookup, IHasCode, IHasActiveState
+    /// <summary>
+    /// Represents a functional area of the diagnostic subsystem.
+    /// </summary>
+    public class DiagnosticArea : FullLookupLocalized
     {
-        public string Code { get; set; } = null!;
+        /// <summary>
+        /// Gets or sets the base importance score of the diagnostic area.
+        /// </summary>
+        public int ImportanceScore { get; set; }
 
-        public string NameKey { get; set; } = null!;
+        /// <summary>
+        /// Gets or sets resolutions associated with this diagnostic area.
+        /// </summary>
+        public ICollection<DiagnosticAreaResolution> Resolutions { get; set; } = new List<DiagnosticAreaResolution>();
 
-        public string? DescriptionKey { get; set; }
-
-        public decimal ImportanceScore { get; set; }
-
-        public bool IsActive { get; set; }
-
-        public ICollection<ErrorGroup> ErrorGroups { get; set; } = new List<ErrorGroup>();
+        /// <summary>
+        /// Gets or sets configurable resolution mappings targeting this diagnostic area.
+        /// </summary>
+        public ICollection<DiagnosticAreaResolutionMapping> ResolutionMappings { get; set; } = new List<DiagnosticAreaResolutionMapping>();
     }
 }

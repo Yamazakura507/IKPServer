@@ -1,63 +1,31 @@
 ﻿using IKP.Domain.Common.Audit;
+using IKP.Infrastructure.Services.Extensions;
 using IKP.Domain.Entities.Logs;
+using IKP.Infrastructure.Persistence.Seeds.Records;
 using Microsoft.EntityFrameworkCore;
 
 namespace IKP.Infrastructure.Persistence.Seeds
 {
     public static class AuditActionSeed
     {
-        public static readonly Guid CreateId = Guid.Parse("10000000-0000-0000-0000-000000000001");
-        public static readonly Guid UpdateId = Guid.Parse("10000000-0000-0000-0000-000000000002");
-        public static readonly Guid DeleteId = Guid.Parse("10000000-0000-0000-0000-000000000003");
-        public static readonly Guid RestoreId = Guid.Parse("10000000-0000-0000-0000-000000000004");
+        private const string pathKey = "Audit.Action";
+        private const uint baseIndex = 1;
+
+        public static readonly Guid CreateId = baseIndex.GetGuidForLevel(0, 1);
+        public static readonly Guid UpdateId = baseIndex.GetGuidForLevel(0, 2);
+        public static readonly Guid DeleteId = baseIndex.GetGuidForLevel(0, 3);
+        public static readonly Guid RestoreId = baseIndex.GetGuidForLevel(0, 4);
 
         public static void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AuditActionDefinition>().HasData(
-                new AuditActionDefinition
+                new []
                 {
-                    Id = CreateId,
-                    Code = AuditActionCodes.Create,
-                    NameKey = "Audit.Action.Create",
-                    DescriptionKey = "Audit.Action.Create.Description",
-                    IsSystem = true,
-                    IsActive = true,
-                    SortOrder = 10,
-                    FileId = null
-                },
-                new AuditActionDefinition
-                {
-                    Id = UpdateId,
-                    Code = AuditActionCodes.Update,
-                    NameKey = "Audit.Action.Update",
-                    DescriptionKey = "Audit.Action.Update.Description",
-                    IsSystem = true,
-                    IsActive = true,
-                    SortOrder = 20,
-                    FileId = null
-                },
-                new AuditActionDefinition
-                {
-                    Id = DeleteId,
-                    Code = AuditActionCodes.Delete,
-                    NameKey = "Audit.Action.Delete",
-                    DescriptionKey = "Audit.Action.Delete.Description",
-                    IsSystem = true,
-                    IsActive = true,
-                    SortOrder = 30,
-                    FileId = null
-                },
-                new AuditActionDefinition
-                {
-                    Id = RestoreId,
-                    Code = AuditActionCodes.Restore,
-                    NameKey = "Audit.Action.Restore",
-                    DescriptionKey = "Audit.Action.Restore.Description",
-                    IsSystem = true,
-                    IsActive = true,
-                    SortOrder = 40,
-                    FileId = null
-                }
+                    new SeedRecord<AuditActionDefinition>(CreateId, AuditActionCodes.Create),
+                    new SeedRecord<AuditActionDefinition>(UpdateId, AuditActionCodes.Update),
+                    new SeedRecord<AuditActionDefinition>(DeleteId, AuditActionCodes.Delete),
+                    new SeedRecord<AuditActionDefinition>(RestoreId, AuditActionCodes.Restore)
+                }.CreateListDefinition(pathKey)
             );
         }
     }

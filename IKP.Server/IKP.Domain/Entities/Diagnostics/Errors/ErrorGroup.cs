@@ -1,5 +1,4 @@
 ﻿using IKP.Domain.Common.Base;
-using IKP.Domain.Common.Diagnostics;
 using IKP.Domain.Entities.Diagnostics.Areas;
 using IKP.Domain.Entities.Diagnostics.Criticality;
 using IKP.Domain.Entities.Diagnostics.Definitions;
@@ -15,9 +14,7 @@ namespace IKP.Domain.Entities.Diagnostics.Errors
 
         public string ApplicationId { get; set; } = null!;
 
-        public Guid? DiagnosticAreaId { get; set; }
-
-        public DiagnosticArea? DiagnosticArea { get; set; }
+        public Guid? DiagnosticAreaResolutionId { get; set; }
 
         public string ExceptionType { get; set; } = null!;
 
@@ -43,6 +40,9 @@ namespace IKP.Domain.Entities.Diagnostics.Errors
 
         public DateTime UpdatedAt { get; set; }
 
+
+        public DiagnosticAreaResolution? DiagnosticAreaResolution { get; set; }
+
         public ErrorCriticality? Criticality { get; set; }
 
         public ErrorStatistics? Statistics { get; set; }
@@ -50,6 +50,7 @@ namespace IKP.Domain.Entities.Diagnostics.Errors
         public DiagnosticDefinition StatusDefinition { get; set; } = null!;
 
         public DiagnosticDefinition SeverityDefinition { get; set; } = null!;
+
 
         public ICollection<ErrorOccurrence> Occurrences { get; set; } = new List<ErrorOccurrence>();
     }

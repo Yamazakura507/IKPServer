@@ -9,7 +9,7 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Criticality
     {
         public void Configure(EntityTypeBuilder<ErrorCriticality> builder)
         {
-            builder.ToTable("ErrorCriticalities", DatabaseSchemas.Diagnostics);
+            builder.ToTable("ErrorCriticalities", DatabaseSchemas.DiagnosticsCore);
 
             builder.HasKey(x => x.Id);
 

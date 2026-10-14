@@ -9,15 +9,17 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Errors
     {
         public void Configure(EntityTypeBuilder<ErrorOccurrence> builder)
         {
-            builder.ToTable("ErrorOccurrences", DatabaseSchemas.Diagnostics);
+            builder.ToTable("ErrorOccurrences", DatabaseSchemas.DiagnosticsCore);
 
             builder.HasKey(x => x.Id);
 
+            builder.Property(x => x.DiagnosticAreaResolutionId);
             builder.Property(x => x.ErrorGroupId).IsRequired();
             builder.Property(x => x.OccurredAt).IsRequired();
             builder.Property(x => x.Context).HasColumnName("ContextSnapshot").HasColumnType("jsonb");
 
             builder.HasOne(x => x.ErrorGroup).WithMany(x => x.Occurrences).HasForeignKey(x => x.ErrorGroupId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.DiagnosticAreaResolution).WithMany(x => x.ErrorOccurrences).HasForeignKey(x => x.DiagnosticAreaResolutionId).OnDelete(DeleteBehavior.SetNull);
 
             builder.OwnsOne(
                 x => x.Actor,
@@ -72,6 +74,7 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Errors
                 x.OccurredAt
             });
             builder.HasIndex(x => x.OccurredAt);
+            builder.HasIndex(x => x.DiagnosticAreaResolutionId);
         }
     }
 }

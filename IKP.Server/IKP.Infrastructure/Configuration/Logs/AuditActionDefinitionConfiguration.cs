@@ -9,7 +9,7 @@ namespace IKP.Infrastructure.Configuration.Logs
     {
         public void Configure(EntityTypeBuilder<AuditActionDefinition> builder)
         {
-            builder.ToTable("AuditActions", DatabaseSchemas.Logs);
+            builder.ToTable("AuditActions", DatabaseSchemas.LogsLookup);
 
             builder.HasKey(x => x.Id);
 

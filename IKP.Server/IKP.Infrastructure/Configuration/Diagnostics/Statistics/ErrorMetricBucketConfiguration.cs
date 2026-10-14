@@ -9,7 +9,7 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Statistics
     {
         public void Configure(EntityTypeBuilder<ErrorMetricBucket> builder)
         {
-            builder.ToTable("ErrorMetricBuckets", DatabaseSchemas.Diagnostics);
+            builder.ToTable("ErrorMetricBuckets", DatabaseSchemas.DiagnosticsStatistics);
 
             builder.HasKey(x => x.Id);
 

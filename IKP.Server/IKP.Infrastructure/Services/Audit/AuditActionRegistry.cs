@@ -7,9 +7,7 @@ namespace IKP.Infrastructure.Services.Audit
     public class AuditActionRegistry : IAuditActionRegistry
     {
         private readonly NpgsqlDataSource dataSource;
-
-        private readonly ConcurrentDictionary<string, Guid> cache =
-            new(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, Guid> cache = new(StringComparer.OrdinalIgnoreCase);
 
         public AuditActionRegistry(NpgsqlDataSource dataSource)
         {
@@ -24,7 +22,7 @@ namespace IKP.Infrastructure.Services.Audit
 
             const string sql = """
                 SELECT "Id"
-                FROM "app_logs"."AuditActions"
+                FROM "app_logs_lookup"."AuditActions"
                 WHERE "Code" = $1
                   AND "IsActive" = TRUE
                 LIMIT 1;

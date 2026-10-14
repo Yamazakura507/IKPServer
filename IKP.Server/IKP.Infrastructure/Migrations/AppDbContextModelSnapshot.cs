@@ -32,33 +32,213 @@ namespace IKP.Infrastructure.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<string>("DescriptionKey")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
-                    b.Property<decimal>("ImportanceScore")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("numeric(5,2)");
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ImportanceScore")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("NameKey")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("IsActive", "ImportanceScore");
+                    b.ToTable("DiagnosticAreas", "diagnostics_lookup", t =>
+                        {
+                            t.HasCheckConstraint("CK_DiagnosticAreas_ImportanceScore", "\"ImportanceScore\" >= 0 AND \"ImportanceScore\" <= 100");
+                        });
 
-                    b.ToTable("DiagnosticAreas", "diagnostics");
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000001"),
+                            Code = "API",
+                            DescriptionKey = "Diagnostics.Area.Api.Description",
+                            ImportanceScore = 90,
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.Area.Api",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000002"),
+                            Code = "DIAGNOSTICS",
+                            DescriptionKey = "Diagnostics.Area.Diagnostics.Description",
+                            ImportanceScore = 80,
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.Area.Diagnostics",
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000003"),
+                            Code = "ENCRYPTION",
+                            DescriptionKey = "Diagnostics.Area.Encryption.Description",
+                            ImportanceScore = 95,
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.Area.Encryption",
+                            SortOrder = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000004"),
+                            Code = "AUTHENTICATION",
+                            DescriptionKey = "Diagnostics.Area.Authentication.Description",
+                            ImportanceScore = 100,
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.Area.Authentication",
+                            SortOrder = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000005"),
+                            Code = "AUTHORIZATION",
+                            DescriptionKey = "Diagnostics.Area.Authorization.Description",
+                            ImportanceScore = 100,
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.Area.Authorization",
+                            SortOrder = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000006"),
+                            Code = "REGISTRATION",
+                            DescriptionKey = "Diagnostics.Area.Registration.Description",
+                            ImportanceScore = 90,
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.Area.Registration",
+                            SortOrder = 60
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000007"),
+                            Code = "SUPPORT",
+                            DescriptionKey = "Diagnostics.Area.Support.Description",
+                            ImportanceScore = 70,
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.Area.Support",
+                            SortOrder = 70
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolution", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Confidence")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<Guid?>("DiagnosticAreaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RuleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SourceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiagnosticAreaId");
+
+                    b.HasIndex("RuleId");
+
+                    b.HasIndex("SourceId");
+
+                    b.ToTable("DiagnosticAreaResolutions", "diagnostics_core", t =>
+                        {
+                            t.HasCheckConstraint("CK_DiagnosticAreaResolutions_Confidence", "\"Confidence\" >= 0 AND \"Confidence\" <= 100");
+
+                            t.HasCheckConstraint("CK_DiagnosticAreaResolutions_Version", "\"Version\" > 0");
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolutionEvidence", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Confidence")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<decimal>("Contribution")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<Guid>("DiagnosticAreaResolutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("MappingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("MatchedValue")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
+                    b.Property<string>("Pattern")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("RuleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiagnosticAreaResolutionId");
+
+                    b.HasIndex("MappingId");
+
+                    b.HasIndex("RuleId");
+
+                    b.ToTable("DiagnosticAreaResolutionEvidences", "diagnostics_core", t =>
+                        {
+                            t.HasCheckConstraint("CK_DiagnosticAreaResolutionEvidences_Confidence", "\"Confidence\" >= 0 AND \"Confidence\" <= 100");
+
+                            t.HasCheckConstraint("CK_DiagnosticAreaResolutionEvidences_Contribution", "\"Contribution\" >= 0 AND \"Contribution\" <= 100");
+
+                            t.HasCheckConstraint("CK_DiagnosticAreaResolutionEvidences_Priority", "\"Priority\" >= 0 AND \"Priority\" <= 100");
+                        });
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Criticality.ErrorCriticality", b =>
@@ -107,7 +287,7 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasIndex("EffectiveScore", "CalculatedAt");
 
-                    b.ToTable("ErrorCriticalities", "diagnostics");
+                    b.ToTable("ErrorCriticalities", "diagnostics_core");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Criticality.ErrorCriticalityFactor", b =>
@@ -148,7 +328,268 @@ namespace IKP.Infrastructure.Migrations
                     b.HasIndex("ErrorCriticalityId", "DefinitionId")
                         .IsUnique();
 
-                    b.ToTable("ErrorCriticalityFactors", "diagnostics");
+                    b.ToTable("ErrorCriticalityFactors", "diagnostics_core");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionMapping", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Confidence")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("numeric(5,2)");
+
+                    b.Property<Guid>("DiagnosticAreaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Pattern")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("RuleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RuleId");
+
+                    b.HasIndex("DiagnosticAreaId", "RuleId");
+
+                    b.HasIndex("IsActive", "RuleId");
+
+                    b.ToTable("DiagnosticAreaResolutionMappings", "diagnostics_lookup", t =>
+                        {
+                            t.HasCheckConstraint("CK_DiagnosticAreaResolutionMappings_Confidence", "\"Confidence\" >= 0 AND \"Confidence\" <= 100");
+
+                            t.HasCheckConstraint("CK_DiagnosticAreaResolutionMappings_Priority", "\"Priority\" >= 0 AND \"Priority\" <= 100");
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000001"),
+                            Confidence = 90m,
+                            DiagnosticAreaId = new Guid("30000000-0000-0000-0000-000000000001"),
+                            IsActive = true,
+                            IsSystem = true,
+                            Pattern = "^IKP\\.Api(?:\\.|$)",
+                            Priority = 100,
+                            RuleId = new Guid("50000000-0000-0000-0000-000000000003")
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000002"),
+                            Confidence = 95m,
+                            DiagnosticAreaId = new Guid("30000000-0000-0000-0000-000000000001"),
+                            IsActive = true,
+                            IsSystem = true,
+                            Pattern = "^/api(?:/|$)",
+                            Priority = 100,
+                            RuleId = new Guid("50000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000003"),
+                            Confidence = 85m,
+                            DiagnosticAreaId = new Guid("30000000-0000-0000-0000-000000000001"),
+                            IsActive = true,
+                            IsSystem = true,
+                            Pattern = "^(GET|POST|PUT|PATCH|DELETE|OPTIONS|HEAD)\\s+/api(?:/|$)",
+                            Priority = 80,
+                            RuleId = new Guid("50000000-0000-0000-0000-000000000005")
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000004"),
+                            Confidence = 95m,
+                            DiagnosticAreaId = new Guid("30000000-0000-0000-0000-000000000002"),
+                            IsActive = true,
+                            IsSystem = true,
+                            Pattern = "^IKP\\.Application\\.Diagnostics(?:\\.|$)",
+                            Priority = 100,
+                            RuleId = new Guid("50000000-0000-0000-0000-000000000003")
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000005"),
+                            Confidence = 95m,
+                            DiagnosticAreaId = new Guid("30000000-0000-0000-0000-000000000002"),
+                            IsActive = true,
+                            IsSystem = true,
+                            Pattern = "^/api/diagnostics(?:/|$)",
+                            Priority = 100,
+                            RuleId = new Guid("50000000-0000-0000-0000-000000000004")
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("DiagnosticAreaResolutionRules", "diagnostics_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000001"),
+                            Code = "EXPLICIT_CONTEXT",
+                            DescriptionKey = "Diagnostics.AreaResolutionRule.ExplicitContext.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.AreaResolutionRule.ExplicitContext",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000002"),
+                            Code = "EXCEPTION_TYPE",
+                            DescriptionKey = "Diagnostics.AreaResolutionRule.ExceptionType.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.AreaResolutionRule.ExceptionType",
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000003"),
+                            Code = "NAMESPACE",
+                            DescriptionKey = "Diagnostics.AreaResolutionRule.Namespace.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.AreaResolutionRule.Namespace",
+                            SortOrder = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000004"),
+                            Code = "ENDPOINT",
+                            DescriptionKey = "Diagnostics.AreaResolutionRule.Endpoint.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.AreaResolutionRule.Endpoint",
+                            SortOrder = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000005"),
+                            Code = "HTTP_PIPELINE",
+                            DescriptionKey = "Diagnostics.AreaResolutionRule.HttpPipeline.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.AreaResolutionRule.HttpPipeline",
+                            SortOrder = 50
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionSource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("DiagnosticAreaResolutionSources", "diagnostics_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000001"),
+                            Code = "EXPLICIT",
+                            DescriptionKey = "Diagnostics.AreaResolutionSource.Explicit.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.AreaResolutionSource.Explicit",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000002"),
+                            Code = "AUTOMATIC",
+                            DescriptionKey = "Diagnostics.AreaResolutionSource.Automatic.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.AreaResolutionSource.Automatic",
+                            SortOrder = 20
+                        });
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinition", b =>
@@ -193,7 +634,7 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasIndex("GroupId", "IsActive", "SortOrder");
 
-                    b.ToTable("DiagnosticDefinitions", "diagnostics");
+                    b.ToTable("DiagnosticDefinitions", "diagnostics_lookup");
 
                     b.HasData(
                         new
@@ -523,13 +964,13 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasIndex("IsActive", "SortOrder");
 
-                    b.ToTable("DiagnosticDefinitionGroups", "diagnostics");
+                    b.ToTable("DiagnosticDefinitionGroups", "diagnostics_lookup");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("20000000-0000-0000-0000-000000000001"),
-                            Code = "DIAGNOSTIC_SEVERITY",
+                            Code = "SEVERITY",
                             DescriptionKey = "Diagnostic.DefinitionGroup.Severity.Description",
                             IsActive = true,
                             IsSystem = true,
@@ -582,7 +1023,7 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("DiagnosticAreaId")
+                    b.Property<Guid?>("DiagnosticAreaResolutionId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ErrorCode")
@@ -638,7 +1079,7 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasIndex("ApplicationId");
 
-                    b.HasIndex("DiagnosticAreaId");
+                    b.HasIndex("DiagnosticAreaResolutionId");
 
                     b.HasIndex("LastOccurredAt");
 
@@ -649,7 +1090,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasIndex("Fingerprint", "FingerprintVersion")
                         .IsUnique();
 
-                    b.ToTable("ErrorGroups", "diagnostics");
+                    b.ToTable("ErrorGroups", "diagnostics_core");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Errors.ErrorOccurrence", b =>
@@ -662,6 +1103,9 @@ namespace IKP.Infrastructure.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("ContextSnapshot");
 
+                    b.Property<Guid?>("DiagnosticAreaResolutionId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ErrorGroupId")
                         .HasColumnType("uuid");
 
@@ -670,11 +1114,138 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DiagnosticAreaResolutionId");
+
                     b.HasIndex("OccurredAt");
 
                     b.HasIndex("ErrorGroupId", "OccurredAt");
 
-                    b.ToTable("ErrorOccurrences", "diagnostics");
+                    b.ToTable("ErrorOccurrences", "diagnostics_core");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.DiagnosticStatisticsWorkItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("AvailableAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ErrorGroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LastError")
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ErrorGroupId")
+                        .IsUnique();
+
+                    b.HasIndex("StatusId", "AvailableAt");
+
+                    b.ToTable("DiagnosticStatisticsWorkItems", "diagnostics_core");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.DiagnosticStatisticsWorkItemStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("DiagnosticStatisticsWorkItemStatuses", "diagnostics_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000001"),
+                            Code = "PENDING",
+                            DescriptionKey = "Diagnostics.StatisticsWorkItemStatus.Pending.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.StatisticsWorkItemStatus.Pending",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000002"),
+                            Code = "PROCESSING",
+                            DescriptionKey = "Diagnostics.StatisticsWorkItemStatus.Processing.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.StatisticsWorkItemStatus.Processing",
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000003"),
+                            Code = "COMPLETED",
+                            DescriptionKey = "Diagnostics.StatisticsWorkItemStatus.Completed.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.StatisticsWorkItemStatus.Completed",
+                            SortOrder = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000004"),
+                            Code = "FAILED",
+                            DescriptionKey = "Diagnostics.StatisticsWorkItemStatus.Failed.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Diagnostics.StatisticsWorkItemStatus.Failed",
+                            SortOrder = 40
+                        });
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.ErrorMetricBucket", b =>
@@ -721,7 +1292,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasIndex("ErrorGroupId", "BucketTypeId", "BucketStart", "BucketDurationMinutes")
                         .IsUnique();
 
-                    b.ToTable("ErrorMetricBuckets", "diagnostics");
+                    b.ToTable("ErrorMetricBuckets", "diagnostics_statistics");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.ErrorStatistics", b =>
@@ -740,17 +1311,17 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid>("ErrorGroupId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("GrowthRate")
+                    b.Property<decimal?>("GrowthRate")
                         .HasPrecision(9, 2)
                         .HasColumnType("numeric(9,2)");
-
-                    b.Property<long>("OccurrencesLast7Days")
-                        .HasColumnType("bigint");
 
                     b.Property<long>("OccurrencesLastDay")
                         .HasColumnType("bigint");
 
                     b.Property<long>("OccurrencesLastHour")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("OccurrencesLastWeek")
                         .HasColumnType("bigint");
 
                     b.Property<long>("TotalOccurrences")
@@ -759,13 +1330,13 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<long>("UniqueUsers")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("UsersLast7Days")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("UsersLastDay")
                         .HasColumnType("bigint");
 
                     b.Property<long>("UsersLastHour")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UsersLastWeek")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -775,7 +1346,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasIndex("ErrorGroupId")
                         .IsUnique();
 
-                    b.ToTable("ErrorStatistics", "diagnostics");
+                    b.ToTable("ErrorStatistics", "diagnostics_statistics");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Employees.Employee", b =>
@@ -866,7 +1437,7 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasIndex("IsActive", "SortOrder");
 
-                    b.ToTable("AuditActions", "app_logs");
+                    b.ToTable("AuditActions", "app_logs_lookup");
 
                     b.HasData(
                         new
@@ -982,6 +1553,56 @@ namespace IKP.Infrastructure.Migrations
                     b.ToTable("AuditLogChanges", "app_logs");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolution", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticArea", "DiagnosticArea")
+                        .WithMany("Resolutions")
+                        .HasForeignKey("DiagnosticAreaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionRule", "Rule")
+                        .WithMany()
+                        .HasForeignKey("RuleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionSource", "Source")
+                        .WithMany()
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("DiagnosticArea");
+
+                    b.Navigation("Rule");
+
+                    b.Navigation("Source");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolutionEvidence", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolution", "DiagnosticAreaResolution")
+                        .WithMany("Evidences")
+                        .HasForeignKey("DiagnosticAreaResolutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionMapping", "Mapping")
+                        .WithMany()
+                        .HasForeignKey("MappingId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionRule", "Rule")
+                        .WithMany("Evidences")
+                        .HasForeignKey("RuleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("DiagnosticAreaResolution");
+
+                    b.Navigation("Mapping");
+
+                    b.Navigation("Rule");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Criticality.ErrorCriticality", b =>
                 {
                     b.HasOne("IKP.Domain.Entities.Diagnostics.Errors.ErrorGroup", "ErrorGroup")
@@ -1012,6 +1633,25 @@ namespace IKP.Infrastructure.Migrations
                     b.Navigation("ErrorCriticality");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionMapping", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticArea", "DiagnosticArea")
+                        .WithMany("ResolutionMappings")
+                        .HasForeignKey("DiagnosticAreaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionRule", "Rule")
+                        .WithMany("Mappings")
+                        .HasForeignKey("RuleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("DiagnosticArea");
+
+                    b.Navigation("Rule");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinition", b =>
                 {
                     b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinitionGroup", "Group")
@@ -1025,9 +1665,9 @@ namespace IKP.Infrastructure.Migrations
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Errors.ErrorGroup", b =>
                 {
-                    b.HasOne("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticArea", "DiagnosticArea")
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolution", "DiagnosticAreaResolution")
                         .WithMany("ErrorGroups")
-                        .HasForeignKey("DiagnosticAreaId")
+                        .HasForeignKey("DiagnosticAreaResolutionId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinition", "SeverityDefinition")
@@ -1042,7 +1682,7 @@ namespace IKP.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("DiagnosticArea");
+                    b.Navigation("DiagnosticAreaResolution");
 
                     b.Navigation("SeverityDefinition");
 
@@ -1051,6 +1691,11 @@ namespace IKP.Infrastructure.Migrations
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Errors.ErrorOccurrence", b =>
                 {
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolution", "DiagnosticAreaResolution")
+                        .WithMany("ErrorOccurrences")
+                        .HasForeignKey("DiagnosticAreaResolutionId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("IKP.Domain.Entities.Diagnostics.Errors.ErrorGroup", "ErrorGroup")
                         .WithMany("Occurrences")
                         .HasForeignKey("ErrorGroupId")
@@ -1075,7 +1720,7 @@ namespace IKP.Infrastructure.Migrations
 
                             b1.HasIndex("UserId");
 
-                            b1.ToTable("ErrorOccurrences", "diagnostics");
+                            b1.ToTable("ErrorOccurrences", "diagnostics_core");
 
                             b1.WithOwner()
                                 .HasForeignKey("ErrorOccurrenceId");
@@ -1117,7 +1762,7 @@ namespace IKP.Infrastructure.Migrations
 
                             b1.HasIndex("Platform");
 
-                            b1.ToTable("ErrorOccurrences", "diagnostics");
+                            b1.ToTable("ErrorOccurrences", "diagnostics_core");
 
                             b1.WithOwner()
                                 .HasForeignKey("ErrorOccurrenceId");
@@ -1157,7 +1802,7 @@ namespace IKP.Infrastructure.Migrations
 
                             b1.HasKey("ErrorOccurrenceId");
 
-                            b1.ToTable("ErrorOccurrences", "diagnostics");
+                            b1.ToTable("ErrorOccurrences", "diagnostics_core");
 
                             b1.WithOwner()
                                 .HasForeignKey("ErrorOccurrenceId");
@@ -1199,7 +1844,7 @@ namespace IKP.Infrastructure.Migrations
 
                             b1.HasIndex("RequestId");
 
-                            b1.ToTable("ErrorOccurrences", "diagnostics");
+                            b1.ToTable("ErrorOccurrences", "diagnostics_core");
 
                             b1.WithOwner()
                                 .HasForeignKey("ErrorOccurrenceId");
@@ -1211,6 +1856,8 @@ namespace IKP.Infrastructure.Migrations
                     b.Navigation("Application")
                         .IsRequired();
 
+                    b.Navigation("DiagnosticAreaResolution");
+
                     b.Navigation("ErrorGroup");
 
                     b.Navigation("Exception")
@@ -1218,6 +1865,25 @@ namespace IKP.Infrastructure.Migrations
 
                     b.Navigation("Request")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.DiagnosticStatisticsWorkItem", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Errors.ErrorGroup", "ErrorGroup")
+                        .WithMany()
+                        .HasForeignKey("ErrorGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Diagnostics.Statistics.DiagnosticStatisticsWorkItemStatus", "Status")
+                        .WithMany("WorkItems")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ErrorGroup");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.ErrorMetricBucket", b =>
@@ -1274,12 +1940,30 @@ namespace IKP.Infrastructure.Migrations
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticArea", b =>
                 {
+                    b.Navigation("ResolutionMappings");
+
+                    b.Navigation("Resolutions");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolution", b =>
+                {
                     b.Navigation("ErrorGroups");
+
+                    b.Navigation("ErrorOccurrences");
+
+                    b.Navigation("Evidences");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Criticality.ErrorCriticality", b =>
                 {
                     b.Navigation("Factors");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionRule", b =>
+                {
+                    b.Navigation("Evidences");
+
+                    b.Navigation("Mappings");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinitionGroup", b =>
@@ -1294,6 +1978,11 @@ namespace IKP.Infrastructure.Migrations
                     b.Navigation("Occurrences");
 
                     b.Navigation("Statistics");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.DiagnosticStatisticsWorkItemStatus", b =>
+                {
+                    b.Navigation("WorkItems");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Logs.AuditLog", b =>

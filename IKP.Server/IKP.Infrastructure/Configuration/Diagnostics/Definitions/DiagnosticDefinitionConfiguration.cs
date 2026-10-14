@@ -16,7 +16,7 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Definitions
         /// <param name="builder">Entity type builder.</param>
         public void Configure(EntityTypeBuilder<DiagnosticDefinition> builder)
         {
-            builder.ToTable("DiagnosticDefinitions", DatabaseSchemas.Diagnostics);
+            builder.ToTable("DiagnosticDefinitions", DatabaseSchemas.DiagnosticsLookup);
 
             builder.HasKey(x => x.Id);
 

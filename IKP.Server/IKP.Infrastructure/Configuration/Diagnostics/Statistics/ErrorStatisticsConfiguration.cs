@@ -1,4 +1,4 @@
-﻿using IKP.Domain.Entities.Diagnostics.Statistics;
+using IKP.Domain.Entities.Diagnostics.Statistics;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -9,7 +9,7 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Statistics
     {
         public void Configure(EntityTypeBuilder<ErrorStatistics> builder)
         {
-            builder.ToTable("ErrorStatistics", DatabaseSchemas.Diagnostics);
+            builder.ToTable("ErrorStatistics", DatabaseSchemas.DiagnosticsStatistics);
 
             builder.HasKey(x => x.Id);
 
@@ -19,11 +19,11 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Statistics
             builder.Property(x => x.AffectedUserRatio).IsRequired().HasPrecision(5, 2);
             builder.Property(x => x.OccurrencesLastHour).IsRequired();
             builder.Property(x => x.OccurrencesLastDay).IsRequired();
-            builder.Property(x => x.OccurrencesLast7Days).IsRequired();
+            builder.Property(x => x.OccurrencesLastWeek).IsRequired();
             builder.Property(x => x.UsersLastHour).IsRequired();
             builder.Property(x => x.UsersLastDay).IsRequired();
-            builder.Property(x => x.UsersLast7Days).IsRequired();
-            builder.Property(x => x.GrowthRate).IsRequired().HasPrecision(9, 2);
+            builder.Property(x => x.UsersLastWeek).IsRequired();
+            builder.Property(x => x.GrowthRate).HasPrecision(9, 2);
             builder.Property(x => x.CalculatedAt).IsRequired();
 
             builder.HasOne(x => x.ErrorGroup).WithOne(x => x.Statistics).HasForeignKey<ErrorStatistics>(x => x.ErrorGroupId).OnDelete(DeleteBehavior.Cascade);

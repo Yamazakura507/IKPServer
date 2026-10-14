@@ -1,4 +1,4 @@
-﻿using IKP.Domain.Common.Base;
+using IKP.Domain.Common.Base;
 using IKP.Domain.Entities.Diagnostics.Errors;
 
 namespace IKP.Domain.Entities.Diagnostics.Statistics
@@ -19,15 +19,15 @@ namespace IKP.Domain.Entities.Diagnostics.Statistics
 
         public long OccurrencesLastDay { get; set; }
 
-        public long OccurrencesLast7Days { get; set; }
+        public long OccurrencesLastWeek { get; set; }
 
         public long UsersLastHour { get; set; }
 
         public long UsersLastDay { get; set; }
 
-        public long UsersLast7Days { get; set; }
+        public long UsersLastWeek { get; set; }
 
-        public decimal GrowthRate { get; set; }
+        public decimal? GrowthRate { get; set; }
 
         public DateTime CalculatedAt { get; set; }
     }

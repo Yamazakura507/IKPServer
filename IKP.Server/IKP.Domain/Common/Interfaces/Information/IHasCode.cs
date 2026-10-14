@@ -2,6 +2,9 @@
 {
     public interface IHasCode
     {
+        /// <summary>
+        /// Gets or sets the source code.
+        /// </summary>
         string Code { get; set; }
     }
 }
