@@ -10,8 +10,7 @@ namespace IKP.Infrastructure.Services.Extensions
         private const string FormatGuid = "{0}{1}-0000-0000-0000-{2:D12}";
         private const int sortOrderDefault = 10;
 
-        internal static TSeed CreateDefinition<TSeed>(this SeedRecord<TSeed> seedRecord, string? pathKey = null)
-            where TSeed : FullLookupLocalized, new()
+        internal static TSeed CreateDefinition<TSeed>(this SeedRecord<TSeed> seedRecord, string? pathKey = null) where TSeed : FullLookupLocalized, new()
         {
             string nameKey = seedRecord.NameKey ?? (pathKey is null ? throw new ArgumentNullException(nameof(pathKey)) : $"{pathKey}.{seedRecord.Code.ToPascalCase()}");
 
@@ -32,7 +31,7 @@ namespace IKP.Infrastructure.Services.Extensions
             return seed;
         }
 
-        internal static TSeed[] CreateListDefinition<TSeed>(this IReadOnlyCollection<SeedRecord<TSeed>> seedRecords, string? pathKey = null)
+        internal static TSeed[] CreateListDefinition<TSeed>(this IReadOnlyCollection<SeedRecord<TSeed>> seedRecords, string? pathKey = null) 
             where TSeed : FullLookupLocalized, new() =>
                 seedRecords
                     .Select((seedRecord, i) => seedRecord.SortOrder is null ? seedRecord with { SortOrder = sortOrderDefault * (i + 1) } : seedRecord)
@@ -52,6 +51,7 @@ namespace IKP.Infrastructure.Services.Extensions
         internal static void OnSeeds(this ModelBuilder modelBuilder)
         {
             AuditActionSeed.Seed(modelBuilder);
+            AuthenticationMethodSeed.Seed(modelBuilder);
             DiagnosticDefinitionSeed.Seed(modelBuilder);
             DiagnosticAreaSeed.Seed(modelBuilder);
             DiagnosticAreaResolutionSeed.Seed(modelBuilder);

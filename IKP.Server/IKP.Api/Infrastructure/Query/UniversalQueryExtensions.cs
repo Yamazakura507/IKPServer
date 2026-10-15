@@ -144,15 +144,15 @@ public static class UniversalQueryExtensions
     }
 
     private static MethodInfo GetQueryableMethod(bool isSelect) => typeof(Queryable).GetMethods()
-            .Single(x =>
-                x.Name == (isSelect ? nameof(Queryable.Select) : nameof(Queryable.GroupBy)) &&
-                x.IsGenericMethodDefinition &&
-                x.GetGenericArguments().Length == 2 &&
-                x.GetParameters().Length == 2 &&
-                x.GetParameters()[1].ParameterType.IsGenericType &&
-                x.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>) &&
-                x.GetParameters()[1].ParameterType.GetGenericArguments()[0].IsGenericType &&
-                x.GetParameters()[1].ParameterType.GetGenericArguments()[0].GetGenericTypeDefinition() == typeof(Func<,>));
+        .Single(x =>
+            x.Name == (isSelect ? nameof(Queryable.Select) : nameof(Queryable.GroupBy)) &&
+            x.IsGenericMethodDefinition &&
+            x.GetGenericArguments().Length == 2 &&
+            x.GetParameters().Length == 2 &&
+            x.GetParameters()[1].ParameterType.IsGenericType &&
+            x.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>) &&
+            x.GetParameters()[1].ParameterType.GetGenericArguments()[0].IsGenericType &&
+            x.GetParameters()[1].ParameterType.GetGenericArguments()[0].GetGenericTypeDefinition() == typeof(Func<,>));
 
     private static Expression BuildAggregateExpression<TEntity>(ParameterExpression grouping, UniversalAggregateRequest aggregate, IReadOnlyDictionary<string, Expression<Func<TEntity, object?>>> fields)
     {

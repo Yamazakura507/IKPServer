@@ -1,7 +1,9 @@
-﻿using IKP.Api.Diagnostics.Correlation;
+using IKP.Application.Auth.Exceptions;
+using IKP.Api.Diagnostics.Correlation;
 using IKP.Api.Diagnostics.Correlation.Interfaces;
 using IKP.Api.Diagnostics.Models.Errors;
 using IKP.Api.Infrastructure.Query;
+using System.Security.Claims;
 using IKP.Application.Diagnostics.Interfaces;
 using IKP.Application.Diagnostics.Models;
 using IKP.Application.Diagnostics.Services;
@@ -35,6 +37,19 @@ namespace IKP.Api.Diagnostics
         /// <inheritdoc />
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
+            if (exception is AuthOperationException authException)
+            {
+                httpContext.Response.StatusCode = authException.StatusCode;
+                await httpContext.Response.WriteAsJsonAsync(new
+                {
+                    status = authException.StatusCode,
+                    code = authException.Code,
+                    title = authException.Message,
+                    requestId = httpContext.TraceIdentifier
+                }, cancellationToken);
+                return true;
+            }
+
             if (exception is UniversalQueryException)
             {
                 httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -60,7 +75,9 @@ namespace IKP.Api.Diagnostics
                 CorrelationId = correlationId,
                 Endpoint = httpContext.GetEndpoint()?.DisplayName,
                 HttpMethod = httpContext.Request.Method,
-                Route = httpContext.Request.Path
+                Route = httpContext.Request.Path,
+                UserId = Guid.TryParse(httpContext.User.FindFirst("sub")?.Value ?? httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out Guid userId) ? userId : null,
+                SessionId = httpContext.User.FindFirst("sid")?.Value
             };
 
             Guid errorGroupId = Guid.Empty;

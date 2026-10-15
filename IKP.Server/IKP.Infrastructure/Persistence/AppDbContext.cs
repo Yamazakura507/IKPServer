@@ -1,3 +1,7 @@
+using IKP.Domain.Entities.Auth.Credentials;
+using IKP.Domain.Entities.Auth.Lookup;
+using IKP.Domain.Entities.Auth.Sessions;
+using IKP.Domain.Entities.Auth.Users;
 using IKP.Domain.Entities.Diagnostics.Areas;
 using IKP.Domain.Entities.Diagnostics.Criticality;
 using IKP.Domain.Entities.Diagnostics.Definitions;
@@ -18,6 +22,12 @@ namespace IKP.Infrastructure.Persistence
         }
 
         #region DbSets
+        #region Authentication
+        public DbSet<AuthUser> AuthUsers => Set<AuthUser>();
+        public DbSet<UserCredential> UserCredentials => Set<UserCredential>();
+        public DbSet<UserSession> UserSessions => Set<UserSession>();
+        public DbSet<AuthenticationMethodDefinition> AuthenticationMethods => Set<AuthenticationMethodDefinition>();
+        #endregion
         #region App
         public DbSet<Employee> Employees => Set<Employee>();
         #endregion

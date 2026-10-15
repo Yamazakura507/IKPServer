@@ -1,5 +1,7 @@
-﻿using IKP.Domain.Common.Audit;
+using IKP.Application.Common.Interfaces;
+using IKP.Domain.Common.Audit;
 using IKP.Domain.Common.Interfaces.Audit;
+using IKP.Domain.Entities.Auth.Users;
 using IKP.Domain.Entities.Logs;
 using IKP.Infrastructure.Persistence;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
@@ -21,16 +23,21 @@ namespace IKP.Infrastructure.Interceptors
             nameof(IAuditable.UpdatedBy),
             nameof(ISoftDelete.IsDeleted),
             nameof(ISoftDelete.DeletedAt),
-            nameof(ISoftDelete.DeletedBy)
+            nameof(ISoftDelete.DeletedBy),
+            nameof(AuthUser.FailedLoginCount),
+            nameof(AuthUser.LockoutEndAt),
+            nameof(AuthUser.LastLoginAt)
         };
 
         private readonly IAuditValueSerializer valueSerializer;
         private readonly IAuditActionRegistry actionRegistry;
+        private readonly ICurrentUserContext currentUserContext;
 
-        public AuditSaveChangesInterceptor(IAuditValueSerializer valueSerializer, IAuditActionRegistry actionRegistry)
+        public AuditSaveChangesInterceptor(IAuditValueSerializer valueSerializer, IAuditActionRegistry actionRegistry, ICurrentUserContext currentUserContext)
         {
             this.valueSerializer = valueSerializer;
             this.actionRegistry = actionRegistry;
+            this.currentUserContext = currentUserContext;
         }
 
         public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
@@ -58,6 +65,7 @@ namespace IKP.Infrastructure.Interceptors
         private void ProcessChanges(AppDbContext context)
         {
             DateTime now = DateTime.UtcNow;
+            Guid? currentUserId = currentUserContext.UserId;
             IEnumerable<EntityEntry> entries = context.ChangeTracker.Entries().Where(x => x.Entity is IAuditable or ISoftDelete);
 
             foreach (EntityEntry entry in entries)
@@ -67,10 +75,12 @@ namespace IKP.Infrastructure.Interceptors
                     if (entry.State == EntityState.Added)
                     {
                         auditable.CreatedAt = now;
+                        auditable.CreatedBy ??= currentUserId;
                     }
                     else if (entry.State == EntityState.Modified)
                     {
                         auditable.UpdatedAt = now;
+                        auditable.UpdatedBy = currentUserId;
                     }
                 }
 
@@ -78,6 +88,7 @@ namespace IKP.Infrastructure.Interceptors
                 {
                     softDelete.IsDeleted = true;
                     softDelete.DeletedAt = now;
+                    softDelete.DeletedBy = currentUserId;
 
                     entry.State = EntityState.Modified;
                 }
@@ -121,7 +132,7 @@ namespace IKP.Infrastructure.Interceptors
                 EntityType = entry.Metadata.ClrType.Name,
                 EntityId = GetEntityId(entry),
                 ActionId = actionId,
-                UserId = null,
+                UserId = currentUserContext.UserId,
                 CreatedAt = now
             };
 
@@ -159,6 +170,7 @@ namespace IKP.Infrastructure.Interceptors
                 .Entries()
                 .Where(x => x.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
                 .Where(x => x.Entity is IAuditable or ISoftDelete)
+                .Where(ShouldCreateAuditLog)
                 .ToArray();
         }
 
@@ -181,6 +193,14 @@ namespace IKP.Infrastructure.Interceptors
             }
 
             return AuditActionCodes.Update;
+        }
+
+
+        private static bool ShouldCreateAuditLog(EntityEntry entry)
+        {
+            if (entry.State != EntityState.Modified) return true;
+            if (entry.Entity is ISoftDelete && entry.Property(nameof(ISoftDelete.IsDeleted)).IsModified) return true;
+            return entry.Properties.Any(x => x.IsModified && !AuditSystemProperties.Contains(x.Metadata.Name));
         }
 
         private static Guid GetEntityId(EntityEntry entry) => (Guid)entry.Properties.First(x => x.Metadata.IsPrimaryKey()).CurrentValue!;
