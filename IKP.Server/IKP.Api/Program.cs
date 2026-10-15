@@ -1,17 +1,17 @@
 using IKP.Api.Diagnostics;
 using IKP.Api.Diagnostics.Correlation;
 using IKP.Api.Diagnostics.Correlation.Interfaces;
-using IKP.Application.Diagnostics.Exceptions;
-using IKP.Application.Diagnostics.Exceptions.Interfaces;
 using IKP.Application.Diagnostics.Criticality.Interfaces;
 using IKP.Application.Diagnostics.Criticality.Models;
 using IKP.Application.Diagnostics.Criticality.Services;
+using IKP.Application.Diagnostics.Exceptions;
+using IKP.Application.Diagnostics.Exceptions.Interfaces;
 using IKP.Application.Diagnostics.Fingerprinting;
 using IKP.Application.Diagnostics.Fingerprinting.Interfaces;
 using IKP.Application.Diagnostics.Interfaces;
-using IKP.Application.Diagnostics.Services;
 using IKP.Application.Diagnostics.Resolvers;
 using IKP.Application.Diagnostics.Resolvers.Interfaces;
+using IKP.Application.Diagnostics.Services;
 using IKP.Application.Diagnostics.Statistics.Interfaces;
 using IKP.Application.Diagnostics.Statistics.Models;
 using IKP.Application.Diagnostics.Statistics.Services;
@@ -22,9 +22,10 @@ using IKP.Infrastructure.Services.Audit;
 using IKP.Infrastructure.Services.Audit.Interfaces;
 using IKP.Infrastructure.Services.Diagnostics;
 using IKP.Infrastructure.Services.Redis;
+using IKP.Infrastructure.Services.Redis.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using IKP.Infrastructure.Services.Redis.Interfaces;
+using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -71,7 +72,11 @@ builder.Services.AddDbContextFactory<AppDbContext>(
         options.AddInterceptors(serviceProvider.GetRequiredService<AuditSaveChangesInterceptor>());
     });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddOpenApi();
 
 WebApplication app = builder.Build();

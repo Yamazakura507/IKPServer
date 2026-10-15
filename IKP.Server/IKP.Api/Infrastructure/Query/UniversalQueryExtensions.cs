@@ -110,14 +110,10 @@ public static class UniversalQueryExtensions
 
         MemberInitExpression projection = Expression.MemberInit(Expression.New(rowType), bindings);
         LambdaExpression projectionLambda = Expression.Lambda(projection, groupingParameter);
-        MethodInfo groupByMethod = typeof(Queryable).GetMethods()
-            .Single(x => x.Name == nameof(Queryable.GroupBy) && x.GetParameters().Length == 2 && x.GetParameters()[1].ParameterType.GetGenericArguments().Length == 2)
-            .MakeGenericMethod(typeof(TEntity), groupType);
-        MethodInfo selectMethod = typeof(Queryable).GetMethods()
-            .Single(x => x.Name == nameof(Queryable.Select) && x.GetParameters().Length == 2 && x.GetParameters()[1].ParameterType.GetGenericArguments().Length == 2)
-            .MakeGenericMethod(groupingType, rowType);
+        MethodInfo groupByMethod = GetQueryableMethod(false).MakeGenericMethod(typeof(TEntity), groupType);
+        MethodInfo selectMethod = GetQueryableMethod(true).MakeGenericMethod(groupingType, rowType);
 
-        LambdaExpression typedGroupSelector = Expression.Lambda(GetSelectorBody(groupSelector), groupSelector.Parameters);
+        LambdaExpression typedGroupSelector = Expression.Lambda(GetSelectorBody(groupSelector.Body), groupSelector.Parameters);
         IQueryable groupedQuery = (IQueryable)groupByMethod.Invoke(null, [query, typedGroupSelector])!;
         IQueryable resultQuery = (IQueryable)selectMethod.Invoke(null, [groupedQuery, projectionLambda])!;
         int page = request.Page;
@@ -146,6 +142,17 @@ public static class UniversalQueryExtensions
             Rows = resultRows
         };
     }
+
+    private static MethodInfo GetQueryableMethod(bool isSelect) => typeof(Queryable).GetMethods()
+            .Single(x =>
+                x.Name == (isSelect ? nameof(Queryable.Select) : nameof(Queryable.GroupBy)) &&
+                x.IsGenericMethodDefinition &&
+                x.GetGenericArguments().Length == 2 &&
+                x.GetParameters().Length == 2 &&
+                x.GetParameters()[1].ParameterType.IsGenericType &&
+                x.GetParameters()[1].ParameterType.GetGenericTypeDefinition() == typeof(Expression<>) &&
+                x.GetParameters()[1].ParameterType.GetGenericArguments()[0].IsGenericType &&
+                x.GetParameters()[1].ParameterType.GetGenericArguments()[0].GetGenericTypeDefinition() == typeof(Func<,>));
 
     private static Expression BuildAggregateExpression<TEntity>(ParameterExpression grouping, UniversalAggregateRequest aggregate, IReadOnlyDictionary<string, Expression<Func<TEntity, object?>>> fields)
     {
