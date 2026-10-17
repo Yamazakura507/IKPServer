@@ -1,6 +1,7 @@
 using IKP.Application.Common.Interfaces;
 using IKP.Domain.Common.Audit;
 using IKP.Domain.Common.Interfaces.Audit;
+using IKP.Domain.Entities.Auth.Credentials;
 using IKP.Domain.Entities.Auth.Users;
 using IKP.Domain.Entities.Logs;
 using IKP.Infrastructure.Persistence;
@@ -26,7 +27,8 @@ namespace IKP.Infrastructure.Interceptors
             nameof(ISoftDelete.DeletedBy),
             nameof(AuthUser.FailedLoginCount),
             nameof(AuthUser.LockoutEndAt),
-            nameof(AuthUser.LastLoginAt)
+            nameof(AuthUser.LastLoginAt),
+            nameof(UserCredential.LastUsedAt)
         };
 
         private readonly IAuditValueSerializer valueSerializer;
@@ -129,7 +131,7 @@ namespace IKP.Infrastructure.Interceptors
             {
                 Id = Guid.NewGuid(),
                 EntitySchema = entry.Metadata.GetSchema() ?? DatabaseSchemas.App,
-                EntityType = entry.Metadata.ClrType.Name,
+                EntityType = entry.Metadata.GetTableName() ?? entry.Metadata.ClrType.Name,
                 EntityId = GetEntityId(entry),
                 ActionId = actionId,
                 UserId = currentUserContext.UserId,
@@ -194,7 +196,6 @@ namespace IKP.Infrastructure.Interceptors
 
             return AuditActionCodes.Update;
         }
-
 
         private static bool ShouldCreateAuditLog(EntityEntry entry)
         {

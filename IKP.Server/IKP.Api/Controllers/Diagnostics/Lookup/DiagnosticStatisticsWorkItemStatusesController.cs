@@ -1,3 +1,5 @@
+using IKP.Application.Auth.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using IKP.Api.Infrastructure.Query;
 using IKP.Application.Common.Query;
@@ -12,6 +14,7 @@ namespace IKP.Api.Controllers.Diagnostics.Lookup;
 /// Provides diagnostic statistics work item status lookup operations.
 /// </summary>
 [ApiController]
+[Authorize(Policy = AuthorizationPolicyNames.DiagnosticsRead)]
 [Route("api/diagnostics/lookups/statistics-work-item-statuses")]
 public sealed class DiagnosticStatisticsWorkItemStatusesController : ControllerBase
 {

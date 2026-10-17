@@ -1,3 +1,5 @@
+using IKP.Application.Auth.Authorization;
+using Microsoft.AspNetCore.Authorization;
 ﻿using IKP.Domain.Entities.Employees;
 using IKP.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace IKP.Api.Controllers
 {
     [ApiController]
+    [Authorize(Policy = AuthorizationPolicyNames.EmployeesRead)]
     [Route("api/[controller]")]
     public class EmployeesController : ControllerBase
     {
@@ -33,6 +36,7 @@ namespace IKP.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = AuthorizationPolicyNames.EmployeesManage)]
         public async Task<IActionResult> Create([FromBody] CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
             Employee employee = new ()
@@ -50,6 +54,7 @@ namespace IKP.Api.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [Authorize(Policy = AuthorizationPolicyNames.EmployeesManage)]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEmployeeRequest request, CancellationToken cancellationToken)
         {
             Employee? employee = await db.Employees.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
@@ -66,6 +71,7 @@ namespace IKP.Api.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Policy = AuthorizationPolicyNames.EmployeesManage)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             Employee? employee = await db.Employees.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
@@ -80,6 +86,7 @@ namespace IKP.Api.Controllers
         }
 
         [HttpPost("{id:guid}/restore")]
+        [Authorize(Policy = AuthorizationPolicyNames.EmployeesManage)]
         public async Task<IActionResult> Restore(Guid id, CancellationToken cancellationToken)
         {
             Employee? employee = await db.Employees.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);

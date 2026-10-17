@@ -2,6 +2,8 @@ using IKP.Domain.Entities.Auth.Credentials;
 using IKP.Domain.Entities.Auth.Lookup;
 using IKP.Domain.Entities.Auth.Sessions;
 using IKP.Domain.Entities.Auth.Users;
+using IKP.Domain.Entities.Auth.Roles;
+using IKP.Domain.Entities.Auth.Permissions;
 using IKP.Domain.Entities.Diagnostics.Areas;
 using IKP.Domain.Entities.Diagnostics.Criticality;
 using IKP.Domain.Entities.Diagnostics.Definitions;
@@ -23,10 +25,16 @@ namespace IKP.Infrastructure.Persistence
 
         #region DbSets
         #region Authentication
+        #region Lookup
+        public DbSet<AuthRole> AuthRoles => Set<AuthRole>();
+        public DbSet<AuthPermission> AuthPermissions => Set<AuthPermission>();
+        public DbSet<AuthenticationMethodDefinition> AuthenticationMethods => Set<AuthenticationMethodDefinition>();
+        #endregion
         public DbSet<AuthUser> AuthUsers => Set<AuthUser>();
         public DbSet<UserCredential> UserCredentials => Set<UserCredential>();
         public DbSet<UserSession> UserSessions => Set<UserSession>();
-        public DbSet<AuthenticationMethodDefinition> AuthenticationMethods => Set<AuthenticationMethodDefinition>();
+        public DbSet<AuthUserRole> AuthUserRoles => Set<AuthUserRole>();
+        public DbSet<AuthRolePermission> AuthRolePermissions => Set<AuthRolePermission>();
         #endregion
         #region App
         public DbSet<Employee> Employees => Set<Employee>();

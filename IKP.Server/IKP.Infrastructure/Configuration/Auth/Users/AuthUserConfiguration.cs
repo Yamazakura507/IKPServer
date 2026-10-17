@@ -12,7 +12,9 @@ public class AuthUserConfiguration : IEntityTypeConfiguration<AuthUser>
     public void Configure(EntityTypeBuilder<AuthUser> builder)
     {
         builder.ToTable("Users", DatabaseSchemas.Auth);
+
         builder.HasKey(x => x.Id);
+
         builder.Property(x => x.UserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.NormalizedUserName).IsRequired().HasMaxLength(100);
         builder.Property(x => x.Email).HasMaxLength(320);
@@ -30,6 +32,7 @@ public class AuthUserConfiguration : IEntityTypeConfiguration<AuthUser>
         builder.Property(x => x.IsDeleted).IsRequired();
         builder.Property(x => x.DeletedAt);
         builder.Property(x => x.DeletedBy);
+
         builder.HasIndex(x => x.NormalizedUserName).IsUnique();
         builder.HasIndex(x => x.NormalizedEmail).IsUnique().HasFilter("\"NormalizedEmail\" IS NOT NULL");
         builder.HasIndex(x => new { x.IsActive, x.IsDeleted });

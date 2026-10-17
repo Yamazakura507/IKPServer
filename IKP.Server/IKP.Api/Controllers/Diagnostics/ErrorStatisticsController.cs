@@ -1,3 +1,5 @@
+using IKP.Application.Auth.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using IKP.Api.Infrastructure.Query;
 using IKP.Application.Common.Query;
@@ -10,6 +12,7 @@ namespace IKP.Api.Controllers.Diagnostics;
 
 /// <summary>Provides aggregated diagnostic error statistics.</summary>
 [ApiController]
+[Authorize(Policy = AuthorizationPolicyNames.DiagnosticsRead)]
 [Route("api/diagnostics/error-statistics")]
 public sealed class ErrorStatisticsController : ControllerBase
 {

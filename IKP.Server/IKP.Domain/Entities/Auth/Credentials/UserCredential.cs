@@ -1,4 +1,5 @@
 using IKP.Domain.Common.Base;
+using IKP.Domain.Common.Interfaces.Audit;
 using IKP.Domain.Entities.Auth.Lookup;
 using IKP.Domain.Entities.Auth.Users;
 
@@ -7,7 +8,7 @@ namespace IKP.Domain.Entities.Auth.Credentials;
 /// <summary>
 /// Stores a password hash or another method-specific credential without exposing secrets to audit logs.
 /// </summary>
-public class UserCredential : Entity
+public class UserCredential : Entity, IAuditable, ISoftDelete
 {
     /// <summary>
     /// Gets or sets the owner user identifier.
@@ -34,15 +35,26 @@ public class UserCredential : Entity
     /// </summary>
     public bool MustChangePassword { get; set; }
 
-    /// <summary>
-    /// Gets or sets the creation timestamp in UTC.
-    /// </summary>
+    /// <inheritdoc/>
     public DateTime CreatedAt { get; set; }
 
-    /// <summary>
-    /// Gets or sets the most recent credential update timestamp in UTC.
-    /// </summary>
+    /// <inheritdoc/>
+    public Guid? CreatedBy { get; set; }
+
+    /// <inheritdoc/>
     public DateTime? UpdatedAt { get; set; }
+
+    /// <inheritdoc/>
+    public Guid? UpdatedBy { get; set; }
+
+    /// <inheritdoc />
+    public bool IsDeleted { get; set; }
+
+    /// <inheritdoc />
+    public DateTime? DeletedAt { get; set; }
+
+    /// <inheritdoc />
+    public Guid? DeletedBy { get; set; }
 
     /// <summary>
     /// Gets or sets the most recent successful use timestamp in UTC.
@@ -58,4 +70,5 @@ public class UserCredential : Entity
     /// Gets or sets the authentication method navigation property.
     /// </summary>
     public AuthenticationMethodDefinition AuthenticationMethod { get; set; } = null!;
+    
 }

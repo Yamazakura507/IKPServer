@@ -1,3 +1,5 @@
+using IKP.Application.Auth.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using IKP.Api.Diagnostics.Models.Logs;
 using IKP.Api.Infrastructure.Query;
 using IKP.Application.Common.Query;
@@ -19,6 +21,7 @@ namespace IKP.Api.Controllers.Logs;
 /// Provides read and controlled rollback operations for audit logs.
 /// </summary>
 [ApiController]
+[Authorize(Policy = AuthorizationPolicyNames.AuditRead)]
 [Route("api/logs/audit")]
 public sealed class AuditLogsController : ControllerBase
 {
@@ -90,6 +93,7 @@ public sealed class AuditLogsController : ControllerBase
     /// Rolls an audit event back according to its action semantics.
     /// </summary>
     [HttpPost("{id:guid}/rollback")]
+    [Authorize(Policy = AuthorizationPolicyNames.AuditRollback)]
     public async Task<ActionResult<AuditLogResponse>> Rollback(Guid id, CancellationToken cancellationToken)
     {
         await using AppDbContext db = await dbContextFactory.CreateDbContextAsync(cancellationToken);

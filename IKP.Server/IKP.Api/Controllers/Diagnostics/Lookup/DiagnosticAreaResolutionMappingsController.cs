@@ -1,3 +1,5 @@
+using IKP.Application.Auth.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
 using IKP.Api.Infrastructure.Query;
@@ -14,6 +16,7 @@ namespace IKP.Api.Controllers.Diagnostics.Lookup
     /// Provides management operations for diagnostic area resolution mappings.
     /// </summary>
     [ApiController]
+[Authorize(Policy = AuthorizationPolicyNames.DiagnosticsRead)]
     [Route("api/diagnostics/resolution-mappings")]
     public sealed class DiagnosticAreaResolutionMappingsController : ControllerBase
     {
@@ -152,6 +155,7 @@ namespace IKP.Api.Controllers.Diagnostics.Lookup
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The created mapping.</returns>
         [HttpPost]
+        [Authorize(Policy = AuthorizationPolicyNames.DiagnosticsManage)]
         public async Task<ActionResult<DiagnosticAreaResolutionMappingResponse>> Create([FromBody] CreateDiagnosticAreaResolutionMappingRequest request, CancellationToken cancellationToken)
         {
             ValidationProblemDetails? validation = ValidateRequest(request.Pattern, request.Priority, request.Confidence);
@@ -198,6 +202,7 @@ namespace IKP.Api.Controllers.Diagnostics.Lookup
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The updated mapping.</returns>
         [HttpPut("{id:guid}")]
+        [Authorize(Policy = AuthorizationPolicyNames.DiagnosticsManage)]
         public async Task<ActionResult<DiagnosticAreaResolutionMappingResponse>> Update(Guid id, [FromBody] UpdateDiagnosticAreaResolutionMappingRequest request, CancellationToken cancellationToken)
         {
             ValidationProblemDetails? validation = ValidateRequest(request.Pattern, request.Priority, request.Confidence);
@@ -242,6 +247,7 @@ namespace IKP.Api.Controllers.Diagnostics.Lookup
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>No content when deletion succeeds.</returns>
         [HttpDelete("{id:guid}")]
+        [Authorize(Policy = AuthorizationPolicyNames.DiagnosticsManage)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await using AppDbContext db = await dbContextFactory.CreateDbContextAsync(cancellationToken);
@@ -263,6 +269,7 @@ namespace IKP.Api.Controllers.Diagnostics.Lookup
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The activated mapping.</returns>
         [HttpPost("{id:guid}/activate")]
+        [Authorize(Policy = AuthorizationPolicyNames.DiagnosticsManage)]
         public Task<ActionResult<DiagnosticAreaResolutionMappingResponse>> Activate(Guid id, CancellationToken cancellationToken) => SetActiveStateAsync(id, true, cancellationToken);
 
         /// <summary>
@@ -272,6 +279,7 @@ namespace IKP.Api.Controllers.Diagnostics.Lookup
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The deactivated mapping.</returns>
         [HttpPost("{id:guid}/deactivate")]
+        [Authorize(Policy = AuthorizationPolicyNames.DiagnosticsManage)]
         public Task<ActionResult<DiagnosticAreaResolutionMappingResponse>> Deactivate(Guid id, CancellationToken cancellationToken) => SetActiveStateAsync(id, false, cancellationToken);
 
         private async Task<ActionResult<DiagnosticAreaResolutionMappingResponse>> SetActiveStateAsync(Guid id, bool isActive, CancellationToken cancellationToken)

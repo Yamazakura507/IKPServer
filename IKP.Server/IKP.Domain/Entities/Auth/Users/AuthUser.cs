@@ -2,6 +2,7 @@ using IKP.Domain.Common.Base;
 using IKP.Domain.Common.Interfaces.Audit;
 using IKP.Domain.Entities.Auth.Credentials;
 using IKP.Domain.Entities.Auth.Sessions;
+using IKP.Domain.Entities.Auth.Roles;
 
 namespace IKP.Domain.Entities.Auth.Users;
 
@@ -90,4 +91,9 @@ public class AuthUser : Entity, IAuditable, ISoftDelete
     /// Gets the sessions issued to this account.
     /// </summary>
     public ICollection<UserSession> Sessions { get; set; } = new List<UserSession>();
+
+    /// <summary>
+    /// Gets the authorization roles assigned to this account.
+    /// </summary>
+    public ICollection<AuthUserRole> UserRoles { get; set; } = new List<AuthUserRole>();
 }

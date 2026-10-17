@@ -9,6 +9,7 @@ using IKP.Domain.Common.Auth;
 using IKP.Domain.Entities.Auth.Credentials;
 using IKP.Domain.Entities.Auth.Lookup;
 using IKP.Domain.Entities.Auth.Sessions;
+using IKP.Domain.Entities.Auth.Roles;
 using IKP.Domain.Entities.Auth.Users;
 using IKP.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace IKP.Infrastructure.Services.Auth;
 
-/// <summary>Implements password authentication and rotating refresh-token sessions.</summary>
+/// <summary>
+/// Implements password authentication and rotating refresh-token sessions.
+/// </summary>
 public sealed class UserAuthenticationService : IUserAuthenticationService
 {
     private readonly AppDbContext db;
@@ -42,6 +45,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
     public async ValueTask<AuthTokenResponse> BootstrapAsync(AuthBootstrapRequest request, string? ipAddress, string? userAgent, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
+
         ValidateAccountInput(request.UserName, request.DisplayName, request.Email, request.Password);
 
         string? configuredSecret = options.BootstrapSecret;
@@ -73,7 +77,6 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
             IsBootstrapAccount = true,
             IsActive = true
         };
-
         string passwordHash = passwordHasher.HashPassword(user, request.Password);
         AuthenticationMethodDefinition method = await GetPasswordMethodAsync(cancellationToken);
         UserCredential credential = new()
@@ -87,6 +90,18 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
 
         db.AuthUsers.Add(user);
         db.UserCredentials.Add(credential);
+
+        AuthRole? systemAdministratorRole = await db.AuthRoles.FirstOrDefaultAsync(x => x.Code == AuthorizationRoleCodes.SystemAdministrator && x.IsActive, cancellationToken);
+        
+        if (systemAdministratorRole is null) throw new InvalidOperationException("The system administrator role has not been seeded. Apply the latest EF migration.");
+        
+        user.UserRoles.Add(new AuthUserRole
+        {
+            UserId = user.Id,
+            RoleId = systemAdministratorRole.Id,
+            CreatedAt = DateTime.UtcNow
+        });
+
         await db.SaveChangesAsync(cancellationToken);
 
         AuthTokenResponse response = await CreateSessionAsync(user, ipAddress, userAgent, cancellationToken);
@@ -104,6 +119,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
         if (string.IsNullOrWhiteSpace(request.UserNameOrEmail) || string.IsNullOrEmpty(request.Password)) throw InvalidCredentials();
 
         string normalizedIdentifier = Normalize(request.UserNameOrEmail);
+
         Guid? candidateUserId = await db.AuthUsers.AsNoTracking()
             .Where(x => x.NormalizedUserName == normalizedIdentifier || x.NormalizedEmail == normalizedIdentifier)
             .OrderByDescending(x => x.NormalizedUserName == normalizedIdentifier)
@@ -142,6 +158,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
 
             await db.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
+
             throw InvalidCredentials();
         }
 
@@ -157,6 +174,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
         AuthTokenResponse response = await CreateSessionAsync(user, ipAddress, userAgent, cancellationToken);
 
         await transaction.CommitAsync(cancellationToken);
+
         return response;
     }
 
@@ -173,6 +191,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
         if (!initialSessionId.HasValue) throw InvalidRefreshToken();
 
         await db.Database.ExecuteSqlInterpolatedAsync($"SELECT pg_advisory_xact_lock(hashtextextended(CAST({initialSessionId.Value} AS text), 3));", cancellationToken);
+        
         UserSession? session = await db.UserSessions.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == initialSessionId.Value, cancellationToken);
         
         if (session is null) throw InvalidRefreshToken();
@@ -184,6 +203,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
             await RevokeAllSessionsAsync(session.UserId, now, cancellationToken);
             await db.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
+
             throw InvalidRefreshToken();
         }
 
@@ -192,6 +212,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
             session.RevokedAt = now;
             await db.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
+
             throw InvalidRefreshToken();
         }
 
@@ -228,6 +249,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
         if (session is not null && !session.RevokedAt.HasValue)
         {
             session.RevokedAt = DateTime.UtcNow;
+
             await db.SaveChangesAsync(cancellationToken);
         }
 
@@ -279,6 +301,7 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
     {
         DateTime now = DateTime.UtcNow;
         string refreshToken = CreateRefreshToken();
+
         UserSession session = new()
         {
             UserId = user.Id,
@@ -292,8 +315,25 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
         db.UserSessions.Add(session);
         await db.SaveChangesAsync(cancellationToken);
 
+        if (user.IsBootstrapAccount && !await db.AuthUserRoles.AnyAsync(x => x.UserId == user.Id && x.Role.Code == AuthorizationRoleCodes.SystemAdministrator, cancellationToken))
+        {
+            AuthRole? systemAdministratorRole = await db.AuthRoles.FirstOrDefaultAsync(x => x.Code == AuthorizationRoleCodes.SystemAdministrator && x.IsActive, cancellationToken);
+            
+            if (systemAdministratorRole is null) throw new InvalidOperationException("The system administrator role has not been seeded. Apply the latest EF migration.");
+            
+            db.AuthUserRoles.Add(new AuthUserRole
+            {
+                UserId = user.Id,
+                RoleId = systemAdministratorRole.Id,
+                CreatedAt = DateTime.UtcNow
+            });
+
+            await db.SaveChangesAsync(cancellationToken);
+        }
+
         int expiresIn = checked(options.AccessTokenMinutes * 60);
         DateTime expiresAt = now.AddMinutes(options.AccessTokenMinutes);
+
         List<Claim> claims =
         [
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
@@ -302,6 +342,24 @@ public sealed class UserAuthenticationService : IUserAuthenticationService
             new("sid", session.Id.ToString()),
             new("display_name", user.DisplayName)
         ];
+
+        List<string> roleCodes = await db.AuthUserRoles
+            .Where(x => x.UserId == user.Id && x.Role.IsActive)
+            .Select(x => x.Role.Code)
+            .Distinct()
+            .ToListAsync(cancellationToken);
+
+        List<string> permissionCodes = await db.AuthUserRoles
+            .Where(x => x.UserId == user.Id && x.Role.IsActive)
+            .SelectMany(x => x.Role.RolePermissions)
+            .Where(x => x.Permission.IsActive)
+            .Select(x => x.Permission.Code)
+            .Distinct()
+            .ToListAsync(cancellationToken);
+
+        claims.AddRange(roleCodes.Select(x => new Claim(ClaimTypes.Role, x)));
+        claims.AddRange(permissionCodes.Select(x => new Claim("permission", x)));
+
         SigningCredentials credentials = new(new SymmetricSecurityKey(signingKey), SecurityAlgorithms.HmacSha256);
         JwtSecurityToken token = new(options.Issuer, options.Audience, claims, now, expiresAt, credentials);
 

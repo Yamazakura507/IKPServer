@@ -155,3 +155,7 @@ There must be no plaintext password or refresh token in these tables. `SecretHas
 - Logout and password change revoke refresh sessions. Already-issued JWT access tokens can remain valid until their short expiry; immediate per-request session revocation is not implemented.
 - The one-time bootstrap endpoint is not a user-registration endpoint.
 - Next: `Roles`, `Permissions`, `UserRoles`, `RolePermissions`, `UserPermissions` (if direct grants are required), authorization policies, and administrator-only user provisioning/deactivation.
+
+## RBAC / administrator stage
+
+The authentication foundation is now extended by the role-based authorization stage described in `docs/RBAC-Administration.md`. This adds `auth.Roles`, `auth.Permissions`, `auth.UserRoles` and `auth.RolePermissions`, permission-based authorization policies, system administrator bootstrap protection, and administrator-only user/role management.

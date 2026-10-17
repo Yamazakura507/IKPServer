@@ -1,3 +1,5 @@
+using IKP.Application.Auth.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using IKP.Api.Infrastructure.Query;
 using IKP.Application.Common.Query;
@@ -12,6 +14,7 @@ namespace IKP.Api.Controllers.Diagnostics;
 /// Provides diagnostic criticality factor read operations.
 /// </summary>
 [ApiController]
+[Authorize(Policy = AuthorizationPolicyNames.DiagnosticsRead)]
 [Route("api/diagnostics/criticality-factors")]
 public sealed class ErrorCriticalityFactorsController : ControllerBase
 {

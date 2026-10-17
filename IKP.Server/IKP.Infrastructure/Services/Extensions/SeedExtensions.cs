@@ -51,7 +51,10 @@ namespace IKP.Infrastructure.Services.Extensions
         internal static void OnSeeds(this ModelBuilder modelBuilder)
         {
             AuditActionSeed.Seed(modelBuilder);
+
             AuthenticationMethodSeed.Seed(modelBuilder);
+            AuthorizationSeed.Seed(modelBuilder);
+
             DiagnosticDefinitionSeed.Seed(modelBuilder);
             DiagnosticAreaSeed.Seed(modelBuilder);
             DiagnosticAreaResolutionSeed.Seed(modelBuilder);
