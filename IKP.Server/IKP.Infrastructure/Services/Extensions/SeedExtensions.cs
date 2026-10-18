@@ -60,6 +60,11 @@ namespace IKP.Infrastructure.Services.Extensions
             DiagnosticAreaResolutionSeed.Seed(modelBuilder);
             DiagnosticAreaResolutionMappingSeed.Seed(modelBuilder);
             DiagnosticStatisticsWorkItemStatusSeed.Seed(modelBuilder);
+
+            SupportTicketStatusSeed.Seed(modelBuilder);
+            SupportTicketPrioritySeed.Seed(modelBuilder);
+            SupportTicketCategorySeed.Seed(modelBuilder);
+            SupportAuthorizationSeed.Seed(modelBuilder);
         }
     }
 }

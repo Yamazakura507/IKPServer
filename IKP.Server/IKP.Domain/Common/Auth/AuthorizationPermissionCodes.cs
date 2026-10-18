@@ -3,7 +3,7 @@ namespace IKP.Domain.Common.Auth;
 /// <summary>
 /// Contains stable authorization permission codes used by the server.
 /// </summary>
-public static class AuthorizationPermissionCodes
+public static partial class AuthorizationPermissionCodes
 {
     /// <summary>
     /// Grants unrestricted server administration.

@@ -12,6 +12,8 @@ using IKP.Domain.Entities.Diagnostics.Statistics;
 using IKP.Domain.Entities.Employees;
 using IKP.Domain.Entities.Files;
 using IKP.Domain.Entities.Logs;
+using IKP.Domain.Entities.Support;
+using IKP.Domain.Entities.Support.Lookups;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using IKP.Infrastructure.Services.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +46,17 @@ namespace IKP.Infrastructure.Persistence
         public DbSet<FileBlob> FileBlobs => Set<FileBlob>();
         public DbSet<StoredFile> Files => Set<StoredFile>();
         public DbSet<FileUploadSession> FileUploadSessions => Set<FileUploadSession>();
+        #endregion
+        #region Support
+        public DbSet<SupportTicket> SupportTickets => Set<SupportTicket>();
+        public DbSet<SupportTicketMessage> SupportTicketMessages => Set<SupportTicketMessage>();
+        public DbSet<SupportTicketMessageAttachment> SupportTicketMessageAttachments => Set<SupportTicketMessageAttachment>();
+        public DbSet<SupportTicketAssignment> SupportTicketAssignments => Set<SupportTicketAssignment>();
+        #region Lookup
+        public DbSet<SupportTicketStatus> SupportTicketStatuses => Set<SupportTicketStatus>();
+        public DbSet<SupportTicketPriority> SupportTicketPriorities => Set<SupportTicketPriority>();
+        public DbSet<SupportTicketCategory> SupportTicketCategories => Set<SupportTicketCategory>();
+        #endregion
         #endregion
         #region Logs
         #region Lookup

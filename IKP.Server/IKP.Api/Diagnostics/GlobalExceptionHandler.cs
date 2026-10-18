@@ -6,8 +6,8 @@ using IKP.Api.Infrastructure.Query;
 using System.Security.Claims;
 using IKP.Application.Diagnostics.Interfaces;
 using IKP.Application.Files.Exceptions;
+using IKP.Application.Support.Exceptions;
 using IKP.Application.Diagnostics.Models;
-using IKP.Application.Diagnostics.Services;
 using IKP.Domain.Common.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 
@@ -59,6 +59,19 @@ namespace IKP.Api.Diagnostics
                     status = fileException.StatusCode,
                     code = fileException.Code,
                     title = fileException.Message,
+                    requestId = httpContext.TraceIdentifier
+                }, cancellationToken);
+                return true;
+            }
+
+            if (exception is SupportOperationException supportException)
+            {
+                httpContext.Response.StatusCode = supportException.StatusCode;
+                await httpContext.Response.WriteAsJsonAsync(new
+                {
+                    status = supportException.StatusCode,
+                    code = supportException.Code,
+                    title = supportException.Message,
                     requestId = httpContext.TraceIdentifier
                 }, cancellationToken);
                 return true;

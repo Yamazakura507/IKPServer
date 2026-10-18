@@ -12,10 +12,10 @@ public static class AuthorizationSeed
 {
     private const string PathBaseKey = "Auth.Authorization";
     private const string PathRoleKey = $"{PathBaseKey}.Role.Permission";
-    private const string PathPermissionKey = $"{PathBaseKey}";
-    private const uint BaseIndex = 8;
+    internal const string PathPermissionKey = $"{PathBaseKey}";
+    internal const uint BaseIndex = 8;
 
-    private static readonly Guid SystemAdminRoleId = BaseIndex.GetGuidForLevel(0, 1);
+    internal static readonly Guid SystemAdminRoleId = BaseIndex.GetGuidForLevel(0, 1);
     private static readonly Guid SystemAdminPermissionId = BaseIndex.GetGuidForLevel(1, 1);
     private static readonly Guid UsersReadPermissionId = BaseIndex.GetGuidForLevel(1, 2);
     private static readonly Guid UsersCreatePermissionId = BaseIndex.GetGuidForLevel(1, 3);

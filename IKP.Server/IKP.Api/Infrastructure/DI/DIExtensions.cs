@@ -35,6 +35,8 @@ using IKP.Infrastructure.Services.Diagnostics;
 using IKP.Infrastructure.Services.Files;
 using IKP.Infrastructure.Services.Redis;
 using IKP.Infrastructure.Services.Redis.Interfaces;
+using IKP.Infrastructure.Services.Support;
+using IKP.Application.Support.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -50,7 +52,7 @@ namespace IKP.Api.Infrastructure.DI
 {
     internal static class DIExtensions
     {
-        internal static string ConectionString { get; private set; }
+        internal static string? ConectionString { get; private set; }
 
         internal const string MigrationHistory = "__EFMigrationsHistory";
 
@@ -81,6 +83,7 @@ namespace IKP.Api.Infrastructure.DI
         private static void AddSingletons(this WebApplicationBuilder builder, string connectionString)
         {
             builder.Services.AddSingleton(NpgsqlDataSource.Create(connectionString));
+            builder.Services.AddSingleton<IFileStorageProvider, LocalFileStorageProvider>();
             builder.AddSingletonsAudit();
             builder.AddSingletonsDiagnostics();
             builder.AddSingletoneAuth();
@@ -91,12 +94,12 @@ namespace IKP.Api.Infrastructure.DI
             builder.AddScopedDiagnostics();
             builder.AddScopedAuth();
             builder.AddScopedFiles();
+            builder.AddScopedSupport();
         }
 
         private static void AddSingletonsAudit(this WebApplicationBuilder builder)
         {
             builder.Services.AddSingleton<IAuditValueSerializer, AuditValueSerializer>();
-            builder.Services.AddSingleton<IFileStorageProvider, LocalFileStorageProvider>();
             builder.Services.AddSingleton<IAuditActionRegistry, AuditActionRegistry>();
             builder.Services.AddSingleton<AuditSaveChangesInterceptor>();
         }
@@ -136,6 +139,11 @@ namespace IKP.Api.Infrastructure.DI
         private static void AddScopedFiles(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IFileService, FileService>();
+        }
+
+        private static void AddScopedSupport(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<ISupportService, SupportService>();
         }
 
         private static void AddConfigures(this WebApplicationBuilder builder)
