@@ -1,4 +1,5 @@
-﻿using IKP.Domain.Entities.Diagnostics.Definitions;
+using IKP.Domain.Entities.Files;
+using IKP.Domain.Entities.Diagnostics.Definitions;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -24,6 +25,12 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Definitions
             builder.Property(x => x.NameKey).IsRequired().HasMaxLength(200);
             builder.Property(x => x.DescriptionKey).HasMaxLength(500);
             builder.Property(x => x.FileId);
+        builder.HasOne<StoredFile>()
+            .WithMany()
+            .HasForeignKey(x => x.FileId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasIndex(x => x.FileId);
             builder.Property(x => x.SortOrder).IsRequired();
             builder.Property(x => x.IsActive).IsRequired();
             builder.Property(x => x.IsSystem).IsRequired();

@@ -57,4 +57,13 @@ public static class AuthorizationPolicyNames
 
     /// <summary>Gets the policy that requires employee management access.</summary>
     public const string EmployeesManage = AuthorizationPermissionCodes.EmployeesManage;
+
+    /// <summary>Gets the policy that requires file read access.</summary>
+    public const string FilesRead = AuthorizationPermissionCodes.FilesRead;
+
+    /// <summary>Gets the policy that requires file creation access.</summary>
+    public const string FilesCreate = AuthorizationPermissionCodes.FilesCreate;
+
+    /// <summary>Gets the policy that requires file deletion access.</summary>
+    public const string FilesDelete = AuthorizationPermissionCodes.FilesDelete;
 }

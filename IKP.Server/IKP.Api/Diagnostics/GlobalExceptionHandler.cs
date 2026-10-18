@@ -5,6 +5,7 @@ using IKP.Api.Diagnostics.Models.Errors;
 using IKP.Api.Infrastructure.Query;
 using System.Security.Claims;
 using IKP.Application.Diagnostics.Interfaces;
+using IKP.Application.Files.Exceptions;
 using IKP.Application.Diagnostics.Models;
 using IKP.Application.Diagnostics.Services;
 using IKP.Domain.Common.Diagnostics;
@@ -45,6 +46,19 @@ namespace IKP.Api.Diagnostics
                     status = authException.StatusCode,
                     code = authException.Code,
                     title = authException.Message,
+                    requestId = httpContext.TraceIdentifier
+                }, cancellationToken);
+                return true;
+            }
+
+            if (exception is FileStorageException fileException)
+            {
+                httpContext.Response.StatusCode = fileException.StatusCode;
+                await httpContext.Response.WriteAsJsonAsync(new
+                {
+                    status = fileException.StatusCode,
+                    code = fileException.Code,
+                    title = fileException.Message,
                     requestId = httpContext.TraceIdentifier
                 }, cancellationToken);
                 return true;

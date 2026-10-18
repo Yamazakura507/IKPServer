@@ -1,0 +1,11 @@
+HTTP/1.1 206 Partial Content
+Content-Length: 10
+Content-Type: text/plain
+Date: Sun, 18 Oct 2026 16:01:27 GMT
+Server: Kestrel
+Accept-Ranges: bytes
+Content-Range: bytes 0-9/60
+Content-Disposition: attachment; filename=test-file.txt; filename*=UTF-8''test-file.txt
+X-Correlation-ID: 0024737d6ff44995bf75d12952efb1ac
+
+﻿IKP FIL

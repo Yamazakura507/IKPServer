@@ -1,4 +1,5 @@
-﻿using IKP.Domain.Entities.Logs;
+using IKP.Domain.Entities.Files;
+using IKP.Domain.Entities.Logs;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,6 +21,12 @@ namespace IKP.Infrastructure.Configuration.Logs
             builder.Property(x => x.IsActive).IsRequired();
             builder.Property(x => x.SortOrder).IsRequired();
             builder.Property(x => x.FileId);
+        builder.HasOne<StoredFile>()
+            .WithMany()
+            .HasForeignKey(x => x.FileId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasIndex(x => x.FileId);
 
             builder.HasIndex(x => x.Code).IsUnique();
             builder.HasIndex(x => new

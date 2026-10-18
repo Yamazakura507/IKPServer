@@ -22,6 +22,8 @@ using IKP.Application.Diagnostics.Services;
 using IKP.Application.Diagnostics.Statistics.Interfaces;
 using IKP.Application.Diagnostics.Statistics.Models;
 using IKP.Application.Diagnostics.Statistics.Services;
+using IKP.Application.Files.Interfaces;
+using IKP.Application.Files.Models;
 using IKP.Domain.Entities.Auth.Users;
 using IKP.Infrastructure.Interceptors;
 using IKP.Infrastructure.Persistence;
@@ -30,6 +32,7 @@ using IKP.Infrastructure.Services.Audit.Interfaces;
 using IKP.Infrastructure.Services.Auth;
 using IKP.Infrastructure.Services.Auth.Administration;
 using IKP.Infrastructure.Services.Diagnostics;
+using IKP.Infrastructure.Services.Files;
 using IKP.Infrastructure.Services.Redis;
 using IKP.Infrastructure.Services.Redis.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -61,6 +64,7 @@ namespace IKP.Api.Infrastructure.DI
             builder.AddConfigures();
             builder.AddHostedService();
             builder.AddOtherServices();
+            builder.AddFileStorageLimits();
         }
 
         internal static void UsesApp(this WebApplication app)
@@ -86,11 +90,13 @@ namespace IKP.Api.Infrastructure.DI
         {
             builder.AddScopedDiagnostics();
             builder.AddScopedAuth();
+            builder.AddScopedFiles();
         }
 
         private static void AddSingletonsAudit(this WebApplicationBuilder builder)
         {
             builder.Services.AddSingleton<IAuditValueSerializer, AuditValueSerializer>();
+            builder.Services.AddSingleton<IFileStorageProvider, LocalFileStorageProvider>();
             builder.Services.AddSingleton<IAuditActionRegistry, AuditActionRegistry>();
             builder.Services.AddSingleton<AuditSaveChangesInterceptor>();
         }
@@ -127,18 +133,35 @@ namespace IKP.Api.Infrastructure.DI
             builder.Services.AddScoped<IPasswordHasher<AuthUser>, PasswordHasher<AuthUser>>();
         }
 
+        private static void AddScopedFiles(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IFileService, FileService>();
+        }
+
         private static void AddConfigures(this WebApplicationBuilder builder)
         {
             builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Authentication"));
             builder.Services.Configure<DiagnosticCriticalityWorkerOptions>(builder.Configuration.GetSection("Diagnostics:Criticality:Worker"));
             builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
             builder.Services.Configure<DiagnosticStatisticsWorkerOptions>(builder.Configuration.GetSection("Diagnostics:Statistics:Worker"));
+            builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("Files:Storage"));
         }
 
         private static void AddHostedService(this WebApplicationBuilder builder)
         {
             builder.Services.AddHostedService<DiagnosticStatisticsWorker>();
             builder.Services.AddHostedService<DiagnosticCriticalityWorker>();
+            builder.Services.AddHostedService<FileUploadCleanupWorker>();
+        }
+
+        private static void AddFileStorageLimits(this WebApplicationBuilder builder)
+        {
+            FileStorageOptions options = builder.Configuration.GetSection("Files:Storage").Get<FileStorageOptions>() ?? new FileStorageOptions();
+
+            if (options.MaximumFileSizeBytes <= 0) throw new InvalidOperationException("Files:Storage:MaximumFileSizeBytes must be greater than zero.");
+            if (options.CopyBufferSizeBytes < 64 * 1024) throw new InvalidOperationException("Files:Storage:CopyBufferSizeBytes must be at least 65536 bytes.");
+
+            builder.WebHost.ConfigureKestrel(serverOptions => serverOptions.Limits.MaxRequestBodySize = options.MaximumFileSizeBytes);
         }
 
         private static void AddOtherServices(this WebApplicationBuilder builder)

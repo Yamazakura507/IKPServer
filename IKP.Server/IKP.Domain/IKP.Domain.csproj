@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\Files\**" />
     <Compile Remove="Entities\Lookups\**" />
-    <EmbeddedResource Remove="Entities\Files\**" />
     <EmbeddedResource Remove="Entities\Lookups\**" />
-    <None Remove="Entities\Files\**" />
     <None Remove="Entities\Lookups\**" />
   </ItemGroup>
 

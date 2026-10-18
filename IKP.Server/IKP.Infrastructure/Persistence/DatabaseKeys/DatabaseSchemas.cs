@@ -8,6 +8,11 @@ public static class DatabaseSchemas
     private const string Diagnostics = "diagnostics";
 
     /// <summary>
+    /// Gets the physical file metadata schema.
+    /// </summary>
+    public const string Files = "files";
+
+    /// <summary>
     /// Gets the main application schema.
     /// </summary>
     public const string App = "app";

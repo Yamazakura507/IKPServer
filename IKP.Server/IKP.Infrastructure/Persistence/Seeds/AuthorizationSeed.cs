@@ -1,13 +1,9 @@
-using IKP.Domain.Common.Audit;
 using IKP.Domain.Common.Auth;
-using IKP.Domain.Entities.Auth.Lookup;
 using IKP.Domain.Entities.Auth.Permissions;
 using IKP.Domain.Entities.Auth.Roles;
-using IKP.Domain.Entities.Logs;
 using IKP.Infrastructure.Persistence.Seeds.Records;
 using IKP.Infrastructure.Services.Extensions;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace IKP.Infrastructure.Persistence.Seeds;
 
@@ -37,6 +33,9 @@ public static class AuthorizationSeed
     private static readonly Guid DiagnosticsManagePermissionId = BaseIndex.GetGuidForLevel(1, 15);
     private static readonly Guid EmployeesReadPermissionId = BaseIndex.GetGuidForLevel(1, 16);
     private static readonly Guid EmployeesManagePermissionId = BaseIndex.GetGuidForLevel(1, 17);
+    private static readonly Guid FilesReadPermissionId = BaseIndex.GetGuidForLevel(1, 18);
+    private static readonly Guid FilesCreatePermissionId = BaseIndex.GetGuidForLevel(1, 19);
+    private static readonly Guid FilesDeletePermissionId = BaseIndex.GetGuidForLevel(1, 20);
 
     /// <summary>
     /// Adds the built-in authorization definitions to the EF model.
@@ -63,7 +62,10 @@ public static class AuthorizationSeed
                 new SeedRecord<AuthPermission>(DiagnosticsReadPermissionId, AuthorizationPermissionCodes.DiagnosticsRead),
                 new SeedRecord<AuthPermission>(DiagnosticsManagePermissionId, AuthorizationPermissionCodes.DiagnosticsManage),
                 new SeedRecord<AuthPermission>(EmployeesReadPermissionId, AuthorizationPermissionCodes.EmployeesRead),
-                new SeedRecord<AuthPermission>(EmployeesManagePermissionId, AuthorizationPermissionCodes.EmployeesManage)
+                new SeedRecord<AuthPermission>(EmployeesManagePermissionId, AuthorizationPermissionCodes.EmployeesManage),
+                new SeedRecord<AuthPermission>(FilesReadPermissionId, AuthorizationPermissionCodes.FilesRead),
+                new SeedRecord<AuthPermission>(FilesCreatePermissionId, AuthorizationPermissionCodes.FilesCreate),
+                new SeedRecord<AuthPermission>(FilesDeletePermissionId, AuthorizationPermissionCodes.FilesDelete)
             };
 
         modelBuilder.Entity<AuthRole>().HasData(role.CreateDefinition(PathRoleKey));

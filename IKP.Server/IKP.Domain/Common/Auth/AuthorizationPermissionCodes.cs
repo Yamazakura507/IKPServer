@@ -89,4 +89,19 @@ public static class AuthorizationPermissionCodes
     /// Allows creating, updating, deleting and restoring employees.
     /// </summary>
     public const string EmployeesManage = "employees.manage";
+
+    /// <summary>
+    /// Allows viewing file metadata and downloading file content.
+    /// </summary>
+    public const string FilesRead = "files.read";
+
+    /// <summary>
+    /// Allows creating and uploading files.
+    /// </summary>
+    public const string FilesCreate = "files.create";
+
+    /// <summary>
+    /// Allows deleting stored file records.
+    /// </summary>
+    public const string FilesDelete = "files.delete";
 }

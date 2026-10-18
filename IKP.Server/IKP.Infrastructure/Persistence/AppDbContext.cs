@@ -10,6 +10,7 @@ using IKP.Domain.Entities.Diagnostics.Definitions;
 using IKP.Domain.Entities.Diagnostics.Errors;
 using IKP.Domain.Entities.Diagnostics.Statistics;
 using IKP.Domain.Entities.Employees;
+using IKP.Domain.Entities.Files;
 using IKP.Domain.Entities.Logs;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using IKP.Infrastructure.Services.Extensions;
@@ -38,6 +39,11 @@ namespace IKP.Infrastructure.Persistence
         #endregion
         #region App
         public DbSet<Employee> Employees => Set<Employee>();
+        #endregion
+        #region Files
+        public DbSet<FileBlob> FileBlobs => Set<FileBlob>();
+        public DbSet<StoredFile> Files => Set<StoredFile>();
+        public DbSet<FileUploadSession> FileUploadSessions => Set<FileUploadSession>();
         #endregion
         #region Logs
         #region Lookup
