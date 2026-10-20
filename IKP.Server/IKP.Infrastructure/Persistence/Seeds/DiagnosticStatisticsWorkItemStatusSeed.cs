@@ -32,7 +32,7 @@ namespace IKP.Infrastructure.Persistence.Seeds
                     new SeedRecord<DiagnosticStatisticsWorkItemStatus>(ProcessingId, DiagnosticStatisticsWorkItemStatusCodes.Processing),
                     new SeedRecord<DiagnosticStatisticsWorkItemStatus>(CompletedId, DiagnosticStatisticsWorkItemStatusCodes.Completed),
                     new SeedRecord<DiagnosticStatisticsWorkItemStatus>(FailedId, DiagnosticStatisticsWorkItemStatusCodes.Failed)
-                }.CreateListDefinition(pathKey)
+                }.CreateListDefinitionLocalized(pathKey)
             );
         }
     }

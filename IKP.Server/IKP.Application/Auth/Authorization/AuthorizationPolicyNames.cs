@@ -108,6 +108,19 @@ public static class AuthorizationPolicyNames
     public const string FilesDelete = AuthorizationPermissionCodes.FilesDelete;
 
     /// <summary>
+    /// Gets the policy that allows reading localization resources.
+    /// </summary>
+    public const string LocalizationRead = AuthorizationPermissionCodes.LocalizationRead;
+
+    /// <summary>
+    /// Gets the policy that allows managing localization resources.
+    /// </summary>
+    public const string LocalizationManage = AuthorizationPermissionCodes.LocalizationManage;
+
+    public const string UpdatesRead = AuthorizationPermissionCodes.UpdatesRead;
+    public const string UpdatesManage = AuthorizationPermissionCodes.UpdatesManage;
+
+    /// <summary>
     /// Gets the policy that allows reading support tickets.
     /// </summary>
     public const string SupportRead = AuthorizationPermissionCodes.SupportRead;

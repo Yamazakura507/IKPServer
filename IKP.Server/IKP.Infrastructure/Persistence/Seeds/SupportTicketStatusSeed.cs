@@ -35,7 +35,7 @@ public static class SupportTicketStatusSeed
                 new SeedRecord<SupportTicketStatus>(WaitingForUserId, SupportTicketStatusCodes.WaitingForUser),
                 new SeedRecord<SupportTicketStatus>(ResolvedId, SupportTicketStatusCodes.Resolved, Configure: x => x.IsTerminal = true),
                 new SeedRecord<SupportTicketStatus>(ClosedId, SupportTicketStatusCodes.Closed, Configure: x => x.IsTerminal = true)
-            }.CreateListDefinition(PathKey));
+            }.CreateListDefinitionLocalized(PathKey));
 
     }
 }

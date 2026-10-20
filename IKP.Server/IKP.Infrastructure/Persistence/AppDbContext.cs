@@ -12,6 +12,9 @@ using IKP.Domain.Entities.Diagnostics.Statistics;
 using IKP.Domain.Entities.Employees;
 using IKP.Domain.Entities.Files;
 using IKP.Domain.Entities.Logs;
+using IKP.Domain.Entities.Localization;
+using IKP.Domain.Entities.Updates;
+using IKP.Domain.Entities.Updates.Lookups;
 using IKP.Domain.Entities.Support;
 using IKP.Domain.Entities.Support.Lookups;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
@@ -41,6 +44,24 @@ namespace IKP.Infrastructure.Persistence
         #endregion
         #region App
         public DbSet<Employee> Employees => Set<Employee>();
+        #endregion
+        #region Localization
+        public DbSet<Language> Languages => Set<Language>();
+        #region Lookup
+        public DbSet<LanguagePackage> LanguagePackages => Set<LanguagePackage>();
+        #endregion
+        #endregion
+        #region Updates
+        #region Lookup
+        public DbSet<UpdateCategory> UpdateCategories => Set<UpdateCategory>();
+        public DbSet<UpdatePlatform> UpdatePlatforms => Set<UpdatePlatform>();
+        public DbSet<UpdateProduct> UpdateProducts => Set<UpdateProduct>();
+        #endregion
+
+        public DbSet<UpdateVersion> UpdateVersions => Set<UpdateVersion>();
+        public DbSet<UpdateReleaseNote> UpdateReleaseNotes => Set<UpdateReleaseNote>();
+        public DbSet<UpdateReleaseNoteAttachment> UpdateReleaseNoteAttachments => Set<UpdateReleaseNoteAttachment>();
+        public DbSet<UpdateDownloadLink> UpdateDownloadLinks => Set<UpdateDownloadLink>();
         #endregion
         #region Files
         public DbSet<FileBlob> FileBlobs => Set<FileBlob>();

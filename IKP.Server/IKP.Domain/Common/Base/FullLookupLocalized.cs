@@ -3,7 +3,7 @@ using IKP.Domain.Common.Interfaces.Lookup;
 
 namespace IKP.Domain.Common.Base
 {
-    public abstract class FullLookupLocalized : Entity, IHasCode, ILocalizedLookup, IHasOrder, IHasActiveState, IHasSystemState, IHasIcon
+    public abstract class FullLookupLocalized : Entity, IHasCode, ILocalizedLookup, IHasOrder, IHasActiveState, IHasSystemState
     {
         /// <inheritdoc />
         public string Code { get; set; } = null!;

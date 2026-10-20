@@ -20,6 +20,13 @@ public static class DatabaseSchemas
     public const string App = "app";
 
     /// <summary>
+    /// Gets the localization schema.
+    /// </summary>
+    public const string Localization = "localization";
+
+    public const string Updates = "updates";
+
+    /// <summary>
     /// Gets the support schema.
     /// </summary>
     public const string Support = "support";
@@ -28,6 +35,13 @@ public static class DatabaseSchemas
     /// Gets the authentication schema.
     /// </summary>
     public const string Auth = "auth";
+
+    public const string UpdatesLookup = $"{Updates}_{LookupPrefix}";
+
+    /// <summary>
+    /// Gets the localization lookup schema.
+    /// </summary>
+    public const string LocalizationLookup = $"{Localization}_{LookupPrefix}";
 
     /// <summary>
     /// Gets the support lookup schema.

@@ -47,6 +47,6 @@ public static class AuditActionSeed
                 new SeedRecord<AuditActionDefinition>(DeleteId, AuditActionCodes.Delete),
                 new SeedRecord<AuditActionDefinition>(RestoreDeleteId, AuditActionCodes.RestoreDelete),
                 new SeedRecord<AuditActionDefinition>(RestoreUpdateId, AuditActionCodes.RestoreUpdate)
-            }.CreateListDefinition(PathKey));
+            }.CreateListDefinitionLocalized(PathKey));
     }
 }

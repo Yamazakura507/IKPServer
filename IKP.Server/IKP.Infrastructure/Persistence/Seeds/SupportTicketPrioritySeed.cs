@@ -31,7 +31,7 @@ public static class SupportTicketPrioritySeed
                 new SeedRecord<SupportTicketPriority>(NormalId, SupportTicketPriorityCodes.Normal, Configure: x => x.Weight = 20),
                 new SeedRecord<SupportTicketPriority>(HighId, SupportTicketPriorityCodes.High, Configure: x => x.Weight = 30),
                 new SeedRecord<SupportTicketPriority>(CriticalId, SupportTicketPriorityCodes.Critical, Configure: x => x.Weight = 40)
-            }.CreateListDefinition(PathKey));
+            }.CreateListDefinitionLocalized(PathKey));
 
     }
 }

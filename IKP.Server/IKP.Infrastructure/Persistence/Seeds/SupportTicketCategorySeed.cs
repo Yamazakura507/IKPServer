@@ -33,7 +33,7 @@ public static class SupportTicketCategorySeed
                 new SeedRecord<SupportTicketCategory>(AccessId, SupportTicketCategoryCodes.Access),
                 new SeedRecord<SupportTicketCategory>(FilesId, SupportTicketCategoryCodes.Files),
                 new SeedRecord<SupportTicketCategory>(OtherId, SupportTicketCategoryCodes.Other)
-            }.CreateListDefinition(PathKey));
+            }.CreateListDefinitionLocalized(PathKey));
 
     }
 }

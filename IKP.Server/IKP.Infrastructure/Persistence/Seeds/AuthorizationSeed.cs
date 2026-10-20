@@ -36,6 +36,10 @@ public static class AuthorizationSeed
     private static readonly Guid FilesReadPermissionId = BaseIndex.GetGuidForLevel(1, 18);
     private static readonly Guid FilesCreatePermissionId = BaseIndex.GetGuidForLevel(1, 19);
     private static readonly Guid FilesDeletePermissionId = BaseIndex.GetGuidForLevel(1, 20);
+    private static readonly Guid LocalizationReadPermissionId = BaseIndex.GetGuidForLevel(1, 30);
+    private static readonly Guid LocalizationManagePermissionId = BaseIndex.GetGuidForLevel(1, 31);
+    private static readonly Guid UpdatesReadPermissionId = BaseIndex.GetGuidForLevel(1, 32);
+    private static readonly Guid UpdatesManagePermissionId = BaseIndex.GetGuidForLevel(1, 33);
 
     /// <summary>
     /// Adds the built-in authorization definitions to the EF model.
@@ -46,30 +50,34 @@ public static class AuthorizationSeed
         SeedRecord<AuthRole> role = new(SystemAdminRoleId, AuthorizationRoleCodes.SystemAdministrator, Configure: entity => entity.CreatedAt = DateTime.UnixEpoch);
         SeedRecord<AuthPermission>[] permissions =
             {
-                new SeedRecord<AuthPermission>(SystemAdminPermissionId, AuthorizationPermissionCodes.SystemAdmin),
-                new SeedRecord<AuthPermission>(UsersReadPermissionId, AuthorizationPermissionCodes.UsersRead),
-                new SeedRecord<AuthPermission>(UsersCreatePermissionId, AuthorizationPermissionCodes.UsersCreate),
-                new SeedRecord<AuthPermission>(UsersUpdatePermissionId, AuthorizationPermissionCodes.UsersUpdate),
-                new SeedRecord<AuthPermission>(UsersManageStatusPermissionId, AuthorizationPermissionCodes.UsersManageStatus),
-                new SeedRecord<AuthPermission>(UsersResetPasswordPermissionId, AuthorizationPermissionCodes.UsersResetPassword),
-                new SeedRecord<AuthPermission>(RolesReadPermissionId, AuthorizationPermissionCodes.RolesRead),
-                new SeedRecord<AuthPermission>(RolesManagePermissionId, AuthorizationPermissionCodes.RolesManage),
-                new SeedRecord<AuthPermission>(UserRolesManagePermissionId, AuthorizationPermissionCodes.UserRolesManage),
-                new SeedRecord<AuthPermission>(PermissionsReadPermissionId, AuthorizationPermissionCodes.PermissionsRead),
-                new SeedRecord<AuthPermission>(RolePermissionsManagePermissionId, AuthorizationPermissionCodes.RolePermissionsManage),
-                new SeedRecord<AuthPermission>(AuditReadPermissionId, AuthorizationPermissionCodes.AuditRead),
-                new SeedRecord<AuthPermission>(AuditRollbackPermissionId, AuthorizationPermissionCodes.AuditRollback),
-                new SeedRecord<AuthPermission>(DiagnosticsReadPermissionId, AuthorizationPermissionCodes.DiagnosticsRead),
-                new SeedRecord<AuthPermission>(DiagnosticsManagePermissionId, AuthorizationPermissionCodes.DiagnosticsManage),
-                new SeedRecord<AuthPermission>(EmployeesReadPermissionId, AuthorizationPermissionCodes.EmployeesRead),
-                new SeedRecord<AuthPermission>(EmployeesManagePermissionId, AuthorizationPermissionCodes.EmployeesManage),
-                new SeedRecord<AuthPermission>(FilesReadPermissionId, AuthorizationPermissionCodes.FilesRead),
-                new SeedRecord<AuthPermission>(FilesCreatePermissionId, AuthorizationPermissionCodes.FilesCreate),
-                new SeedRecord<AuthPermission>(FilesDeletePermissionId, AuthorizationPermissionCodes.FilesDelete)
+                new (SystemAdminPermissionId, AuthorizationPermissionCodes.SystemAdmin),
+                new (UsersReadPermissionId, AuthorizationPermissionCodes.UsersRead),
+                new (UsersCreatePermissionId, AuthorizationPermissionCodes.UsersCreate),
+                new (UsersUpdatePermissionId, AuthorizationPermissionCodes.UsersUpdate),
+                new (UsersManageStatusPermissionId, AuthorizationPermissionCodes.UsersManageStatus),
+                new (UsersResetPasswordPermissionId, AuthorizationPermissionCodes.UsersResetPassword),
+                new (RolesReadPermissionId, AuthorizationPermissionCodes.RolesRead),
+                new (RolesManagePermissionId, AuthorizationPermissionCodes.RolesManage),
+                new (UserRolesManagePermissionId, AuthorizationPermissionCodes.UserRolesManage),
+                new (PermissionsReadPermissionId, AuthorizationPermissionCodes.PermissionsRead),
+                new (RolePermissionsManagePermissionId, AuthorizationPermissionCodes.RolePermissionsManage),
+                new (AuditReadPermissionId, AuthorizationPermissionCodes.AuditRead),
+                new (AuditRollbackPermissionId, AuthorizationPermissionCodes.AuditRollback),
+                new (DiagnosticsReadPermissionId, AuthorizationPermissionCodes.DiagnosticsRead),
+                new (DiagnosticsManagePermissionId, AuthorizationPermissionCodes.DiagnosticsManage),
+                new (EmployeesReadPermissionId, AuthorizationPermissionCodes.EmployeesRead),
+                new (EmployeesManagePermissionId, AuthorizationPermissionCodes.EmployeesManage),
+                new (FilesReadPermissionId, AuthorizationPermissionCodes.FilesRead),
+                new (FilesCreatePermissionId, AuthorizationPermissionCodes.FilesCreate),
+                new (FilesDeletePermissionId, AuthorizationPermissionCodes.FilesDelete),
+                new (LocalizationReadPermissionId, AuthorizationPermissionCodes.LocalizationRead),
+                new (LocalizationManagePermissionId, AuthorizationPermissionCodes.LocalizationManage),
+                new (UpdatesReadPermissionId, AuthorizationPermissionCodes.UpdatesRead),
+                new (UpdatesManagePermissionId, AuthorizationPermissionCodes.UpdatesManage)
             };
 
-        modelBuilder.Entity<AuthRole>().HasData(role.CreateDefinition(PathRoleKey));
-        modelBuilder.Entity<AuthPermission>().HasData(permissions.CreateListDefinition(PathPermissionKey));
+        modelBuilder.Entity<AuthRole>().HasData(role.CreateDefinitionLocalized(PathRoleKey));
+        modelBuilder.Entity<AuthPermission>().HasData(permissions.CreateListDefinitionLocalized(PathPermissionKey));
         modelBuilder.Entity<AuthRolePermission>().HasData(permissions.Select(permission => new AuthRolePermission
         {
             RoleId = role.Id,

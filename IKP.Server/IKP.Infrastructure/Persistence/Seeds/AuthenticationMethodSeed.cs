@@ -21,6 +21,6 @@ public static class AuthenticationMethodSeed
     public static void Seed(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AuthenticationMethodDefinition>()
-            .HasData(new SeedRecord<AuthenticationMethodDefinition>(PasswordId, AuthenticationMethodCodes.Password).CreateDefinition(PathKey));
+            .HasData(new SeedRecord<AuthenticationMethodDefinition>(PasswordId, AuthenticationMethodCodes.Password).CreateDefinitionLocalized(PathKey));
     }
 }

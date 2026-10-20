@@ -36,7 +36,7 @@ namespace IKP.Infrastructure.Persistence.Seeds
                 {
                     new SeedRecord<DiagnosticAreaResolutionSource>(ExplicitSourceId, DiagnosticAreaResolutionSourceCodes.Explicit),
                     new SeedRecord<DiagnosticAreaResolutionSource>(AutomaticSourceId, DiagnosticAreaResolutionSourceCodes.Automatic)
-                }.CreateListDefinition(sourcePathKey)
+                }.CreateListDefinitionLocalized(sourcePathKey)
             );
 
             modelBuilder.Entity<DiagnosticAreaResolutionRule>().HasData(
@@ -47,7 +47,7 @@ namespace IKP.Infrastructure.Persistence.Seeds
                     new SeedRecord<DiagnosticAreaResolutionRule>(NamespaceRuleId, DiagnosticAreaResolutionRuleCodes.Namespace),
                     new SeedRecord<DiagnosticAreaResolutionRule>(EndpointRuleId, DiagnosticAreaResolutionRuleCodes.Endpoint),
                     new SeedRecord<DiagnosticAreaResolutionRule>(HttpPipelineRuleId, DiagnosticAreaResolutionRuleCodes.HttpPipeline)
-                }.CreateListDefinition(rulePathKey)
+                }.CreateListDefinitionLocalized(rulePathKey)
             );
         }
     }

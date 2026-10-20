@@ -383,6 +383,46 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
+                            Id = new Guid("81000000-0000-0000-0000-000000000030"),
+                            Code = "localization.read",
+                            DescriptionKey = "Auth.Authorization.LocalizationRead.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.LocalizationRead",
+                            SortOrder = 210
+                        },
+                        new
+                        {
+                            Id = new Guid("81000000-0000-0000-0000-000000000031"),
+                            Code = "localization.manage",
+                            DescriptionKey = "Auth.Authorization.LocalizationManage.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.LocalizationManage",
+                            SortOrder = 220
+                        },
+                        new
+                        {
+                            Id = new Guid("81000000-0000-0000-0000-000000000032"),
+                            Code = "updates.read",
+                            DescriptionKey = "Auth.Authorization.UpdatesRead.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.UpdatesRead",
+                            SortOrder = 230
+                        },
+                        new
+                        {
+                            Id = new Guid("81000000-0000-0000-0000-000000000033"),
+                            Code = "updates.manage",
+                            DescriptionKey = "Auth.Authorization.UpdatesManage.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.UpdatesManage",
+                            SortOrder = 240
+                        },
+                        new
+                        {
                             Id = new Guid("81000000-0000-0000-0000-000000000021"),
                             Code = "support.read",
                             DescriptionKey = "Auth.Authorization.SupportRead.Description",
@@ -646,6 +686,34 @@ namespace IKP.Infrastructure.Migrations
                         {
                             RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
                             PermissionId = new Guid("81000000-0000-0000-0000-000000000020"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000030"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000031"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000032"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000033"),
                             CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsDeleted = false
                         },
@@ -2488,6 +2556,155 @@ namespace IKP.Infrastructure.Migrations
                     b.ToTable("Files", "files");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.Localization.Language", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("CultureCode")
+                        .IsRequired()
+                        .HasMaxLength(35)
+                        .HasColumnType("character varying(35)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRightToLeft")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("NativeName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("CultureCode")
+                        .IsUnique();
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("Languages", "localization_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Code = "en",
+                            CultureCode = "en-US",
+                            DescriptionKey = "Localization.Language.En.Description",
+                            IsActive = true,
+                            IsDefault = true,
+                            IsRightToLeft = false,
+                            IsSystem = true,
+                            NameKey = "Localization.Language.En",
+                            NativeName = "English",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Code = "ru",
+                            CultureCode = "ru-RU",
+                            DescriptionKey = "Localization.Language.Ru.Description",
+                            IsActive = true,
+                            IsDefault = false,
+                            IsRightToLeft = false,
+                            IsSystem = true,
+                            NameKey = "Localization.Language.Ru",
+                            NativeName = "Русский",
+                            SortOrder = 20
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Localization.LanguagePackage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContentHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("LanguageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId")
+                        .IsUnique();
+
+                    b.HasIndex("LanguageId", "IsActive");
+
+                    b.HasIndex("LanguageId", "Version")
+                        .IsUnique();
+
+                    b.ToTable("LanguagePackages", "localization");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Logs.AuditActionDefinition", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3175,6 +3392,464 @@ namespace IKP.Infrastructure.Migrations
                     b.ToTable("TicketMessageAttachments", "support");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdateCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("UpdateCategories", "updates_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11000000-0000-0000-0000-000000000001"),
+                            Code = "CLIENT",
+                            DescriptionKey = "Updates.Categories.Client.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Categories.Client",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("11000000-0000-0000-0000-000000000002"),
+                            Code = "LIB",
+                            DescriptionKey = "Updates.Categories.Lib.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Categories.Lib",
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("11000000-0000-0000-0000-000000000003"),
+                            Code = "INSTALLER",
+                            DescriptionKey = "Updates.Categories.Installer.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Categories.Installer",
+                            SortOrder = 30
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdatePlatform", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("Platforms", "updates_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11000000-0000-0000-0000-000000000001"),
+                            Code = "WINDOWS",
+                            DescriptionKey = "Updates.Platforms.Windows.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Platforms.Windows",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("11000000-0000-0000-0000-000000000002"),
+                            Code = "ANDROID",
+                            DescriptionKey = "Updates.Platforms.Android.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Platforms.Android",
+                            SortOrder = 20
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdateProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid?>("PlatformId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("PlatformId");
+
+                    b.HasIndex("CategoryId", "Code")
+                        .IsUnique();
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("Products", "updates_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11000000-0000-0000-0000-000000000001"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            Code = "DEVELOPER",
+                            DescriptionKey = "Updates.Products.Client.Developer.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Client.Developer",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("11000000-0000-0000-0000-000000000002"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            Code = "HR_BASE",
+                            DescriptionKey = "Updates.Products.Client.HrBase.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Client.HrBase",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("11000000-0000-0000-0000-000000000003"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            Code = "HR_BOSS",
+                            DescriptionKey = "Updates.Products.Client.HrBoss.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Client.HrBoss",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("12000000-0000-0000-0000-000000000001"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000002"),
+                            Code = "THEME_MANAGER",
+                            DescriptionKey = "Updates.Products.Lib.ThemeManager.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Lib.ThemeManager",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("12000000-0000-0000-0000-000000000002"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000002"),
+                            Code = "FILE_MANAGER",
+                            DescriptionKey = "Updates.Products.Lib.FileManager.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Lib.FileManager",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("12000000-0000-0000-0000-000000000003"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000002"),
+                            Code = "REPORT_MANAGER",
+                            DescriptionKey = "Updates.Products.Lib.ReportManager.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Lib.ReportManager",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("12000000-0000-0000-0000-000000000004"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000002"),
+                            Code = "MESSAGE_MANAGER",
+                            DescriptionKey = "Updates.Products.Lib.MessageManager.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Lib.MessageManager",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("12000000-0000-0000-0000-000000000005"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000002"),
+                            Code = "NOTIECE_MANAGER",
+                            DescriptionKey = "Updates.Products.Lib.NotieceManager.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Lib.NotieceManager",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("13000000-0000-0000-0000-000000000001"),
+                            CategoryId = new Guid("11000000-0000-0000-0000-000000000003"),
+                            Code = "IKP_SOFT",
+                            DescriptionKey = "Updates.Products.Installer.IkpSoft.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Updates.Products.Installer.IkpSoft",
+                            PlatformId = new Guid("11000000-0000-0000-0000-000000000001"),
+                            SortOrder = 10
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateDownloadLink", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
+                    b.Property<Guid>("VersionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VersionId", "IsPrimary")
+                        .IsUnique()
+                        .HasFilter("\"IsPrimary\" = true");
+
+                    b.ToTable("DownloadLinks", "updates");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateReleaseNote", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(12000)
+                        .HasColumnType("character varying(12000)");
+
+                    b.Property<bool>("IsHtmlDescription")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPlanned")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<Guid>("VersionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VersionId", "SortOrder");
+
+                    b.ToTable("ReleaseNotes", "updates");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateReleaseNoteAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ReleaseNoteId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("ReleaseNoteId", "SortOrder");
+
+                    b.ToTable("ReleaseNoteAttachments", "updates");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateVersion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContentHash")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsPrerelease")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ReleaseAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("ProductId", "Version")
+                        .IsUnique();
+
+                    b.HasIndex("ProductId", "IsPublished", "ReleaseAt");
+
+                    b.ToTable("Versions", "updates");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Auth.Credentials.UserCredential", b =>
                 {
                     b.HasOne("IKP.Domain.Entities.Auth.Lookup.AuthenticationMethodDefinition", "AuthenticationMethod")
@@ -3693,6 +4368,31 @@ namespace IKP.Infrastructure.Migrations
                     b.Navigation("Blob");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.Localization.Language", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Localization.LanguagePackage", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Localization.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Language");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Logs.AuditActionDefinition", b =>
                 {
                     b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
@@ -3853,6 +4553,100 @@ namespace IKP.Infrastructure.Migrations
                     b.Navigation("Message");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdateCategory", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdatePlatform", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdateProduct", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Updates.Lookups.UpdateCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Updates.Lookups.UpdatePlatform", "Platform")
+                        .WithMany()
+                        .HasForeignKey("PlatformId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Platform");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateDownloadLink", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Updates.UpdateVersion", "Version")
+                        .WithMany()
+                        .HasForeignKey("VersionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Version");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateReleaseNote", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Updates.UpdateVersion", "Version")
+                        .WithMany()
+                        .HasForeignKey("VersionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Version");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateReleaseNoteAttachment", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Updates.UpdateReleaseNote", "ReleaseNote")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ReleaseNoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ReleaseNote");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateVersion", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Updates.Lookups.UpdateProduct", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Auth.Lookup.AuthenticationMethodDefinition", b =>
                 {
                     b.Navigation("Credentials");
@@ -3944,6 +4738,11 @@ namespace IKP.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Support.SupportTicketMessage", b =>
+                {
+                    b.Navigation("Attachments");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateReleaseNote", b =>
                 {
                     b.Navigation("Attachments");
                 });

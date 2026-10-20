@@ -10,7 +10,7 @@ namespace IKP.Infrastructure.Services.Extensions
         private const string FormatGuid = "{0}{1}-0000-0000-0000-{2:D12}";
         private const int sortOrderDefault = 10;
 
-        internal static TSeed CreateDefinition<TSeed>(this SeedRecord<TSeed> seedRecord, string? pathKey = null) where TSeed : FullLookupLocalized, new()
+        internal static TSeed CreateDefinitionLocalized<TSeed>(this SeedRecord<TSeed> seedRecord, string? pathKey = null) where TSeed : FullLookupLocalized, new()
         {
             string nameKey = seedRecord.NameKey ?? (pathKey is null ? throw new ArgumentNullException(nameof(pathKey)) : $"{pathKey}.{seedRecord.Code.ToPascalCase()}");
 
@@ -31,8 +31,36 @@ namespace IKP.Infrastructure.Services.Extensions
             return seed;
         }
 
-        internal static TSeed[] CreateListDefinition<TSeed>(this IReadOnlyCollection<SeedRecord<TSeed>> seedRecords, string? pathKey = null) 
+        internal static TSeed CreateDefinition<TSeed>(this SeedRecord<TSeed> seedRecord, string? pathKey = null) where TSeed : FullLookup, new()
+        {
+            string name = seedRecord.NameKey ?? (pathKey is null ? throw new ArgumentNullException(nameof(pathKey)) : $"{pathKey}.{seedRecord.Code.ToPascalCase()}");
+
+            TSeed seed = new()
+            {
+                Id = seedRecord.Id,
+                Code = seedRecord.Code,
+                Name = name,
+                Description = seedRecord.DescriptionKey,
+                SortOrder = seedRecord.SortOrder ?? sortOrderDefault,
+                IsActive = true,
+                IsSystem = true,
+                FileId = seedRecord.FileId,
+            };
+
+            seedRecord.Configure?.Invoke(seed);
+
+            return seed;
+        }
+
+        internal static TSeed[] CreateListDefinitionLocalized<TSeed>(this IReadOnlyCollection<SeedRecord<TSeed>> seedRecords, string? pathKey = null) 
             where TSeed : FullLookupLocalized, new() =>
+                seedRecords
+                    .Select((seedRecord, i) => seedRecord.SortOrder is null ? seedRecord with { SortOrder = sortOrderDefault * (i + 1) } : seedRecord)
+                    .Select(record => record.CreateDefinitionLocalized(pathKey))
+                    .ToArray();
+
+        internal static TSeed[] CreateListDefinition<TSeed>(this IReadOnlyCollection<SeedRecord<TSeed>> seedRecords, string? pathKey = null)
+            where TSeed : FullLookup, new() =>
                 seedRecords
                     .Select((seedRecord, i) => seedRecord.SortOrder is null ? seedRecord with { SortOrder = sortOrderDefault * (i + 1) } : seedRecord)
                     .Select(record => record.CreateDefinition(pathKey))
@@ -65,6 +93,10 @@ namespace IKP.Infrastructure.Services.Extensions
             SupportTicketPrioritySeed.Seed(modelBuilder);
             SupportTicketCategorySeed.Seed(modelBuilder);
             SupportAuthorizationSeed.Seed(modelBuilder);
+
+            LanguageSeed.Seed(modelBuilder);
+
+            UpdateSeed.Seed(modelBuilder);
         }
     }
 }

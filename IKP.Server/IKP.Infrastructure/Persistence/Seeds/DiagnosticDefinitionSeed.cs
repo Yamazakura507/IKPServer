@@ -42,7 +42,7 @@ namespace IKP.Infrastructure.Persistence.Seeds
                     new SeedRecord<DiagnosticDefinitionGroup>(ErrorGroupStatusGroupId, DiagnosticDefinitionGroupCodes.ErrorGroupStatus),
                     new SeedRecord<DiagnosticDefinitionGroup>(CriticalityFactorGroupId, DiagnosticDefinitionGroupCodes.CriticalityFactor),
                     new SeedRecord<DiagnosticDefinitionGroup>(MetricBucketTypeGroupId, DiagnosticDefinitionGroupCodes.MetricBucketType)
-                }.CreateListDefinition(pathGroupKey)
+                }.CreateListDefinitionLocalized(pathGroupKey)
             );
 
             modelBuilder.Entity<DiagnosticDefinition>().HasData(
@@ -52,7 +52,7 @@ namespace IKP.Infrastructure.Persistence.Seeds
                     new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(1, 2), DiagnosticSeverityCodes.Warning, Configure: entity => entity.GroupId = DiagnosticSeverityGroupId),
                     new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(1, 3), DiagnosticSeverityCodes.Error, Configure: entity => entity.GroupId = DiagnosticSeverityGroupId),
                     new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(1, 4), DiagnosticSeverityCodes.Critical, Configure: entity => entity.GroupId = DiagnosticSeverityGroupId)
-                }.CreateListDefinition(pathSubsGroups.GetValueOrDefault(DiagnosticSeverityGroupId)).Concat(
+                }.CreateListDefinitionLocalized(pathSubsGroups.GetValueOrDefault(DiagnosticSeverityGroupId)).Concat(
                     new[]
                     {
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(2, 1), ErrorGroupStatusCodes.New, Configure: entity => entity.GroupId = ErrorGroupStatusGroupId),
@@ -64,7 +64,7 @@ namespace IKP.Infrastructure.Persistence.Seeds
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(2, 7), ErrorGroupStatusCodes.Resolved, Configure: entity => entity.GroupId = ErrorGroupStatusGroupId),
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(2, 8), ErrorGroupStatusCodes.Ignored, Configure: entity => entity.GroupId = ErrorGroupStatusGroupId),
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(2, 9), ErrorGroupStatusCodes.WontFix, Configure: entity => entity.GroupId = ErrorGroupStatusGroupId)
-                    }.CreateListDefinition(pathSubsGroups.GetValueOrDefault(ErrorGroupStatusGroupId))
+                    }.CreateListDefinitionLocalized(pathSubsGroups.GetValueOrDefault(ErrorGroupStatusGroupId))
                 ).Concat(
                     new[]
                     {
@@ -78,14 +78,14 @@ namespace IKP.Infrastructure.Persistence.Seeds
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(3, 8), CriticalityFactorCodes.BusinessImpact, Configure: entity => entity.GroupId = CriticalityFactorGroupId),
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(3, 9), CriticalityFactorCodes.SupportImpact, Configure: entity => entity.GroupId = CriticalityFactorGroupId),
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(3, 10), CriticalityFactorCodes.DataLossRisk, Configure: entity => entity.GroupId = CriticalityFactorGroupId)
-                    }.CreateListDefinition(pathSubsGroups.GetValueOrDefault(CriticalityFactorGroupId))
+                    }.CreateListDefinitionLocalized(pathSubsGroups.GetValueOrDefault(CriticalityFactorGroupId))
                 ).Concat(
                     new[]
                     {
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(4, 1), MetricBucketTypeCodes.Minute, Configure: entity => entity.GroupId = MetricBucketTypeGroupId),
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(4, 2), MetricBucketTypeCodes.Hour, Configure: entity => entity.GroupId = MetricBucketTypeGroupId),
                         new SeedRecord<DiagnosticDefinition>(baseIndex.GetGuidForLevel(4, 3), MetricBucketTypeCodes.Day, Configure: entity => entity.GroupId = MetricBucketTypeGroupId)
-                    }.CreateListDefinition(pathSubsGroups.GetValueOrDefault(MetricBucketTypeGroupId))
+                    }.CreateListDefinitionLocalized(pathSubsGroups.GetValueOrDefault(MetricBucketTypeGroupId))
                 )
             );
         }

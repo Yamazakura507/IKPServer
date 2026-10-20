@@ -39,7 +39,7 @@ public static class SupportAuthorizationSeed
             new(SupportInternalNotesCreatePermissionId, AuthorizationPermissionCodes.SupportInternalNotesCreate)
         ];
 
-        modelBuilder.Entity<AuthPermission>().HasData(permissions.CreateListDefinition(AuthorizationSeed.PathPermissionKey));
+        modelBuilder.Entity<AuthPermission>().HasData(permissions.CreateListDefinitionLocalized(AuthorizationSeed.PathPermissionKey));
         modelBuilder.Entity<AuthRolePermission>().HasData(permissions.Select(permission => new AuthRolePermission
         {
             RoleId = AuthorizationSeed.SystemAdminRoleId,

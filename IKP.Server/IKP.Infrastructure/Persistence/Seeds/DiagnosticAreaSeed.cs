@@ -38,7 +38,7 @@ namespace IKP.Infrastructure.Persistence.Seeds
                     new SeedRecord<DiagnosticArea>(AuthorizationId, DiagnosticAreaCodes.Authorization, Configure: entity => entity.ImportanceScore = 100),
                     new SeedRecord<DiagnosticArea>(RegistrationId, DiagnosticAreaCodes.Registration, Configure: entity => entity.ImportanceScore = 90),
                     new SeedRecord<DiagnosticArea>(SupportId, DiagnosticAreaCodes.Support, Configure: entity => entity.ImportanceScore = 70)
-                }.CreateListDefinition(pathKey)
+                }.CreateListDefinitionLocalized(pathKey)
             );
         }
     }
