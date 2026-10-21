@@ -17,6 +17,7 @@ public sealed class FileUploadSessionConfiguration : IEntityTypeConfiguration<Fi
 
         builder.Property(x => x.StorageKey).IsRequired().HasMaxLength(2000);
         builder.Property(x => x.OriginalFileName).IsRequired().HasMaxLength(255);
+        builder.Property(x => x.PathAreaFileName).HasMaxLength(500);
         builder.Property(x => x.ContentType).IsRequired().HasMaxLength(255);
         builder.Property(x => x.ExpectedSize);
         builder.Property(x => x.BytesReceived).IsRequired();

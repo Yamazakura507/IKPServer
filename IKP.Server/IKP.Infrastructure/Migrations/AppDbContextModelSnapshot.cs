@@ -2489,6 +2489,10 @@ namespace IKP.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<string>("PathAreaFileName")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
                     b.Property<string>("StorageKey")
                         .IsRequired()
                         .HasMaxLength(2000)

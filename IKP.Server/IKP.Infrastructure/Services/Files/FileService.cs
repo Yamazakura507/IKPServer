@@ -46,6 +46,7 @@ public sealed class FileService : IFileService
         FileUploadSession session = new()
         {
             OriginalFileName = NormalizeFileName(request.FileName),
+            PathAreaFileName = GetPath(request.FileName),
             ContentType = NormalizeContentType(request.ContentType),
             ExpectedSize = request.ExpectedSize,
             StorageKey = $"tmp/{Guid.NewGuid():N}.upload",
@@ -56,10 +57,12 @@ public sealed class FileService : IFileService
         };
 
         await using Stream stream = await storage.CreateWriteStreamAsync(session.StorageKey, cancellationToken);
+
         try
         {
             db.FileUploadSessions.Add(session);
             await db.SaveChangesAsync(cancellationToken);
+
             return ToUploadResponse(session);
         }
         catch
@@ -146,7 +149,7 @@ public sealed class FileService : IFileService
 
         FileBlob? blob = await db.FileBlobs.FirstOrDefaultAsync(x => x.ContentHash == contentHash && x.Size == session.BytesReceived, cancellationToken);
         bool movedPhysicalObject = false;
-        string finalKey = BuildFinalKey(contentHash);
+        string finalKey = BuildFinalKey(contentHash, session.PathAreaFileName);
 
         try
         {
@@ -346,6 +349,8 @@ public sealed class FileService : IFileService
         return fileName;
     }
 
+    private static string? GetPath(string? value) => Path.GetDirectoryName(value)?.Replace('\\', '/');
+
     private static string NormalizeContentType(string? value)
     {
         if (string.IsNullOrWhiteSpace(value)) return "application/octet-stream";
@@ -368,7 +373,7 @@ public sealed class FileService : IFileService
         return extension.Length > 32 ? extension[..32] : extension;
     }
 
-    private static string BuildFinalKey(string contentHash) => $"objects/{contentHash[..2]}/{contentHash[2..4]}/{contentHash}";
+    private static string BuildFinalKey(string contentHash, string? path = null) => $"objects/{(path is null ? string.Empty : path + "/")}{contentHash}";
 
     private static FileUploadSessionResponse ToUploadResponse(FileUploadSession session) => new()
     {
