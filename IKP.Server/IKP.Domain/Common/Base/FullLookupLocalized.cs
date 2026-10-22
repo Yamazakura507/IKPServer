@@ -1,5 +1,6 @@
 using IKP.Domain.Common.Interfaces.Information;
 using IKP.Domain.Common.Interfaces.Lookup;
+using IKP.Domain.Entities.Files;
 
 namespace IKP.Domain.Common.Base
 {
@@ -25,5 +26,8 @@ namespace IKP.Domain.Common.Base
 
         /// <inheritdoc />
         public bool IsSystem { get; set; }
+
+        /// <inheritdoc />
+        public StoredFile? File { get; set; } = null;
     }
 }

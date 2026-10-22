@@ -117,6 +117,10 @@ public static class AuthorizationPolicyNames
     /// </summary>
     public const string LocalizationManage = AuthorizationPermissionCodes.LocalizationManage;
 
+    public const string ReportsRead = AuthorizationPermissionCodes.ReportsRead;
+    public const string ReportsManage = AuthorizationPermissionCodes.ReportsManage;
+    public const string ReportsGenerate = AuthorizationPermissionCodes.ReportsGenerate;
+
     public const string UpdatesRead = AuthorizationPermissionCodes.UpdatesRead;
     public const string UpdatesManage = AuthorizationPermissionCodes.UpdatesManage;
 

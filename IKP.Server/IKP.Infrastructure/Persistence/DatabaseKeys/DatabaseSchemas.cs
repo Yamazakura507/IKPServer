@@ -24,7 +24,15 @@ public static class DatabaseSchemas
     /// </summary>
     public const string Localization = "localization";
 
+    /// <summary>
+    /// Gets the updates schema.
+    /// </summary>
     public const string Updates = "updates";
+
+    /// <summary>
+    /// Gets the reports schema.
+    /// </summary>
+    public const string Reports = "reports";
 
     /// <summary>
     /// Gets the support schema.
@@ -36,7 +44,15 @@ public static class DatabaseSchemas
     /// </summary>
     public const string Auth = "auth";
 
+    /// <summary>
+    /// Gets the updates lookup schema.
+    /// </summary>
     public const string UpdatesLookup = $"{Updates}_{LookupPrefix}";
+
+    /// <summary>
+    /// Gets the reports lookup schema.
+    /// </summary>
+    public const string ReportsLookup = $"{Reports}_{LookupPrefix}";
 
     /// <summary>
     /// Gets the localization lookup schema.

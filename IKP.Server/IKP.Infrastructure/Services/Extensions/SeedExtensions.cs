@@ -97,6 +97,8 @@ namespace IKP.Infrastructure.Services.Extensions
             LanguageSeed.Seed(modelBuilder);
 
             UpdateSeed.Seed(modelBuilder);
+
+            ReportSeed.Seed(modelBuilder);
         }
     }
 }

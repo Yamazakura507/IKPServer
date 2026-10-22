@@ -17,7 +17,10 @@ public sealed class FileUploadSession : Entity
     /// </summary>
     public string OriginalFileName { get; set; } = null!;
 
-    public string? PathAreaFileName { get; set; }
+    /// <summary>
+    /// Gets or sets the path file name supplied by the client.
+    /// </summary>
+    public string? PathAreaFileName { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the content type supplied by the client.

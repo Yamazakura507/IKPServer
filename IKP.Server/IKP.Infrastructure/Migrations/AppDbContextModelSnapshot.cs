@@ -423,6 +423,36 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
+                            Id = new Guid("81000000-0000-0000-0000-000000000034"),
+                            Code = "reports.read",
+                            DescriptionKey = "Auth.Authorization.ReportsRead.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.ReportsRead",
+                            SortOrder = 250
+                        },
+                        new
+                        {
+                            Id = new Guid("81000000-0000-0000-0000-000000000035"),
+                            Code = "reports.manage",
+                            DescriptionKey = "Auth.Authorization.ReportsManage.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.ReportsManage",
+                            SortOrder = 260
+                        },
+                        new
+                        {
+                            Id = new Guid("81000000-0000-0000-0000-000000000036"),
+                            Code = "reports.generate",
+                            DescriptionKey = "Auth.Authorization.ReportsGenerate.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.ReportsGenerate",
+                            SortOrder = 270
+                        },
+                        new
+                        {
                             Id = new Guid("81000000-0000-0000-0000-000000000021"),
                             Code = "support.read",
                             DescriptionKey = "Auth.Authorization.SupportRead.Description",
@@ -714,6 +744,27 @@ namespace IKP.Infrastructure.Migrations
                         {
                             RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
                             PermissionId = new Guid("81000000-0000-0000-0000-000000000033"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000034"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000035"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000036"),
                             CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsDeleted = false
                         },
@@ -2881,6 +2932,542 @@ namespace IKP.Infrastructure.Migrations
                     b.ToTable("AuditLogChanges", "app_logs");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("ReportCategories", "reports_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000001"),
+                            Code = "OPERATIONAL",
+                            DescriptionKey = "Reports.Categories.Operational.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.Categories.Operational",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000002"),
+                            Code = "HR",
+                            DescriptionKey = "Reports.Categories.Hr.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.Categories.Hr",
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000003"),
+                            Code = "DIAGNOSTICS",
+                            DescriptionKey = "Reports.Categories.Diagnostics.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.Categories.Diagnostics",
+                            SortOrder = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000004"),
+                            Code = "ADMINISTRATION",
+                            DescriptionKey = "Reports.Categories.Administration.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.Categories.Administration",
+                            SortOrder = 40
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportDataType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("ReportDataTypies", "reports_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000001"),
+                            Code = "STRING",
+                            DescriptionKey = "Reports.DataType.String.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.DataType.String",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000002"),
+                            Code = "INTEGER",
+                            DescriptionKey = "Reports.DataType.Integer.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.DataType.Integer",
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000003"),
+                            Code = "DECIMAL",
+                            DescriptionKey = "Reports.DataType.Decimal.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.DataType.Decimal",
+                            SortOrder = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000004"),
+                            Code = "BOOLEAN",
+                            DescriptionKey = "Reports.DataType.Boolean.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.DataType.Boolean",
+                            SortOrder = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000005"),
+                            Code = "DATE",
+                            DescriptionKey = "Reports.DataType.Date.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.DataType.Date",
+                            SortOrder = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000006"),
+                            Code = "DATETIME",
+                            DescriptionKey = "Reports.DataType.Datetime.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.DataType.Datetime",
+                            SortOrder = 60
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000007"),
+                            Code = "GUID",
+                            DescriptionKey = "Reports.DataType.Guid.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.DataType.Guid",
+                            SortOrder = 70
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportDefinition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsHtmlDescription")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("CategoryId", "IsActive");
+
+                    b.ToTable("ReportDefinitions", "reports");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportExecutionStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("IsActive", "SortOrder");
+
+                    b.ToTable("ReportExecutionStatuses", "reports_lookup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000001"),
+                            Code = "QUEUED",
+                            DescriptionKey = "Reports.ExecutionStatus.Queued.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.ExecutionStatus.Queued",
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000002"),
+                            Code = "RUNNING",
+                            DescriptionKey = "Reports.ExecutionStatus.Running.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.ExecutionStatus.Running",
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000003"),
+                            Code = "COMPLETED",
+                            DescriptionKey = "Reports.ExecutionStatus.Completed.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.ExecutionStatus.Completed",
+                            SortOrder = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000004"),
+                            Code = "FAILED",
+                            DescriptionKey = "Reports.ExecutionStatus.Failed.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.ExecutionStatus.Failed",
+                            SortOrder = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("91000000-0000-0000-0000-000000000005"),
+                            Code = "CANCELLED",
+                            DescriptionKey = "Reports.ExecutionStatus.Cancelled.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Reports.ExecutionStatus.Cancelled",
+                            SortOrder = 50
+                        });
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportParameter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("DataTypeCodeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DefaultValue")
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
+                    b.Property<string>("DescriptionKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("NameKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid>("ReportDefinitionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DataTypeCodeId");
+
+                    b.HasIndex("ReportDefinitionId", "Code")
+                        .IsUnique();
+
+                    b.HasIndex("ReportDefinitionId", "IsActive", "SortOrder");
+
+                    b.ToTable("ReportParameters", "reports");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.ReportExecution", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasMaxLength(10000)
+                        .HasColumnType("character varying(10000)");
+
+                    b.Property<string>("OutputContentType")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("OutputFileId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("ReportDefinitionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RequestedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("StatusCodeId")
+                        .HasMaxLength(50)
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("TemplateVersionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TemplateVersionId");
+
+                    b.HasIndex("ReportDefinitionId", "StartedAt");
+
+                    b.HasIndex("StatusCodeId", "StartedAt");
+
+                    b.ToTable("ReportExecutions", "reports");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.ReportTemplateVersion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContentHash")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FileId1")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("PublishedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ReportDefinitionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long?>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId")
+                        .IsUnique();
+
+                    b.HasIndex("FileId1");
+
+                    b.HasIndex("ReportDefinitionId", "Version")
+                        .IsUnique();
+
+                    b.HasIndex("ReportDefinitionId", "IsPublished", "PublishedAt");
+
+                    b.ToTable("ReportTemplateVersions", "reports");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Support.Lookups.SupportTicketCategory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4425,6 +5012,111 @@ namespace IKP.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("AuditLog");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportCategory", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportDataType", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportDefinition", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Reports.Lookups.ReportCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportExecutionStatus", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportParameter", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Reports.Lookups.ReportDataType", "ReportDataType")
+                        .WithMany()
+                        .HasForeignKey("DataTypeCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Reports.Lookups.ReportDefinition", "ReportDefinition")
+                        .WithMany()
+                        .HasForeignKey("ReportDefinitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ReportDataType");
+
+                    b.Navigation("ReportDefinition");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.ReportExecution", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Reports.Lookups.ReportDefinition", "ReportDefinition")
+                        .WithMany()
+                        .HasForeignKey("ReportDefinitionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Reports.Lookups.ReportExecutionStatus", "ReportExecutionStatus")
+                        .WithMany()
+                        .HasForeignKey("StatusCodeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Reports.ReportTemplateVersion", "TemplateVersion")
+                        .WithMany()
+                        .HasForeignKey("TemplateVersionId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("ReportDefinition");
+
+                    b.Navigation("ReportExecutionStatus");
+
+                    b.Navigation("TemplateVersion");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Reports.ReportTemplateVersion", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Reports.Lookups.ReportDefinition", "ReportDefinition")
+                        .WithMany()
+                        .HasForeignKey("ReportDefinitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("File");
+
+                    b.Navigation("ReportDefinition");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Support.Lookups.SupportTicketCategory", b =>

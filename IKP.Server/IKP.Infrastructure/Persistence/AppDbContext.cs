@@ -15,6 +15,8 @@ using IKP.Domain.Entities.Logs;
 using IKP.Domain.Entities.Localization;
 using IKP.Domain.Entities.Updates;
 using IKP.Domain.Entities.Updates.Lookups;
+using IKP.Domain.Entities.Reports;
+using IKP.Domain.Entities.Reports.Lookups;
 using IKP.Domain.Entities.Support;
 using IKP.Domain.Entities.Support.Lookups;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
@@ -62,6 +64,17 @@ namespace IKP.Infrastructure.Persistence
         public DbSet<UpdateReleaseNote> UpdateReleaseNotes => Set<UpdateReleaseNote>();
         public DbSet<UpdateReleaseNoteAttachment> UpdateReleaseNoteAttachments => Set<UpdateReleaseNoteAttachment>();
         public DbSet<UpdateDownloadLink> UpdateDownloadLinks => Set<UpdateDownloadLink>();
+        #endregion
+        #region Reports
+        public DbSet<ReportTemplateVersion> ReportTemplateVersions => Set<ReportTemplateVersion>();
+        public DbSet<ReportExecution> ReportExecutions => Set<ReportExecution>();
+        public DbSet<ReportDefinition> ReportDefinitions => Set<ReportDefinition>();
+        public DbSet<ReportParameter> ReportParameters => Set<ReportParameter>();
+        #region Lookup
+        public DbSet<ReportCategory> ReportCategories => Set<ReportCategory>();
+        public DbSet<ReportDataType> ReportDataTypies => Set<ReportDataType>();
+        public DbSet<ReportExecutionStatus> ReportExecutionStatuses => Set<ReportExecutionStatus>();
+        #endregion
         #endregion
         #region Files
         public DbSet<FileBlob> FileBlobs => Set<FileBlob>();
