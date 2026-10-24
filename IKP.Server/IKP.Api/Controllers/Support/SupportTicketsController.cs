@@ -147,14 +147,24 @@ public sealed class SupportTicketsController : ControllerBase
     /// </summary>
     [HttpDelete("{ticketId:guid}")]
     [Authorize(Policy = AuthorizationPolicyNames.SupportDelete)]
-    public async Task<IActionResult> Delete(Guid ticketId, CancellationToken cancellationToken) { await service.DeleteAsync(ticketId, GetRequiredUserId(), cancellationToken); return NoContent(); }
+    public async Task<IActionResult> Delete(Guid ticketId, CancellationToken cancellationToken) 
+    { 
+        await service.DeleteAsync(ticketId, GetRequiredUserId(), cancellationToken); 
+        
+        return NoContent(); 
+    }
 
     /// <summary>
     /// Restores a deleted support ticket.
     /// </summary>
     [HttpPost("{ticketId:guid}/restore")]
     [Authorize(Policy = AuthorizationPolicyNames.SupportUpdate)]
-    public async Task<IActionResult> Restore(Guid ticketId, CancellationToken cancellationToken) { await service.RestoreAsync(ticketId, GetRequiredUserId(), cancellationToken); return NoContent(); }
+    public async Task<IActionResult> Restore(Guid ticketId, CancellationToken cancellationToken) 
+    { 
+        await service.RestoreAsync(ticketId, GetRequiredUserId(), cancellationToken); 
+        
+        return NoContent(); 
+    }
 
     private Guid GetRequiredUserId()
     {

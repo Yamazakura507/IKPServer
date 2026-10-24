@@ -7,5 +7,6 @@
         public string Code { get; set; } = null!;
         public string NameKey { get; set; } = null!;
         public string? DescriptionKey { get; set; }
+        public Guid? FileId { get; set; }
     }
 }

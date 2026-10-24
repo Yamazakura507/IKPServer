@@ -99,6 +99,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -119,6 +122,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -155,6 +160,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -175,6 +183,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -450,6 +460,26 @@ namespace IKP.Infrastructure.Migrations
                             IsSystem = true,
                             NameKey = "Auth.Authorization.ReportsGenerate",
                             SortOrder = 270
+                        },
+                        new
+                        {
+                            Id = new Guid("81000000-0000-0000-0000-000000000037"),
+                            Code = "system.read",
+                            DescriptionKey = "Auth.Authorization.SystemRead.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.SystemRead",
+                            SortOrder = 280
+                        },
+                        new
+                        {
+                            Id = new Guid("81000000-0000-0000-0000-000000000038"),
+                            Code = "system.manage",
+                            DescriptionKey = "Auth.Authorization.SystemManage.Description",
+                            IsActive = true,
+                            IsSystem = true,
+                            NameKey = "Auth.Authorization.SystemManage",
+                            SortOrder = 290
                         },
                         new
                         {
@@ -771,6 +801,20 @@ namespace IKP.Infrastructure.Migrations
                         new
                         {
                             RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000037"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
+                            PermissionId = new Guid("81000000-0000-0000-0000-000000000038"),
+                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
                             PermissionId = new Guid("81000000-0000-0000-0000-000000000021"),
                             CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsDeleted = false
@@ -863,6 +907,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -892,6 +939,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -1098,6 +1147,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("ImportanceScore")
                         .HasColumnType("integer");
 
@@ -1121,6 +1173,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.ToTable("DiagnosticAreas", "diagnostics_lookup", t =>
                         {
@@ -1510,6 +1564,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -1530,6 +1587,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -1606,6 +1665,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -1626,6 +1688,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -1672,6 +1736,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uuid");
 
@@ -1692,6 +1759,8 @@ namespace IKP.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("GroupId", "Code")
                         .IsUnique();
@@ -2007,6 +2076,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -2027,6 +2099,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -2248,6 +2322,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -2268,6 +2345,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -2634,6 +2713,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -2668,6 +2750,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -2778,6 +2862,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -2798,6 +2885,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -2950,6 +3039,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -2970,6 +3062,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -3036,6 +3130,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -3056,6 +3153,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -3189,6 +3288,8 @@ namespace IKP.Infrastructure.Migrations
                     b.HasIndex("Code")
                         .IsUnique();
 
+                    b.HasIndex("FileId");
+
                     b.HasIndex("CategoryId", "IsActive");
 
                     b.ToTable("ReportDefinitions", "reports");
@@ -3212,6 +3313,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -3232,6 +3336,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -3338,6 +3444,8 @@ namespace IKP.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DataTypeCodeId");
+
+                    b.HasIndex("FileId");
 
                     b.HasIndex("ReportDefinitionId", "Code")
                         .IsUnique();
@@ -3486,6 +3594,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -3506,6 +3617,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -3582,6 +3695,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -3605,6 +3721,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "Weight");
 
@@ -3675,6 +3793,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -3698,6 +3819,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -3983,6 +4106,60 @@ namespace IKP.Infrastructure.Migrations
                     b.ToTable("TicketMessageAttachments", "support");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.System.BackgroundJob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasMaxLength(10000)
+                        .HasColumnType("character varying(10000)");
+
+                    b.Property<string>("JobType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("NextAttemptAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Payload")
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)");
+
+                    b.Property<DateTime?>("ScheduledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("StatusCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobType", "CreatedAt");
+
+                    b.HasIndex("StatusCode", "NextAttemptAt");
+
+                    b.ToTable("BackgroundJobs", "system");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdateCategory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3999,6 +4176,9 @@ namespace IKP.Infrastructure.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("FileId1")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsActive")
@@ -4021,6 +4201,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -4077,6 +4259,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -4097,6 +4282,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("IsActive", "SortOrder");
 
@@ -4146,6 +4333,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -4169,6 +4359,8 @@ namespace IKP.Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("PlatformId");
 
@@ -4323,6 +4515,50 @@ namespace IKP.Infrastructure.Migrations
                     b.ToTable("DownloadLinks", "updates");
                 });
 
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateProductPermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId", "ProductId")
+                        .IsUnique();
+
+                    b.ToTable("UpdateProductPermissions", "updates");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateProductRelation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RelatedProductId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RelatedProductId");
+
+                    b.HasIndex("ProductId", "RelatedProductId")
+                        .IsUnique();
+
+                    b.ToTable("UpdateProductRelations", "updates");
+                });
+
             modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateReleaseNote", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4400,6 +4636,9 @@ namespace IKP.Infrastructure.Migrations
                     b.Property<Guid?>("FileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("FileId1")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("IsPrerelease")
                         .HasColumnType("boolean");
 
@@ -4432,6 +4671,8 @@ namespace IKP.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("FileId1");
 
                     b.HasIndex("ProductId", "Version")
                         .IsUnique();
@@ -4466,6 +4707,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Auth.Permissions.AuthPermission", b =>
@@ -4474,6 +4721,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Auth.Permissions.AuthRolePermission", b =>
@@ -4501,6 +4754,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Auth.Roles.AuthUserRole", b =>
@@ -4546,6 +4805,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Areas.DiagnosticAreaResolution", b =>
@@ -4653,6 +4918,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticAreaResolutionSource", b =>
@@ -4661,6 +4932,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinition", b =>
@@ -4670,11 +4947,17 @@ namespace IKP.Infrastructure.Migrations
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
                     b.HasOne("IKP.Domain.Entities.Diagnostics.Definitions.DiagnosticDefinitionGroup", "Group")
                         .WithMany("Definitions")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("File");
 
                     b.Navigation("Group");
                 });
@@ -4685,6 +4968,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Errors.ErrorGroup", b =>
@@ -4916,6 +5205,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Diagnostics.Statistics.ErrorMetricBucket", b =>
@@ -4965,6 +5260,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Localization.LanguagePackage", b =>
@@ -4990,6 +5291,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Logs.AuditLog", b =>
@@ -5020,6 +5327,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportDataType", b =>
@@ -5028,6 +5341,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportDefinition", b =>
@@ -5038,7 +5357,13 @@ namespace IKP.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId");
+
                     b.Navigation("Category");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportExecutionStatus", b =>
@@ -5047,6 +5372,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportParameter", b =>
@@ -5057,11 +5388,17 @@ namespace IKP.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId");
+
                     b.HasOne("IKP.Domain.Entities.Reports.Lookups.ReportDefinition", "ReportDefinition")
                         .WithMany()
                         .HasForeignKey("ReportDefinitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("File");
 
                     b.Navigation("ReportDataType");
 
@@ -5125,6 +5462,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Support.Lookups.SupportTicketPriority", b =>
@@ -5133,6 +5476,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Support.Lookups.SupportTicketStatus", b =>
@@ -5141,6 +5490,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Support.SupportTicket", b =>
@@ -5255,6 +5610,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdatePlatform", b =>
@@ -5263,6 +5624,12 @@ namespace IKP.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
+                    b.Navigation("File");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Updates.Lookups.UpdateProduct", b =>
@@ -5278,12 +5645,18 @@ namespace IKP.Infrastructure.Migrations
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
                     b.HasOne("IKP.Domain.Entities.Updates.Lookups.UpdatePlatform", "Platform")
                         .WithMany()
                         .HasForeignKey("PlatformId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Category");
+
+                    b.Navigation("File");
 
                     b.Navigation("Platform");
                 });
@@ -5297,6 +5670,44 @@ namespace IKP.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Version");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateProductPermission", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Updates.Lookups.UpdateProduct", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Auth.Users.AuthUser", "AuthUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AuthUser");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateProductRelation", b =>
+                {
+                    b.HasOne("IKP.Domain.Entities.Updates.Lookups.UpdateProduct", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKP.Domain.Entities.Updates.Lookups.UpdateProduct", "RelatedProduct")
+                        .WithMany()
+                        .HasForeignKey("RelatedProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("RelatedProduct");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Updates.UpdateReleaseNote", b =>
@@ -5334,11 +5745,17 @@ namespace IKP.Infrastructure.Migrations
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("IKP.Domain.Entities.Files.StoredFile", "File")
+                        .WithMany()
+                        .HasForeignKey("FileId1");
+
                     b.HasOne("IKP.Domain.Entities.Updates.Lookups.UpdateProduct", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("File");
 
                     b.Navigation("Product");
                 });

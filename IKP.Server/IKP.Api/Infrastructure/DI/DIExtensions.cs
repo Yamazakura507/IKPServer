@@ -37,6 +37,12 @@ using IKP.Infrastructure.Services.Redis;
 using IKP.Infrastructure.Services.Redis.Interfaces;
 using IKP.Infrastructure.Services.Support;
 using IKP.Application.Support.Interfaces;
+using IKP.Application.System.Interfaces;
+using IKP.Application.Updates.Interfaces;
+using IKP.Application.Reports.Interfaces;
+using IKP.Infrastructure.Services.Updates;
+using IKP.Infrastructure.Services.Reports;
+using IKP.Infrastructure.Services.System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -93,8 +99,11 @@ namespace IKP.Api.Infrastructure.DI
         {
             builder.AddScopedDiagnostics();
             builder.AddScopedAuth();
-            builder.AddScopedFiles();
-            builder.AddScopedSupport();
+            builder.AddScopedUpdate();
+            builder.AddScopedReport();
+            builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.AddScoped<ISupportService, SupportService>();
+            builder.Services.AddScoped<IBackgroundJobService, BackgroundJobService>();
         }
 
         private static void AddSingletonsAudit(this WebApplicationBuilder builder)
@@ -136,14 +145,19 @@ namespace IKP.Api.Infrastructure.DI
             builder.Services.AddScoped<IPasswordHasher<AuthUser>, PasswordHasher<AuthUser>>();
         }
 
-        private static void AddScopedFiles(this WebApplicationBuilder builder)
+        private static void AddScopedUpdate(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.AddScoped<IUpdateProductService, UpdateProductService>();
+            builder.Services.AddScoped<IUpdateVersionService, UpdateVersionService>();
+            builder.Services.AddScoped<IUpdateReleaseNoteService, UpdateReleaseNoteService>();
+            builder.Services.AddScoped<IUpdateProductAccessService, UpdateProductAccessService>();
         }
 
-        private static void AddScopedSupport(this WebApplicationBuilder builder)
+        private static void AddScopedReport(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<ISupportService, SupportService>();
+            builder.Services.AddScoped<IReportDefinitionService, ReportDefinitionService>();
+            builder.Services.AddScoped<IReportTemplateService, ReportTemplateService>();
+            builder.Services.AddScoped<IReportParameterService, ReportParameterService>();
         }
 
         private static void AddConfigures(this WebApplicationBuilder builder)

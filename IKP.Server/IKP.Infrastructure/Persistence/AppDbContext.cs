@@ -19,6 +19,7 @@ using IKP.Domain.Entities.Reports;
 using IKP.Domain.Entities.Reports.Lookups;
 using IKP.Domain.Entities.Support;
 using IKP.Domain.Entities.Support.Lookups;
+using IKP.Domain.Entities.System;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using IKP.Infrastructure.Services.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,8 @@ namespace IKP.Infrastructure.Persistence
         public DbSet<UpdateReleaseNote> UpdateReleaseNotes => Set<UpdateReleaseNote>();
         public DbSet<UpdateReleaseNoteAttachment> UpdateReleaseNoteAttachments => Set<UpdateReleaseNoteAttachment>();
         public DbSet<UpdateDownloadLink> UpdateDownloadLinks => Set<UpdateDownloadLink>();
+        public DbSet<UpdateProductRelation> UpdateProductRelations => Set<UpdateProductRelation>();
+        public DbSet<UpdateProductPermission> UpdateProductPermissions => Set<UpdateProductPermission>();
         #endregion
         #region Reports
         public DbSet<ReportTemplateVersion> ReportTemplateVersions => Set<ReportTemplateVersion>();
@@ -75,6 +78,9 @@ namespace IKP.Infrastructure.Persistence
         public DbSet<ReportDataType> ReportDataTypies => Set<ReportDataType>();
         public DbSet<ReportExecutionStatus> ReportExecutionStatuses => Set<ReportExecutionStatus>();
         #endregion
+        #endregion
+        #region System
+        public DbSet<BackgroundJob> BackgroundJobs => Set<BackgroundJob>();
         #endregion
         #region Files
         public DbSet<FileBlob> FileBlobs => Set<FileBlob>();

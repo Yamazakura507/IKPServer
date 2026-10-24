@@ -34,6 +34,9 @@ public static class DatabaseSchemas
     /// </summary>
     public const string Reports = "reports";
 
+    /// <summary>Gets the system schema.</summary>
+    public const string System = "system";
+
     /// <summary>
     /// Gets the support schema.
     /// </summary>
