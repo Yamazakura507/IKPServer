@@ -43,6 +43,8 @@ using IKP.Application.Reports.Interfaces;
 using IKP.Infrastructure.Services.Updates;
 using IKP.Infrastructure.Services.Reports;
 using IKP.Infrastructure.Services.System;
+using IKP.Application.Monitoring.Interfaces;
+using IKP.Infrastructure.Services.Monitoring;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -104,6 +106,7 @@ namespace IKP.Api.Infrastructure.DI
             builder.Services.AddScoped<IFileService, FileService>();
             builder.Services.AddScoped<ISupportService, SupportService>();
             builder.Services.AddScoped<IBackgroundJobService, BackgroundJobService>();
+            builder.Services.AddScoped<IMonitoringService, MonitoringService>();
         }
 
         private static void AddSingletonsAudit(this WebApplicationBuilder builder)

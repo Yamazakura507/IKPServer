@@ -45,6 +45,8 @@ public static class AuthorizationSeed
     private static readonly Guid ReportsGeneratePermissionId = BaseIndex.GetGuidForLevel(1, 36);
     private static readonly Guid SystemReadPermissionId = BaseIndex.GetGuidForLevel(1, 37);
     private static readonly Guid SystemManagePermissionId = BaseIndex.GetGuidForLevel(1, 38);
+    private static readonly Guid MonitoringReadPermissionId = BaseIndex.GetGuidForLevel(1, 39);
+    private static readonly Guid MonitoringManagePermissionId = BaseIndex.GetGuidForLevel(1, 40);
 
     /// <summary>
     /// Adds the built-in authorization definitions to the EF model.
@@ -83,7 +85,9 @@ public static class AuthorizationSeed
                 new (ReportsManagePermissionId, AuthorizationPermissionCodes.ReportsManage),
                 new (ReportsGeneratePermissionId, AuthorizationPermissionCodes.ReportsGenerate),
                 new (SystemReadPermissionId, AuthorizationPermissionCodes.SystemRead),
-                new (SystemManagePermissionId, AuthorizationPermissionCodes.SystemManage)
+                new (SystemManagePermissionId, AuthorizationPermissionCodes.SystemManage),
+                new (MonitoringReadPermissionId, AuthorizationPermissionCodes.MonitoringRead),
+                new (MonitoringManagePermissionId, AuthorizationPermissionCodes.MonitoringManage)
             };
 
         modelBuilder.Entity<AuthRole>().HasData(role.CreateDefinitionLocalized(PathRoleKey));

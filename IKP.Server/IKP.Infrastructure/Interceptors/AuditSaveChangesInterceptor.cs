@@ -4,6 +4,7 @@ using IKP.Domain.Common.Interfaces.Audit;
 using IKP.Domain.Entities.Auth.Credentials;
 using IKP.Domain.Entities.Auth.Users;
 using IKP.Domain.Entities.Logs;
+using IKP.Domain.Entities.Monitoring;
 using IKP.Infrastructure.Persistence;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using IKP.Infrastructure.Services.Audit.Interfaces;
@@ -28,7 +29,8 @@ namespace IKP.Infrastructure.Interceptors
             nameof(AuthUser.FailedLoginCount),
             nameof(AuthUser.LockoutEndAt),
             nameof(AuthUser.LastLoginAt),
-            nameof(UserCredential.LastUsedAt)
+            nameof(UserCredential.LastUsedAt),
+            nameof(RetentionPolicy.LastRunAt)
         };
 
         private readonly IAuditValueSerializer valueSerializer;

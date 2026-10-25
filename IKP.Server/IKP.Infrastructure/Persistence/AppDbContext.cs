@@ -20,6 +20,7 @@ using IKP.Domain.Entities.Reports.Lookups;
 using IKP.Domain.Entities.Support;
 using IKP.Domain.Entities.Support.Lookups;
 using IKP.Domain.Entities.System;
+using IKP.Domain.Entities.Monitoring;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using IKP.Infrastructure.Services.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -81,6 +82,11 @@ namespace IKP.Infrastructure.Persistence
         #endregion
         #region System
         public DbSet<BackgroundJob> BackgroundJobs => Set<BackgroundJob>();
+        public DbSet<HealthSnapshot> HealthSnapshots => Set<HealthSnapshot>();
+        public DbSet<RetentionPolicy> RetentionPolicies => Set<RetentionPolicy>();
+        public DbSet<BackupRecord> BackupRecords => Set<BackupRecord>();
+        public DbSet<AlertRule> AlertRules => Set<AlertRule>();
+        public DbSet<Alert> Alerts => Set<Alert>();
         #endregion
         #region Files
         public DbSet<FileBlob> FileBlobs => Set<FileBlob>();
