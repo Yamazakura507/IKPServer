@@ -483,26 +483,6 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("81000000-0000-0000-0000-000000000039"),
-                            Code = "monitoring.read",
-                            DescriptionKey = "Auth.Authorization.MonitoringRead.Description",
-                            IsActive = true,
-                            IsSystem = true,
-                            NameKey = "Auth.Authorization.MonitoringRead",
-                            SortOrder = 300
-                        },
-                        new
-                        {
-                            Id = new Guid("81000000-0000-0000-0000-000000000040"),
-                            Code = "monitoring.manage",
-                            DescriptionKey = "Auth.Authorization.MonitoringManage.Description",
-                            IsActive = true,
-                            IsSystem = true,
-                            NameKey = "Auth.Authorization.MonitoringManage",
-                            SortOrder = 310
-                        },
-                        new
-                        {
                             Id = new Guid("81000000-0000-0000-0000-000000000021"),
                             Code = "support.read",
                             DescriptionKey = "Auth.Authorization.SupportRead.Description",
@@ -829,20 +809,6 @@ namespace IKP.Infrastructure.Migrations
                         {
                             RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
                             PermissionId = new Guid("81000000-0000-0000-0000-000000000038"),
-                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
-                            PermissionId = new Guid("81000000-0000-0000-0000-000000000039"),
-                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            RoleId = new Guid("80000000-0000-0000-0000-000000000001"),
-                            PermissionId = new Guid("81000000-0000-0000-0000-000000000040"),
                             CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsDeleted = false
                         },
@@ -3053,211 +3019,6 @@ namespace IKP.Infrastructure.Migrations
                     b.HasIndex("AuditLogId");
 
                     b.ToTable("AuditLogChanges", "app_logs");
-                });
-
-            modelBuilder.Entity("IKP.Domain.Entities.Monitoring.Alert", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AlertRuleId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasMaxLength(10000)
-                        .HasColumnType("character varying(10000)");
-
-                    b.Property<DateTime?>("ResolvedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("StatusCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<DateTime>("TriggeredAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AlertRuleId");
-
-                    b.HasIndex("StatusCode", "TriggeredAt");
-
-                    b.ToTable("Alerts", "monitoring");
-                });
-
-            modelBuilder.Entity("IKP.Domain.Entities.Monitoring.AlertRule", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Condition")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("character varying(4000)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DescriptionKey")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("NameKey")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<string>("SeverityCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.ToTable("AlertRules", "monitoring");
-                });
-
-            modelBuilder.Entity("IKP.Domain.Entities.Monitoring.BackupRecord", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("BackupType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime?>("CompletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ContentHash")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
-                    b.Property<string>("ErrorMessage")
-                        .HasMaxLength(10000)
-                        .HasColumnType("character varying(10000)");
-
-                    b.Property<long?>("Size")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("StartedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("StatusCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("StorageKey")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StartedAt");
-
-                    b.ToTable("BackupRecords", "monitoring");
-                });
-
-            modelBuilder.Entity("IKP.Domain.Entities.Monitoring.HealthSnapshot", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CheckedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Component")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<string>("Details")
-                        .HasMaxLength(10000)
-                        .HasColumnType("character varying(10000)");
-
-                    b.Property<double?>("DurationMilliseconds")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("StatusCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Component", "CheckedAt");
-
-                    b.ToTable("HealthSnapshots", "monitoring");
-                });
-
-            modelBuilder.Entity("IKP.Domain.Entities.Monitoring.RetentionPolicy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("AreaCode")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("LastRunAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("RetentionDays")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AreaCode")
-                        .IsUnique();
-
-                    b.ToTable("RetentionPolicys", "monitoring");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("91000000-0000-0000-0000-000000000001"),
-                            AreaCode = "MONITORING_HEALTH",
-                            CreatedAt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            RetentionDays = 30
-                        });
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportCategory", b =>
@@ -5558,17 +5319,6 @@ namespace IKP.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("AuditLog");
-                });
-
-            modelBuilder.Entity("IKP.Domain.Entities.Monitoring.Alert", b =>
-                {
-                    b.HasOne("IKP.Domain.Entities.Monitoring.AlertRule", "AlertRule")
-                        .WithMany()
-                        .HasForeignKey("AlertRuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AlertRule");
                 });
 
             modelBuilder.Entity("IKP.Domain.Entities.Reports.Lookups.ReportCategory", b =>

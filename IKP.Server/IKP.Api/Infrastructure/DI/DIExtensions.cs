@@ -177,6 +177,7 @@ namespace IKP.Api.Infrastructure.DI
             builder.Services.AddHostedService<DiagnosticStatisticsWorker>();
             builder.Services.AddHostedService<DiagnosticCriticalityWorker>();
             builder.Services.AddHostedService<FileUploadCleanupWorker>();
+            builder.Services.AddHostedService<MonitoringWorker>();
         }
 
         private static void AddFileStorageLimits(this WebApplicationBuilder builder)

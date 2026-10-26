@@ -16,7 +16,13 @@ public sealed class MonitoringService(AppDbContext db) : IMonitoringService
 
         try 
         { 
-            await db.Database.CanConnectAsync(cancellationToken); 
+            bool canConnect = await db.Database.CanConnectAsync(cancellationToken);
+            
+            if (!canConnect)
+            {
+                status = MonitoringCodes.Unhealthy;
+                details = "Database connection check returned false.";
+            } 
         }
         catch(Exception ex) 
         { 
@@ -47,7 +53,7 @@ public sealed class MonitoringService(AppDbContext db) : IMonitoringService
         int total = 0; 
         DateTime now = DateTime.UtcNow;
 
-        foreach(RetentionPolicy p in await db.RetentionPolicies.Where(x => x.IsActive).ToListAsync(cancellationToken))
+        foreach(RetentionPolicy p in await db.RetentionPolicies.Where(x => x.IsActive && x.RetentionDays >= 1).ToListAsync(cancellationToken))
         {
             DateTime cutoff = now.AddDays(-p.RetentionDays);
 
