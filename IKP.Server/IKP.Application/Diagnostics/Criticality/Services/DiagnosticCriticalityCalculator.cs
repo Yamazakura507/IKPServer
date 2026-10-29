@@ -1,5 +1,5 @@
-using IKP.Domain.Common.Diagnostics;
 using IKP.Application.Diagnostics.Criticality.Models;
+using IKP.Domain.Common.Codes.Diagnostics;
 
 namespace IKP.Application.Diagnostics.Criticality.Services
 {

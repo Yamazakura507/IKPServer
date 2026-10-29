@@ -1,7 +1,6 @@
 using IKP.Application.Diagnostics.Interfaces;
 using IKP.Application.Diagnostics.Criticality.Models;
 using IKP.Application.Diagnostics.Resolvers.Models;
-using IKP.Domain.Common.Diagnostics;
 using IKP.Domain.Entities.Diagnostics.Areas;
 using IKP.Domain.Entities.Diagnostics.Criticality;
 using IKP.Domain.Entities.Diagnostics.Errors;
@@ -9,6 +8,7 @@ using IKP.Domain.Entities.Diagnostics.Statistics;
 using IKP.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using IKP.Domain.Common.Codes.Diagnostics;
 
 namespace IKP.Infrastructure.Services.Diagnostics
 {

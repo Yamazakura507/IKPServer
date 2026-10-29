@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Authorization;
 using IKP.Api.Diagnostics.Models.Logs;
 using IKP.Api.Infrastructure.Query;
 using IKP.Application.Common.Query;
-using IKP.Domain.Common.Audit;
 using IKP.Domain.Common.Interfaces.Audit;
 using IKP.Domain.Entities.Logs;
 using IKP.Infrastructure.Persistence;
-using IKP.Infrastructure.Persistence.Seeds;
 using IKP.Infrastructure.Services.Audit.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Linq.Expressions;
+using IKP.Domain.Common.Codes.Audit;
+using IKP.Infrastructure.Persistence.Seeds.Seeds;
 
 namespace IKP.Api.Controllers.Logs;
 

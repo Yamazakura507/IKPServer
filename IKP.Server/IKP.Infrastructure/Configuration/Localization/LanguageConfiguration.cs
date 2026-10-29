@@ -28,7 +28,7 @@ public sealed class LanguageConfiguration : IEntityTypeConfiguration<Language>
         builder.Property(x => x.IsDefault).IsRequired();
         builder.Property(x => x.IsRightToLeft).IsRequired();
 
-        builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
+        builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
 
         builder.HasIndex(x => x.Code).IsUnique();
         builder.HasIndex(x => x.CultureCode).IsUnique();

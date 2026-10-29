@@ -29,7 +29,7 @@ namespace IKP.Infrastructure.Configuration.Updates
             builder.HasIndex(x => new { x.IsActive, x.SortOrder });
             builder.HasIndex(x => new { x.CategoryId, x.Code }).IsUnique();
 
-            builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
             builder.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Platform).WithMany().HasForeignKey(x => x.PlatformId).OnDelete(DeleteBehavior.SetNull);
         }

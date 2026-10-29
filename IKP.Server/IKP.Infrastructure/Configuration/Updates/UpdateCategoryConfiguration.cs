@@ -22,7 +22,7 @@ namespace IKP.Infrastructure.Configuration.Updates
             builder.Property(x => x.IsActive).IsRequired();
             builder.Property(x => x.IsSystem).IsRequired();
 
-            builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
 
             builder.HasIndex(x => x.FileId);
             builder.HasIndex(x => x.Code).IsUnique();

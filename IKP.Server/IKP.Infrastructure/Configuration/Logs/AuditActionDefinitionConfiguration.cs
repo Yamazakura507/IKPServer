@@ -22,7 +22,7 @@ namespace IKP.Infrastructure.Configuration.Logs
             builder.Property(x => x.SortOrder).IsRequired();
             builder.Property(x => x.FileId);
 
-            builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
 
             builder.HasIndex(x => x.FileId);
             builder.HasIndex(x => x.Code).IsUnique();

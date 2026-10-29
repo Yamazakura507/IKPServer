@@ -1,5 +1,5 @@
 using IKP.Application.Monitoring.Interfaces;
-using IKP.Domain.Common.Monitoring;
+using IKP.Domain.Common.Codes.Monitoring;
 using IKP.Domain.Entities.Monitoring;
 using IKP.Infrastructure.Persistence;
 using IKP.Infrastructure.Services.Redis.Interfaces;

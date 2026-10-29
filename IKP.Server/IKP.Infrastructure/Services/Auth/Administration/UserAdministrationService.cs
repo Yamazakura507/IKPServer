@@ -4,6 +4,7 @@ using IKP.Application.Auth.Exceptions;
 using IKP.Application.Auth.Models;
 using IKP.Domain.Common.Auth;
 using IKP.Domain.Common.Base;
+using IKP.Domain.Common.Codes.Auth;
 using IKP.Domain.Entities.Auth.Credentials;
 using IKP.Domain.Entities.Auth.Permissions;
 using IKP.Domain.Entities.Auth.Roles;

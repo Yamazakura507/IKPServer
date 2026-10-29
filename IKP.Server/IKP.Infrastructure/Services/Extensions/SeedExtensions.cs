@@ -1,6 +1,9 @@
 using IKP.Domain.Common.Base;
-using IKP.Infrastructure.Persistence.Seeds;
 using IKP.Infrastructure.Persistence.Seeds.Records;
+using IKP.Infrastructure.Persistence.Seeds.Seeds;
+using IKP.Infrastructure.Persistence.Seeds.Seeds.Auth;
+using IKP.Infrastructure.Persistence.Seeds.Seeds.Diagnostic;
+using IKP.Infrastructure.Persistence.Seeds.Seeds.Support;
 using Microsoft.EntityFrameworkCore;
 
 namespace IKP.Infrastructure.Services.Extensions
@@ -99,7 +102,10 @@ namespace IKP.Infrastructure.Services.Extensions
             UpdateSeed.Seed(modelBuilder);
 
             ReportSeed.Seed(modelBuilder);
+
             MonitoringSeed.Seed(modelBuilder);
+
+            AppHRSeed.Seed(modelBuilder);
         }
     }
 }

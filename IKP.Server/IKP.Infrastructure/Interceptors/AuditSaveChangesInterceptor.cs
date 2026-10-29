@@ -1,5 +1,5 @@
 using IKP.Application.Common.Interfaces;
-using IKP.Domain.Common.Audit;
+using IKP.Domain.Common.Codes.Audit;
 using IKP.Domain.Common.Interfaces.Audit;
 using IKP.Domain.Entities.Auth.Credentials;
 using IKP.Domain.Entities.Auth.Users;

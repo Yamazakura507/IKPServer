@@ -1,6 +1,7 @@
 using IKP.Domain.Common.Base;
 using IKP.Domain.Common.Interfaces.Audit;
 using IKP.Domain.Common.Interfaces.Information;
+using IKP.Domain.Entities.Files;
 
 namespace IKP.Domain.Entities.Localization;
 
@@ -68,4 +69,5 @@ public sealed class LanguagePackage : Entity, IAuditable, IHasSystemState, IHasA
     /// Gets or sets the language navigation property.
     /// </summary>
     public Language Language { get; set; } = null!;
+    public StoredFile File { get; set; } = null!;
 }

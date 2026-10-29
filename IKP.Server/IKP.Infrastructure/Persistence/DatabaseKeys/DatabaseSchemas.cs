@@ -55,6 +55,11 @@ public static class DatabaseSchemas
     public const string Auth = "auth";
 
     /// <summary>
+    /// Application lookup/catalog schema.
+    /// </summary>
+    public const string AppLookup = $"{App}_{LookupPrefix}";
+
+    /// <summary>
     /// Gets the updates lookup schema.
     /// </summary>
     public const string UpdatesLookup = $"{Updates}_{LookupPrefix}";

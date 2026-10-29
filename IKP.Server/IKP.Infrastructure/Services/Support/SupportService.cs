@@ -1,7 +1,7 @@
 using IKP.Application.Support.Exceptions;
 using IKP.Application.Support.Interfaces;
 using IKP.Application.Support.Models;
-using IKP.Domain.Common.Support;
+using IKP.Domain.Common.Codes.Support;
 using IKP.Domain.Entities.Support;
 using IKP.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

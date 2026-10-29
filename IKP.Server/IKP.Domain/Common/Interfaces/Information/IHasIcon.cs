@@ -1,3 +1,5 @@
+using IKP.Domain.Entities.Files;
+
 namespace IKP.Domain.Common.Interfaces.Information
 {
     /// <summary>
@@ -5,5 +7,6 @@ namespace IKP.Domain.Common.Interfaces.Information
     /// </summary>
     public interface IHasIcon : IHasFile
     {
+
     }
 }

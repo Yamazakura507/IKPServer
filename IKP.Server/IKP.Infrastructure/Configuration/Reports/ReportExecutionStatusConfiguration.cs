@@ -25,6 +25,6 @@ public sealed class ReportExecutionStatusConfiguration : IEntityTypeConfiguratio
         builder.HasIndex(x => x.Code).IsUnique();
         builder.HasIndex(x => new { x.IsActive, x.SortOrder });
 
-        builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
+        builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
     }
 }

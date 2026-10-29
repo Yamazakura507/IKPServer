@@ -32,7 +32,7 @@ namespace IKP.Infrastructure.Configuration.Updates
             builder.HasIndex(x => new { x.ProductId, x.IsPublished, x.ReleaseAt });
 
             builder.HasOne(x => x.Product).WithMany().HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

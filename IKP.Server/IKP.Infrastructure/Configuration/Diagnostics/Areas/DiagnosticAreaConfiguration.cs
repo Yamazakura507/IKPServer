@@ -25,12 +25,9 @@ namespace IKP.Infrastructure.Configuration.Diagnostics.Areas
             builder.Property(x => x.NameKey).IsRequired().HasMaxLength(256);
             builder.Property(x => x.DescriptionKey).HasMaxLength(256);
             builder.Property(x => x.FileId);
-        builder.HasOne<StoredFile>()
-            .WithMany()
-            .HasForeignKey(x => x.FileId)
-            .OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
 
-        builder.HasIndex(x => x.FileId);
+            builder.HasIndex(x => x.FileId);
             builder.Property(x => x.SortOrder).IsRequired();
             builder.Property(x => x.IsActive).IsRequired();
             builder.Property(x => x.IsSystem).IsRequired();

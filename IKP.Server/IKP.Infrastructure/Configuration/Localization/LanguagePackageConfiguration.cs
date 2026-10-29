@@ -25,7 +25,7 @@ public sealed class LanguagePackageConfiguration : IEntityTypeConfiguration<Lang
         builder.Property(x => x.UpdatedAt);
 
         builder.HasOne(x => x.Language).WithMany().HasForeignKey(x => x.LanguageId).OnDelete(DeleteBehavior.Cascade);
-        builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(x => new { x.LanguageId, x.Version }).IsUnique();
         builder.HasIndex(x => new { x.LanguageId, x.IsActive });

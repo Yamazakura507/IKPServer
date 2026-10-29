@@ -1,6 +1,6 @@
 using IKP.Application.System.Interfaces;
 using IKP.Application.System.Models;
-using IKP.Domain.Common.System;
+using IKP.Domain.Common.Codes.System;
 using IKP.Domain.Entities.System;
 using IKP.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

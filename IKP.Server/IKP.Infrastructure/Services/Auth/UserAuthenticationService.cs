@@ -5,7 +5,6 @@ using System.Text;
 using IKP.Application.Auth.Exceptions;
 using IKP.Application.Auth.Interfaces;
 using IKP.Application.Auth.Models;
-using IKP.Domain.Common.Auth;
 using IKP.Domain.Entities.Auth.Credentials;
 using IKP.Domain.Entities.Auth.Lookup;
 using IKP.Domain.Entities.Auth.Sessions;
@@ -17,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using IKP.Domain.Common.Codes.Auth;
 
 namespace IKP.Infrastructure.Services.Auth;
 

@@ -8,8 +8,8 @@ using IKP.Application.Diagnostics.Interfaces;
 using IKP.Application.Files.Exceptions;
 using IKP.Application.Support.Exceptions;
 using IKP.Application.Diagnostics.Models;
-using IKP.Domain.Common.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
+using IKP.Domain.Common.Codes.Diagnostics;
 
 namespace IKP.Api.Diagnostics
 {

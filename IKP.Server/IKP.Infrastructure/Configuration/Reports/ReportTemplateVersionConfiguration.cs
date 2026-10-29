@@ -1,4 +1,3 @@
-using IKP.Domain.Entities.Files;
 using IKP.Domain.Entities.Reports;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +31,6 @@ public sealed class ReportTemplateVersionConfiguration : IEntityTypeConfiguratio
         builder.HasIndex(x => x.FileId).IsUnique();
 
         builder.HasOne(x => x.ReportDefinition).WithMany().HasForeignKey(x => x.ReportDefinitionId).OnDelete(DeleteBehavior.Cascade);
-        builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
     }
 }

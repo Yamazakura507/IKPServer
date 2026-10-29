@@ -1,7 +1,7 @@
 ﻿using IKP.Application.Diagnostics.Interfaces;
 using IKP.Application.Diagnostics.Resolvers.Interfaces;
 using IKP.Application.Diagnostics.Resolvers.Models;
-using IKP.Domain.Common.Diagnostics;
+using IKP.Domain.Common.Codes.Diagnostics;
 using IKP.Domain.Entities.Diagnostics.Areas;
 using System.Text.RegularExpressions;
 

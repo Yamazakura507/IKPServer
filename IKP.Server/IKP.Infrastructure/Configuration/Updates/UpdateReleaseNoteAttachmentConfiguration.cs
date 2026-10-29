@@ -1,5 +1,4 @@
-﻿using IKP.Domain.Entities.Files;
-using IKP.Domain.Entities.Updates;
+﻿using IKP.Domain.Entities.Updates;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -22,7 +21,7 @@ namespace IKP.Infrastructure.Configuration.Updates
             builder.HasIndex(x => x.FileId);
 
             builder.HasOne(x => x.ReleaseNote).WithMany(x => x.Attachments).HasForeignKey(x => x.ReleaseNoteId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne<StoredFile>().WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.File).WithMany().HasForeignKey(x => x.FileId).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

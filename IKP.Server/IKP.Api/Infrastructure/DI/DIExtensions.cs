@@ -8,6 +8,8 @@ using IKP.Application.Auth.Administration.Interfaces;
 using IKP.Application.Auth.Interfaces;
 using IKP.Application.Auth.Models;
 using IKP.Application.Common.Interfaces;
+using IKP.Application.Common.Email;
+using IKP.Infrastructure.Services.Email;
 using IKP.Application.Diagnostics.Criticality.Interfaces;
 using IKP.Application.Diagnostics.Criticality.Models;
 using IKP.Application.Diagnostics.Criticality.Services;
@@ -54,6 +56,8 @@ using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using Microsoft.EntityFrameworkCore;
+using IKP.Application.App.HR.Employees.Interfaces;
+using IKP.Infrastructure.Services.App.HR.Employees;
 #endregion
 
 namespace IKP.Api.Infrastructure.DI
@@ -92,6 +96,7 @@ namespace IKP.Api.Infrastructure.DI
         {
             builder.Services.AddSingleton(NpgsqlDataSource.Create(connectionString));
             builder.Services.AddSingleton<IFileStorageProvider, LocalFileStorageProvider>();
+            builder.Services.AddSingleton<IEmailSender, SmtpEmailSender>();
             builder.AddSingletonsAudit();
             builder.AddSingletonsDiagnostics();
             builder.AddSingletoneAuth();
@@ -107,6 +112,7 @@ namespace IKP.Api.Infrastructure.DI
             builder.Services.AddScoped<ISupportService, SupportService>();
             builder.Services.AddScoped<IBackgroundJobService, BackgroundJobService>();
             builder.Services.AddScoped<IMonitoringService, MonitoringService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
         }
 
         private static void AddSingletonsAudit(this WebApplicationBuilder builder)
@@ -170,6 +176,7 @@ namespace IKP.Api.Infrastructure.DI
             builder.Services.Configure<RedisOptions>(builder.Configuration.GetSection("Redis"));
             builder.Services.Configure<DiagnosticStatisticsWorkerOptions>(builder.Configuration.GetSection("Diagnostics:Statistics:Worker"));
             builder.Services.Configure<FileStorageOptions>(builder.Configuration.GetSection("Files:Storage"));
+            builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("Email"));
         }
 
         private static void AddHostedService(this WebApplicationBuilder builder)
