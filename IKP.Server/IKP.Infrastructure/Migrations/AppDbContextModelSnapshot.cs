@@ -275,8 +275,7 @@ namespace IKP.Infrastructure.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.HasIndex("IsDeleted", "SectionId")
-                        .IsUnique();
+                    b.HasIndex("IsDeleted", "SectionId", "ParentItemId", "SortOrder");
 
                     b.ToTable("CompetencyMatrixItems", "app");
                 });
@@ -1436,7 +1435,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("400a6b76-3848-4ed8-9f87-66781eb5ad08"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Вопрос для ответа на который нужно выбрать только один ответ.",
                             IsDeleted = false,
@@ -1444,7 +1443,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7d13cc7d-a26d-46f5-bc97-99cd1ef970a3"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Вопрос для ответа на который нужно выбрать только один или несколько ответов.",
                             IsDeleted = false,
@@ -1452,11 +1451,19 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5e8ae364-20b4-4d87-a1dd-129933dc3f98"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Задание на практическое выполнение.",
                             IsDeleted = false,
                             Name = "Практика"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Вопрос с самостоятельным письменным или развернутым ответом.",
+                            IsDeleted = false,
+                            Name = "Открытый ответ"
                         });
                 });
 
@@ -1513,7 +1520,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("48e20b26-4a1e-400c-bc4e-765ddfc67f5d"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ForPromotion = false,
                             IsDeleted = false,
@@ -1521,7 +1528,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3107999a-8171-4603-9920-1049d28406d4"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ForPromotion = false,
                             IsDeleted = false,
@@ -1529,7 +1536,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("135d60c7-8db3-44c5-ba38-40941c38e79f"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ForPromotion = false,
                             IsDeleted = false,
@@ -1537,7 +1544,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("97694f85-3780-4fac-8f0f-f7d146482794"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ForPromotion = true,
                             IsDeleted = false,
@@ -1545,7 +1552,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("664eecb2-ad07-4758-9374-840edead6e6c"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ForPromotion = true,
                             IsDeleted = false,
@@ -1599,14 +1606,14 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9f8e4471-55a6-4c35-9784-339775fb76ed"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Оценка руководителя"
                         },
                         new
                         {
-                            Id = new Guid("ec327914-2553-417e-9293-7f1a257538e9"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Оценка сотрудника"
@@ -1669,7 +1676,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("483a5019-76e0-444d-8b3d-07414af3aeab"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Професиональные компетенции сотруника",
                             IsActive = true,
@@ -1679,7 +1686,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b294a9f3-5ade-4065-a651-7204b9c1d09d"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Личностные компетенции сотруника",
                             IsActive = true,
@@ -1730,28 +1737,28 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d315ce3c-2cd7-44d7-8bbe-7290307b85d2"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Беседа"
                         },
                         new
                         {
-                            Id = new Guid("daa84e6a-5c60-4d07-b92f-2dc7db57ac22"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Проведение ТО-2 ТПА"
                         },
                         new
                         {
-                            Id = new Guid("a8006951-8d75-4510-bacf-967d48779aa3"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Беседа, выполнение действий на оборудовании"
                         },
                         new
                         {
-                            Id = new Guid("9a4a148b-020d-46ae-ab9a-ae25c0f74556"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Беседа, выполнение действий на машине"
@@ -1869,7 +1876,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("08434097-599e-4676-8b88-5d083e79f5b1"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = false,
                             IsDeleted = false,
@@ -1877,7 +1884,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3a9f9698-88b6-4834-a055-ec3935f607fe"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = false,
                             IsDeleted = false,
@@ -1885,7 +1892,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("033d6925-6d4e-41d3-bdca-92d8c96b952f"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = false,
                             IsDeleted = false,
@@ -1893,7 +1900,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("81e0c037-fe5b-4b05-aaf6-f05ef72769af"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = true,
                             IsDeleted = false,
@@ -1901,7 +1908,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b9ff6c64-6c01-4f25-beba-806d8c1e252d"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = false,
                             IsDeleted = false,
@@ -1909,7 +1916,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("65400c7b-662d-46de-bd2f-e0f035f50887"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000006"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = false,
                             IsDeleted = false,
@@ -1917,7 +1924,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("947f3616-84c8-4e9e-acb7-bcaae61bf220"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000007"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = false,
                             IsDeleted = false,
@@ -1925,7 +1932,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b1200c92-895a-4fb3-aa6f-4e2b9047d17b"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000008"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = false,
                             IsDeleted = false,
@@ -1933,7 +1940,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("016e6c89-ad0e-4969-a004-38713a329c61"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000009"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = true,
                             IsDeleted = false,
@@ -1941,7 +1948,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fecafe0d-cc2d-400d-a388-c9dadcd21809"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000010"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsControl = true,
                             IsDeleted = false,
@@ -1995,7 +2002,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a53f0d6c-221e-4618-beab-fe17d1e0809c"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Охрана труда",
@@ -2003,7 +2010,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("730629af-4007-4423-b604-a1f048806896"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Локально нормативные акты",
@@ -2011,7 +2018,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("278c967d-3d23-4c09-8377-6c10d34a7215"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Технология производства",
@@ -2019,7 +2026,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bc103f5f-edfb-4c3e-a826-7069733e1dac"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Ремонтные работы при экстплаутаци ТПА",
@@ -2027,7 +2034,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a6afe381-7e69-40d2-afb3-783eef10cbfc"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Наладка и обслуживание пресс-форм",
@@ -2035,7 +2042,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9b5a97f6-0e59-4ecb-9545-043d382c0fb8"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000006"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Общие-технические знания",
@@ -2043,7 +2050,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5e1593bf-e290-49c6-91c3-21216ca154b2"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000007"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Работа с технической документацией",
@@ -2051,7 +2058,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ae8188b3-5c67-4d7b-9854-fbde5a6aa84d"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000008"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Отчетность",
@@ -2059,7 +2066,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("16f677ab-0314-40d1-ab6f-90099483d770"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000009"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Работа с ручным и электро инструментом",
@@ -2067,7 +2074,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4ad17a34-26dd-4216-8b3c-c2a01f1c5ae5"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000010"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Документы СМК",
@@ -2075,7 +2082,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2efde89f-66fb-4e8d-beb2-944a1a542fa4"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000011"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Технологические регламенты",
@@ -2083,7 +2090,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("262c7d6b-05cf-4c7f-a264-18fbf57d7fb6"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000012"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Пищевая безопасность",
@@ -2091,7 +2098,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1f07ecab-585f-4f33-9b0d-c6560e16a058"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000013"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Организация и планирование",
@@ -2099,7 +2106,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7e4a82da-13ae-4a12-93a6-de7f39588286"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000014"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Обучение и мотивация на развитие",
@@ -2107,7 +2114,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8fc2deb1-3258-402f-a744-645a34fa67b0"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000015"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Управленческие навыки",
@@ -2115,7 +2122,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("03ea6d8c-fb9c-45dc-b589-126e076ab4e8"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000016"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Презентация проекта",
@@ -2123,7 +2130,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dc0df98f-c941-4587-9626-1f228720fca9"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000017"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Поиск источников",
@@ -2131,7 +2138,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("72111a66-6892-43a1-9273-c2bd394d747a"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000018"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Актуализация",
@@ -2139,7 +2146,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8f85a850-09ab-49e0-aa75-0cd060004e8f"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000019"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Создание таблицы",
@@ -2147,7 +2154,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("30568ab9-31ec-414a-8e30-980d764fd988"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000020"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Предоставление данных сотрудникам",
@@ -2155,7 +2162,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("591d1482-7c34-4377-9572-e4773ba70425"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000021"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Презентация выполненного проекта",
@@ -2209,14 +2216,14 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f43f5cdf-836b-467e-891b-48112a10f029"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Подтверждение должности"
                         },
                         new
                         {
-                            Id = new Guid("e18bc645-2acc-4d07-87ec-159529ded17e"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             Name = "Повышение должности"
@@ -2273,7 +2280,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7d604675-7b70-4546-93b4-7a9d6357c2ef"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Воспитание и обучение детей в детских садах",
                             IsDeleted = false,
@@ -2281,7 +2288,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("12e1cff1-6139-4631-af8e-702604e65666"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "1–4 классы школы (базовые навыки чтения, письма, счета)",
                             IsDeleted = false,
@@ -2289,7 +2296,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f3756199-c246-48b5-a784-ff9459739034"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "5–9 классы школы (обязательный уровень)",
                             IsDeleted = false,
@@ -2297,7 +2304,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6c333bc7-6980-40ca-85e7-87472cebac1e"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "10–11 классы школы (завершение общего образования)",
                             IsDeleted = false,
@@ -2305,7 +2312,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9dd93eb6-22d3-4177-bf39-98e74d9520b7"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Обучение в колледжах или техникумах после 9 или 11 класса",
                             IsDeleted = false,
@@ -2313,7 +2320,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f98a9344-4194-4c4c-ad5b-3a162aa0bd79"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000006"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Высшее образование — подготовка высококвалифицированных кадров",
                             IsDeleted = false,
@@ -2321,7 +2328,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("df002f57-595f-4ea0-93eb-ba4a6ce4b1f9"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000007"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Высшее образование — подготовка высококвалифицированных кадров",
                             IsDeleted = false,
@@ -2329,7 +2336,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5c34ff2a-2f44-4b01-9579-c190402e2111"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000008"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Высшее образование — подготовка высококвалифицированных кадров",
                             IsDeleted = false,
@@ -2337,7 +2344,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7a230f27-fe49-4e77-bcfc-58f9325f0ae9"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000009"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Высшее образование — подготовка кадров высшей квалификации",
                             IsDeleted = false,
@@ -2345,7 +2352,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3b207b2c-4b3a-4e09-b57a-0fc2f8c6c702"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000010"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Высшее образование — подготовка кадров высшей квалификации",
                             IsDeleted = false,
@@ -2353,7 +2360,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("87139e74-2b35-407d-ab66-39c6f1d32567"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000011"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Высшее образование — подготовка кадров высшей квалификации",
                             IsDeleted = false,
@@ -2361,7 +2368,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d75f86f8-f249-4943-afc2-9e4a71b3ef71"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000012"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Кружки, секции, творческие студии",
                             IsDeleted = false,
@@ -2369,7 +2376,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("23024474-050b-4782-91e8-2140db526a7d"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000013"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Повышение квалификации и профессиональная переподготовка",
                             IsDeleted = false,
@@ -2433,7 +2440,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a416a68d-c269-406e-bd44-7a73775ef195"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Адресс электронной почты",
                             IsActive = true,
@@ -2443,7 +2450,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cd1483a3-4554-4108-b9bb-0e7e65819309"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Личный или рабочимй номер телефон сотрудника",
                             IsActive = true,
@@ -2453,7 +2460,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3f934caa-efa2-4e6c-b42e-e9ac8f6efa0a"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Внутрений рабочимй номер телефона сотрудника",
                             IsActive = true,
@@ -2463,7 +2470,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("706969aa-486e-4ee8-ac18-d05f34c70a4b"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Ссылка на контакт в мессенджере WhatsApp",
                             IsActive = true,
@@ -2473,7 +2480,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cda2e2e3-944d-4817-aea8-373547b7cb62"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Ссылка на контакт в мессенджере Telegram",
                             IsActive = true,
@@ -2539,7 +2546,7 @@ namespace IKP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("db1f0ed6-9d84-4536-ba46-1db321f0fd93"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -2548,7 +2555,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7c4232bd-5233-48b3-863a-b8c079035fd5"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -2557,7 +2564,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f63bbd0b-081f-4a98-ab82-b888f09fbb4b"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -2566,7 +2573,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5c3c4c10-ad63-486e-85e7-23da76960ede"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -2575,7 +2582,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8d44deac-24e5-4ff8-b0bd-117b3bbef882"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -2584,7 +2591,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("79778ad8-be41-44ec-bcf5-25a9b42a8303"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000006"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -2593,7 +2600,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c2a4f4fd-4328-4c2f-81b0-a2b92a7ce067"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000007"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -2602,7 +2609,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9b576a00-6a70-4f0a-b996-817f016ce388"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000008"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -2611,7 +2618,7 @@ namespace IKP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("28709016-2293-478c-8287-0f06aef33f84"),
+                            Id = new Guid("10000000-0000-0000-0000-000000000009"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,

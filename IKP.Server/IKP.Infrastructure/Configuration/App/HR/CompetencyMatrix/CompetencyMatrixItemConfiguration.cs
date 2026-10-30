@@ -26,7 +26,7 @@ namespace IKP.Infrastructure.Configuration.App.HR.CompetencyMatrix
             builder.Property(x => x.DeletedAt);
             builder.Property(x => x.DeletedBy);
 
-            builder.HasIndex(x => new { x.IsDeleted, x.SectionId }).IsUnique();
+            builder.HasIndex(x => new { x.IsDeleted, x.SectionId, x.ParentItemId, x.SortOrder });
 
             builder.HasOne(x => x.Section).WithMany(x => x.Items).HasForeignKey(x => x.SectionId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.ParentItem).WithMany(x => x.Children).HasForeignKey(x => x.ParentItemId).OnDelete(DeleteBehavior.Restrict);

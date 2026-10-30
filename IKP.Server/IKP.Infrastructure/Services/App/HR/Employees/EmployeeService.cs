@@ -9,7 +9,7 @@ namespace IKP.Infrastructure.Services.App.HR.Employees;
 public sealed class EmployeeService(AppDbContext db) : IEmployeeService
 {
     public async ValueTask<EmployeeDetailsResponse?> GetAsync(Guid id, CancellationToken cancellationToken = default) =>
-        await db.Employees.AsNoTracking().Where(x => x.Id == id).Select(x => new EmployeeDetailsResponse
+        await db.Employees.AsNoTracking().Where(x => x.Id == id && !x.IsDeleted).Select(x => new EmployeeDetailsResponse
         {
             Id = x.Id, 
             FirstName = x.FirstName, 
@@ -29,7 +29,7 @@ public sealed class EmployeeService(AppDbContext db) : IEmployeeService
         {
             FirstName = Required(request.FirstName, nameof(request.FirstName)), 
             LastName = Required(request.LastName, nameof(request.LastName)), 
-            FamilyName = Required(request.FamilyName, nameof(request.FamilyName)),
+            FamilyName = request.FamilyName?.Trim(),
             ShortName = FormatToInitials(request.LastName, request.FirstName, request.FamilyName),
             NickName = request.NickName,
             DateOfBirth = request.DateOfBirth, 
@@ -46,11 +46,11 @@ public sealed class EmployeeService(AppDbContext db) : IEmployeeService
 
     public async ValueTask<EmployeeDetailsResponse> UpdateAsync(Guid id, UpdateEmployeeRequest request, CancellationToken cancellationToken = default)
     {
-        Employee employee = await db.Employees.SingleOrDefaultAsync(x => x.Id == id, cancellationToken) ?? throw new KeyNotFoundException();
+        Employee employee = await db.Employees.SingleOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken) ?? throw new KeyNotFoundException();
 
         employee.FirstName = Required(request.FirstName, nameof(request.FirstName)); 
         employee.LastName = Required(request.LastName, nameof(request.LastName)); 
-        employee.FamilyName = Required(request.FamilyName, nameof(request.FamilyName));
+        employee.FamilyName = request.FamilyName?.Trim();
         employee.ShortName = FormatToInitials(request.LastName, request.FirstName, request.FamilyName);
         employee.NickName = request.NickName;
         employee.DateOfBirth = request.DateOfBirth; 
@@ -65,9 +65,10 @@ public sealed class EmployeeService(AppDbContext db) : IEmployeeService
 
     public async ValueTask DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        Employee employee = await db.Employees.SingleOrDefaultAsync(x => x.Id == id, cancellationToken) ?? throw new KeyNotFoundException(); 
+        Employee employee = await db.Employees.SingleOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken) ?? throw new KeyNotFoundException(); 
 
-        db.Employees.Remove(employee); 
+        employee.IsDeleted = true;
+        employee.DeletedAt = DateTime.UtcNow;
         await db.SaveChangesAsync(cancellationToken);
     }
 
@@ -86,7 +87,7 @@ public sealed class EmployeeService(AppDbContext db) : IEmployeeService
 
     private static string Required(string value, string name) => string.IsNullOrWhiteSpace(value) ? throw new ArgumentException($"{name} is required.") : value.Trim();
 
-    private static string FormatToInitials(string lastName, string firstName, string familyName)
+    private static string FormatToInitials(string lastName, string firstName, string? familyName)
     {
         lastName = lastName?.Trim() ?? string.Empty;
 

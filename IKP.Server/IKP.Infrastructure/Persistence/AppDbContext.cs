@@ -94,7 +94,7 @@ namespace IKP.Infrastructure.Persistence
         public DbSet<DevelopmentItemType> DevelopmentItemType => Set<DevelopmentItemType>();
         public DbSet<DevelopmentMethods> DevelopmentMethods => Set<DevelopmentMethods>();
         public DbSet<DevelopmentNeeds> DevelopmentNeeds => Set<DevelopmentNeeds>();
-        public DbSet<DevelopmentPlanType> DevelopmentPlanTypePositions => Set<DevelopmentPlanType>();
+        public DbSet<DevelopmentPlanType> DevelopmentPlanType => Set<DevelopmentPlanType>();
         public DbSet<EducationType> EducationType => Set<EducationType>();
         public DbSet<EmployeeContactType> EmployeeContactType => Set<EmployeeContactType>();
         public DbSet<EmploymentRecordType> EmploymentRecordType => Set<EmploymentRecordType>();

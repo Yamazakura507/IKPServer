@@ -1,5 +1,4 @@
 using IKP.Domain.Entities.App.HR;
-using IKP.Domain.Entities.Files;
 using IKP.Infrastructure.Persistence.DatabaseKeys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,9 +11,8 @@ public sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
     { 
         builder.ToTable("Employees", DatabaseSchemas.App); 
         
-        builder.HasKey(x=>x.Id); builder.Property(x=>x.FirstName).IsRequired().HasMaxLength(100); 
-        
-        builder.Property(x=>x.FirstName).IsRequired().HasMaxLength(100); 
+        builder.HasKey(x=>x.Id);
+        builder.Property(x=>x.FirstName).IsRequired().HasMaxLength(100);
         builder.Property(x=>x.LastName).IsRequired().HasMaxLength(100); 
         builder.Property(x=>x.FamilyName).HasMaxLength(100); 
         builder.Property(x=>x.NickName).HasMaxLength(100); 
@@ -23,7 +21,6 @@ public sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(x=>x.HireDate); 
         builder.Property(x=>x.UserId); 
         builder.Property(x => x.FileId);
-        builder.Property(x => x.IsDeleted).IsRequired();
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.CreatedBy);
         builder.Property(x => x.UpdatedAt);

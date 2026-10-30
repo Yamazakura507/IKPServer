@@ -1,0 +1,14 @@
+using IKP.Application.Auth.Authorization;
+using IKP.Domain.Entities.App.HR.DevelopmentAndAttestation.Development;
+using IKP.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+namespace IKP.Api.Controllers.HR.Development;
+[ApiController,Route("api/hr/development-plans"),Authorize(Policy=AuthorizationPolicyNames.EmployeesRead)]
+    public sealed class DevelopmentPlansController(IDbContextFactory<AppDbContext> factory):ControllerBase{
+    public sealed record CreateRequest(Guid EmployeeId,Guid ManagerEmployeeId,Guid TypeId,DateOnly PlanningDate,DateOnly? PeriodStart,DateOnly? PeriodEnd,string? Notes,IReadOnlyCollection<ItemRequest>? Items);
+    public sealed record ItemRequest(Guid ItemTypeId,Guid DevelopmentNeedId,Guid? ControlMethodId,Guid? DevelopmentMethodId,int SortOrder,string? Goal,DateOnly? Deadline,ICollection<string>? Actions,decimal? CompletionPercent,string? Comments,IReadOnlyCollection<Guid>? ResponsibleEmployeeIds);
+    [HttpGet("{id:guid}")] public async Task<IActionResult>Get(Guid id,CancellationToken ct){await using var db=await factory.CreateDbContextAsync(ct);var x=await db.DevelopmentPlans.AsNoTracking().Where(x=>x.Id==id&&!x.IsDeleted).Select(x=>new{x.Id,x.EmployeeId,x.ManagerEmployeeId,x.TypeId,x.PlanningDate,x.PeriodStart,x.PeriodEnd,x.Notes,x.ManagerEffectiveness,x.EmployeeEffectiveness,Items=x.Items.Where(i=>!i.IsDeleted).OrderBy(i=>i.SortOrder).Select(i=>new{i.Id,i.ItemTypeId,i.DevelopmentNeedId,i.ControlMethodId,i.DevelopmentMethodId,i.SortOrder,i.Goal,i.Deadline,i.Actions,i.CompletionPercent,i.Comments,ResponsibleEmployeeIds=i.ResponsibleEmployees.Where(r=>!r.IsDeleted).Select(r=>r.ResponsibleEmployeeId)})}).SingleOrDefaultAsync(ct);return x is null?NotFound():Ok(x);}
+    [HttpPost,Authorize(Policy=AuthorizationPolicyNames.EmployeesManage)] public async Task<IActionResult>Create(CreateRequest r,CancellationToken ct){await using var db=await factory.CreateDbContextAsync(ct);var p=new DevelopmentPlan{EmployeeId=r.EmployeeId,ManagerEmployeeId=r.ManagerEmployeeId,TypeId=r.TypeId,PlanningDate=r.PlanningDate,PeriodStart=r.PeriodStart,PeriodEnd=r.PeriodEnd,Notes=r.Notes};foreach(var i in r.Items??[]){var item=new DevelopmentPlanItem{ItemTypeId=i.ItemTypeId,DevelopmentNeedId=i.DevelopmentNeedId,ControlMethodId=i.ControlMethodId,DevelopmentMethodId=i.DevelopmentMethodId,SortOrder=i.SortOrder,Goal=i.Goal,Deadline=i.Deadline,Actions=i.Actions,CompletionPercent=i.CompletionPercent,Comments=i.Comments};foreach(var rid in i.ResponsibleEmployeeIds??[])item.ResponsibleEmployees.Add(new ResponsibleEmployeesOfPlanItem{ResponsibleEmployeeId=rid});p.Items.Add(item);}db.DevelopmentPlans.Add(p);await db.SaveChangesAsync(ct);return CreatedAtAction(nameof(Get),new{id=p.Id},new{p.Id});}
+}
